@@ -26,7 +26,7 @@
   --led-off: #4b5563;
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html, body { margin: 0; padding: 0; min-height: 100%; font-family: 'Calibri', 'Segoe UI', Arial, sans-serif; font-size: 16px; line-height: 1.5; background: var(--gris-clair); color: var(--texte); }
+html, body { margin: 0; padding: 0; min-height: 100%; font-family: 'Calibri', 'Segoe UI', Arial, sans-serif; font-size: 17px; line-height: 1.55; background: var(--gris-clair); color: var(--texte); }
 body { padding: 0; }
 button { font-family: inherit; cursor: pointer; border: none; background: none; }
 h1, h2, h3, h4 { font-family: 'Trebuchet MS', sans-serif; font-weight: bold; color: var(--bleu); margin: 0; }
@@ -84,66 +84,86 @@ label.lab { display: block; font-weight: bold; color: var(--bleu); margin: 12px 
 .message.erreur { background: var(--rouge-clair); border-left: 4px solid var(--rouge); color: #7f1d1d; }
 .message.ok { background: var(--vert-clair); border-left: 4px solid var(--vert); color: #14532d; }
 
-/* === COCKPIT JEU === */
-#ecran-jeu { background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%); color: white; padding: 0; }
+/* === COCKPIT JEU — fond clair, charte respectée === */
+#ecran-jeu { background: var(--gris-clair); color: var(--texte); padding: 0; }
 #ecran-jeu .conteneur { max-width: 900px; }
 
-.cockpit-bandeau { background: rgba(0,0,0,0.4); padding: 14px 20px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; border-bottom: 2px solid var(--orange); }
+.cockpit-bandeau { background: var(--bleu); padding: 14px 20px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; border-bottom: 4px solid var(--orange); }
 .cockpit-bandeau .gauche { display: flex; align-items: center; gap: 12px; }
-.cockpit-flocon { font-size: 24px; color: var(--orange); }
-.cockpit-titre { font-family: 'Trebuchet MS', sans-serif; font-weight: bold; font-size: 18px; color: white; }
-.cockpit-stats { display: flex; gap: 12px; margin-left: auto; flex-wrap: wrap; }
-.stat-led { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 6px 12px; font-size: 13px; display: flex; align-items: center; gap: 6px; }
-.led { width: 10px; height: 10px; border-radius: 50%; background: var(--led-on); box-shadow: 0 0 6px var(--led-on); }
+.cockpit-flocon { font-size: 26px; color: var(--orange); }
+.cockpit-titre { font-family: 'Trebuchet MS', sans-serif; font-weight: bold; font-size: 19px; color: white; }
+.cockpit-stats { display: flex; gap: 10px; margin-left: auto; flex-wrap: wrap; align-items: center; }
+.stat-led { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3); border-radius: 6px; padding: 6px 12px; font-size: 14px; color: white; display: flex; align-items: center; gap: 6px; font-weight: bold; }
+.led { width: 11px; height: 11px; border-radius: 50%; background: var(--led-on); box-shadow: 0 0 6px var(--led-on); }
 .led.off { background: var(--led-off); box-shadow: none; }
 .stat-led .num { font-weight: bold; color: var(--orange); }
 
-.cockpit-progression { background: rgba(0,0,0,0.4); padding: 12px 20px; }
-.barre-prog { background: rgba(255,255,255,0.1); height: 14px; border-radius: 7px; overflow: hidden; position: relative; }
-.barre-prog-remplie { background: linear-gradient(90deg, var(--orange) 0%, #ffaa55 100%); height: 100%; transition: width 0.4s; box-shadow: 0 0 10px rgba(255,107,53,0.5); }
-.barre-prog-texte { text-align: center; font-size: 13px; margin-top: 4px; color: rgba(255,255,255,0.7); }
+.cockpit-progression { background: white; padding: 14px 20px; border-bottom: 1px solid var(--bord); }
+.barre-prog { background: var(--bord); height: 16px; border-radius: 8px; overflow: hidden; position: relative; }
+.barre-prog-remplie { background: linear-gradient(90deg, var(--orange) 0%, #ffaa55 100%); height: 100%; transition: width 0.4s; }
+.barre-prog-texte { text-align: center; font-size: 14px; margin-top: 6px; color: var(--bleu); font-weight: bold; }
 
-.cockpit-q { padding: 30px 24px; }
-.cockpit-q .theme-tag { display: inline-block; background: var(--orange); color: white; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: bold; letter-spacing: 0.5px; margin-bottom: 14px; text-transform: uppercase; }
-.cockpit-q h2 { color: white; font-size: 22px; line-height: 1.4; margin-bottom: 22px; }
-.cockpit-svg { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; display: flex; justify-content: center; min-height: 240px; }
-.cockpit-svg svg { max-width: 280px; max-height: 240px; width: 100%; height: auto; }
+.cockpit-q { padding: 24px 22px; max-width: 900px; margin: 0 auto; }
+.cockpit-q .theme-tag { display: inline-block; background: var(--orange); color: white; padding: 5px 14px; border-radius: 4px; font-size: 13px; font-weight: bold; letter-spacing: 0.5px; margin-bottom: 14px; text-transform: uppercase; }
+.cockpit-q h2 { color: var(--bleu); font-size: 24px; line-height: 1.4; margin-bottom: 22px; font-family: 'Trebuchet MS', sans-serif; }
+.cockpit-svg { background: white; border: 2px solid var(--bord); border-radius: 12px; padding: 22px; margin-bottom: 20px; display: flex; justify-content: center; min-height: 240px; box-shadow: 0 2px 6px rgba(0,0,0,0.04); }
+.cockpit-svg svg { max-width: 320px; max-height: 280px; width: 100%; height: auto; }
 
-.choix-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.choix-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
 @media (min-width: 600px) { .choix-grid { grid-template-columns: 1fr 1fr; } }
-.choix { background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.2); border-radius: 10px; padding: 16px; cursor: pointer; color: white; font-size: 16px; transition: all 0.15s; text-align: left; line-height: 1.4; }
-.choix:hover { background: rgba(255,255,255,0.15); border-color: var(--orange); }
-.choix.bonne { background: rgba(34,197,94,0.3); border-color: var(--vert); }
-.choix.mauvaise { background: rgba(220,38,38,0.3); border-color: var(--rouge); }
-.choix.disabled { pointer-events: none; opacity: 0.6; }
+.choix { background: white; border: 2px solid var(--bord); border-radius: 10px; padding: 18px; cursor: pointer; color: var(--texte); font-size: 18px; transition: all 0.15s; text-align: left; line-height: 1.45; font-family: inherit; box-shadow: 0 2px 4px rgba(0,0,0,0.04); }
+.choix:hover { background: #fff8f3; border-color: var(--orange); transform: translateY(-1px); box-shadow: 0 4px 8px rgba(0,0,0,0.08); }
+.choix.bonne { background: var(--vert-clair); border-color: var(--vert); color: #14532d; }
+.choix.mauvaise { background: var(--rouge-clair); border-color: var(--rouge); color: #7f1d1d; }
+.choix.disabled { pointer-events: none; }
 
-.feedback { margin-top: 16px; padding: 14px; border-radius: 8px; font-size: 15px; line-height: 1.5; display: none; }
+.feedback { margin-top: 18px; padding: 16px; border-radius: 10px; font-size: 16px; line-height: 1.55; display: none; }
 .feedback.show { display: block; animation: slideIn 0.3s; }
-.feedback.bonne { background: rgba(34,197,94,0.2); border-left: 4px solid var(--vert); color: #d1fae5; }
-.feedback.mauvaise { background: rgba(220,38,38,0.2); border-left: 4px solid var(--rouge); color: #fecaca; }
-.feedback strong { color: white; }
+.feedback.bonne { background: var(--vert-clair); border-left: 4px solid var(--vert); color: #14532d; }
+.feedback.mauvaise { background: var(--rouge-clair); border-left: 4px solid var(--rouge); color: #7f1d1d; }
+.feedback strong { color: var(--bleu); }
 @keyframes slideIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
 
 .bouton-suivant { display: none; margin-top: 18px; }
 .bouton-suivant.show { display: block; }
 
-.bouton-aide { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 6px 12px; border-radius: 6px; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
-.bouton-aide:hover { background: var(--orange); border-color: var(--orange); }
+/* Bouton AIDE — visible et attirant l'œil */
+.bouton-aide-flottant {
+  position: fixed; bottom: 18px; right: 18px;
+  background: var(--orange); color: white;
+  border: none; padding: 14px 22px; border-radius: 30px;
+  font-size: 17px; font-weight: bold; font-family: inherit;
+  cursor: pointer; display: flex; align-items: center; gap: 8px;
+  box-shadow: 0 6px 18px rgba(255,107,53,0.4);
+  z-index: 800; transition: all 0.2s;
+  animation: pulseAide 2.5s infinite;
+}
+.bouton-aide-flottant:hover { background: #e0552a; transform: scale(1.05); box-shadow: 0 8px 24px rgba(255,107,53,0.6); }
+.bouton-aide-flottant .ico { font-size: 22px; }
+@keyframes pulseAide { 0%,100% { box-shadow: 0 6px 18px rgba(255,107,53,0.4); } 50% { box-shadow: 0 6px 24px rgba(255,107,53,0.7); } }
+@media (max-width: 600px) { .bouton-aide-flottant { padding: 12px 18px; font-size: 15px; bottom: 14px; right: 14px; } }
 
-.modal-aide { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 2000; align-items: flex-start; justify-content: center; padding: 20px; overflow-y: auto; }
+/* Modale AIDE — pédagogique, fond clair, lisible */
+.modal-aide { display: none; position: fixed; inset: 0; background: rgba(27,58,99,0.85); z-index: 2000; align-items: flex-start; justify-content: center; padding: 16px; overflow-y: auto; }
 .modal-aide.actif { display: flex; }
-.modal-aide-contenu { background: white; color: var(--texte); border-radius: 14px; max-width: 720px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
-.modal-aide-tete { background: linear-gradient(135deg, var(--bleu), var(--bleu-fonce)); color: white; padding: 16px 20px; border-radius: 14px 14px 0 0; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1; }
-.modal-aide-tete h3 { color: white; font-size: 18px; margin: 0; }
-.modal-aide-fermer { background: rgba(255,255,255,0.2); border: none; color: white; width: 32px; height: 32px; border-radius: 16px; cursor: pointer; font-size: 18px; }
-.modal-aide-corps { padding: 20px; line-height: 1.6; }
-.modal-aide-corps h4 { color: var(--bleu); margin: 16px 0 6px; font-size: 15px; }
-.modal-aide-corps ul { margin: 4px 0 12px 20px; }
-.modal-aide-corps li { margin-bottom: 4px; }
+.modal-aide-contenu { background: white; color: var(--texte); border-radius: 14px; max-width: 760px; width: 100%; max-height: 92vh; display: flex; flex-direction: column; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+.modal-aide-tete { background: var(--bleu); color: white; padding: 14px 18px; border-radius: 14px 14px 0 0; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1; flex-shrink: 0; }
+.modal-aide-tete h3 { color: white; font-size: 19px; margin: 0; font-family: 'Trebuchet MS', sans-serif; font-weight: bold; }
+.modal-aide-fermer { background: var(--orange); border: none; color: white; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: bold; font-family: inherit; }
+.modal-aide-fermer:hover { background: #e0552a; }
+.modal-aide-corps { padding: 22px; line-height: 1.65; font-size: 17px; overflow-y: auto; flex: 1; }
+.modal-aide-corps h4 { color: var(--bleu); margin: 18px 0 8px; font-size: 18px; font-family: 'Trebuchet MS', sans-serif; }
+.modal-aide-corps p { margin: 8px 0 14px; }
 .modal-aide-corps strong { color: var(--orange); }
-.modal-aide-corps .fiche-link { display: inline-block; margin-top: 12px; background: var(--orange); color: white; padding: 10px 16px; border-radius: 8px; text-decoration: none; font-weight: bold; }
-.modal-aide-corps .fiche-link:hover { background: #e0552a; }
-.aide-note { background: var(--orange-clair); border-left: 4px solid var(--orange); padding: 10px 12px; margin: 12px 0; border-radius: 4px; font-size: 13px; color: #7c2d12; }
+.modal-aide-corps .fiche-link { display: block; margin-top: 18px; background: var(--bleu); color: white; padding: 14px 18px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 17px; text-align: center; font-family: inherit; border: none; cursor: pointer; width: 100%; }
+.modal-aide-corps .fiche-link:hover { background: var(--bleu-fonce); }
+.aide-note { background: var(--orange-clair); border-left: 4px solid var(--orange); padding: 12px 14px; margin: 14px 0; border-radius: 4px; font-size: 15px; color: #7c2d12; }
+.modal-aide-iframe { flex: 1; width: 100%; border: none; min-height: 500px; }
+
+/* Bouton retour QCM gros sur fiche en iframe */
+.bandeau-retour-fiche { background: var(--orange); color: white; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+.bandeau-retour-fiche button { background: white; color: var(--orange); border: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; font-family: inherit; }
+.bandeau-retour-fiche span { font-weight: bold; font-size: 15px; }
 
 .combo-flash { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Trebuchet MS', sans-serif; font-weight: bold; font-size: 64px; color: var(--orange); text-shadow: 0 0 24px var(--orange); pointer-events: none; opacity: 0; transition: all 0.5s; z-index: 1000; }
 .combo-flash.show { opacity: 1; animation: comboPop 0.6s; }
@@ -246,7 +266,6 @@ label.lab { display: block; font-weight: bold; color: var(--bleu); margin: 12px 
       <div class="stat-led">XP <span class="num" id="stat-xp">0</span></div>
       <div class="stat-led">COMBO <span class="num" id="stat-combo">×1</span></div>
       <div class="stat-led">⏱ <span class="num" id="stat-temps">0:00</span></div>
-      <button class="bouton-aide" id="btn-aide" title="Voir l'aide pour le thème en cours">💡 Aide</button>
     </div>
   </div>
 
@@ -269,17 +288,35 @@ label.lab { display: block; font-weight: bold; color: var(--bleu); margin: 12px 
   </div>
 
   <div class="combo-flash" id="combo-flash"></div>
+
+  <!-- Bouton flottant AIDE — toujours visible pendant le quiz -->
+  <button class="bouton-aide-flottant" id="btn-aide" aria-label="Voir l'aide pour cette question">
+    <span class="ico">💡</span><span>J'AI BESOIN D'AIDE</span>
+  </button>
 </div>
 
 <!-- ===================== MODALE AIDE ===================== -->
 <div class="modal-aide" id="modal-aide" role="dialog" aria-modal="true">
-  <div class="modal-aide-contenu">
+  <div class="modal-aide-contenu" id="modal-aide-mode-rapide">
     <div class="modal-aide-tete">
       <h3 id="modal-aide-titre">💡 Aide — Thème</h3>
-      <button class="modal-aide-fermer" id="btn-fermer-aide" aria-label="Fermer">✕</button>
+      <button class="modal-aide-fermer" id="btn-fermer-aide">✕ Revenir au QCM</button>
     </div>
     <div class="modal-aide-corps" id="modal-aide-corps">
       <!-- contenu rempli dynamiquement -->
+    </div>
+  </div>
+
+  <!-- Mode "fiche complète en iframe" -->
+  <div class="modal-aide-contenu" id="modal-aide-mode-fiche" style="display:none">
+    <div class="bandeau-retour-fiche">
+      <span>📖 Fiche de révision — lecture en cours</span>
+      <button id="btn-retour-aide-rapide">← Retour à l'aide</button>
+    </div>
+    <iframe class="modal-aide-iframe" id="iframe-fiche" src="about:blank"></iframe>
+    <div class="bandeau-retour-fiche">
+      <span></span>
+      <button id="btn-fermer-fiche-iframe">✕ Fermer et revenir au QCM</button>
     </div>
   </div>
 </div>
@@ -996,120 +1033,201 @@ function dessinerRadar(sousNotes) {
 }
 
 // ============================================================
-// AIDE PENDANT LE QCM — modale + fiche par thème
+// AIDE PENDANT LE QCM — pédagogique, construit la compréhension
 // ============================================================
 const AIDE_PAR_THEME = {
   secu_elec: {
     titre: '⚡ Sécurité électrique',
     fiche: 'ressources/01_fiche_securite_electrique.html',
-    points: [
-      '<strong>B0/H0</strong> : exécutant non-électricien (élève TNE) — peut accéder hors zone de voisinage électrique',
-      '<strong>BR</strong> : chargé d\'intervention BT — <strong>BC</strong> : chargé de consignation',
-      '<strong>VAT</strong> = Vérification d\'Absence de Tension : tester sur source connue avant ET après',
-      'Consignation S-C-I-V : <strong>S</strong>éparation, <strong>C</strong>ondamnation, <strong>I</strong>dentification, <strong>V</strong>érification absence de tension',
-      'TBTS = Très Basse Tension de Sécurité (≤ 50 V AC, ≤ 120 V DC en milieu sec)',
-      'Différentiel <strong>30 mA</strong> = haute sensibilité, protection des personnes'
-    ]
+    explication: `
+      <p><strong>Tu es élève en 2nde TNE.</strong> Pour la loi, tu n'es pas électricien.
+      Tu as au mieux l'habilitation <strong>B0</strong> : tu peux entrer dans un local électrique pour observer ou faire un travail non-électrique, mais <strong>tu ne touches à rien sous tension</strong>.</p>
+
+      <p>Pour vraiment <strong>intervenir sur un circuit</strong>, il faut une habilitation supérieure :
+      <strong>BR</strong> (chargé d'intervention BT, courant), <strong>BS</strong> (remplacement simple), <strong>BC</strong> (chargé de consignation).
+      Ces habilitations s'obtiennent en Bac Pro/TP, pas avant.</p>
+
+      <h4>Avant de toucher quoi que ce soit : la consignation</h4>
+      <p>Quatre étapes dans l'ordre, mémo <strong>S-C-I-V</strong> :
+      <strong>Séparer</strong> (ouvrir l'interrupteur) → <strong>Condamner</strong> (cadenasser pour que personne ne le réenclenche) →
+      <strong>Identifier</strong> (vérifier qu'on est bien sur le bon circuit) → <strong>Vérifier</strong> qu'il n'y a plus de tension (VAT).</p>
+
+      <h4>La VAT (Vérification d'Absence de Tension)</h4>
+      <p>On utilise un <strong>détecteur</strong> spécial. Règle d'or : on le teste <strong>avant</strong> et <strong>après</strong> sur une source qu'on sait être sous tension, pour s'assurer qu'il fonctionne. Sinon, on pourrait croire qu'il n'y a pas de tension alors qu'il y en a !</p>
+
+      <h4>Tensions dangereuses</h4>
+      <p>En dessous de <strong>50 V alternatif</strong> en milieu sec, c'est considéré comme sûr (TBTS). Au-dessus, danger.
+      Un courant de seulement <strong>30 mA</strong> traversant le corps peut tuer. C'est pour ça que les disjoncteurs différentiels en milieu humide (cuisine, salle de bain) coupent à 30 mA.</p>
+    `
   },
   hauteur: {
     titre: '🪜 Travail en hauteur',
     fiche: 'ressources/02_fiche_travail_hauteur.html',
-    points: [
-      'Hauteur dangereuse : <strong>au-delà de 2 m</strong> (sol)',
-      'EPI antichute = <strong>harnais</strong> + longe avec absorbeur + point d\'ancrage > 1000 daN',
-      'Échelle : <strong>3 points de contact</strong>, jamais de stationnement, dépassement 1 m si accès, inclinaison ≈ 1/4',
-      'Échafaudage roulant : montage par formé R408, freins serrés, garde-corps 1 m + plinthe',
-      'Une <strong>ceinture</strong> seule n\'est PAS un antichute (juste un maintien au poste)'
-    ]
+    explication: `
+      <p>On parle de <strong>travail en hauteur</strong> dès qu'on est <strong>au-dessus de 2 mètres</strong> du sol. À partir de cette hauteur, une chute peut être grave ou mortelle.</p>
+
+      <h4>L'échelle, comment bien la poser</h4>
+      <p>Une échelle qu'on pose contre un mur, ce n'est pas droit ni couché : la règle, c'est <strong>« 1 pour 4 »</strong>. Pour 4 mètres de hauteur, le pied de l'échelle doit être à <strong>1 mètre du mur</strong>. Ça donne une inclinaison d'environ 75°. Si on la met trop droite, elle bascule en arrière. Trop couchée, elle glisse.</p>
+      <p>Si l'échelle sert à <strong>passer sur un toit, un palier ou une plate-forme</strong>, elle doit <strong>dépasser d'au moins 1 mètre</strong> au-dessus du point d'arrivée. Pourquoi ? Pour pouvoir s'agripper avec les mains au moment de passer du dernier barreau au sol.</p>
+      <p>Règle des <strong>3 points de contact</strong> : à tout moment, deux mains et un pied (ou deux pieds et une main) sont en contact avec l'échelle. Donc <strong>on ne porte rien lourd</strong> en montant. Et on ne stationne pas sur l'échelle pour travailler longtemps : c'est un moyen d'accès, pas un poste de travail.</p>
+
+      <h4>L'antichute : harnais, longe, point d'ancrage</h4>
+      <p>Le <strong>harnais</strong>, c'est ce qui te retient en cas de chute. Il est relié à un <strong>point d'ancrage solide</strong> (capable de retenir 1000 daN ≈ 1 tonne) par une <strong>longe avec absorbeur d'énergie</strong>.</p>
+      <p>Une <strong>ceinture seule</strong> n'est PAS un antichute : elle ne te maintient qu'au poste, pas en cas de chute (elle te couperait en deux).</p>
+    `
   },
   responsabilite: {
-    titre: '🧑‍🎓 Responsabilité élève',
+    titre: '🧑‍🎓 Responsabilité de l\'élève',
     fiche: 'ressources/03_fiche_responsabilite_eleve.html',
-    points: [
-      'Tu es sous la <strong>responsabilité de ton prof</strong> en atelier',
-      'Accident : <strong>P-E-A-S</strong> = Protéger, Examiner, Alerter, Secourir',
-      'Numéros : <strong>15</strong> (SAMU), <strong>18</strong> (pompiers), <strong>112</strong> (européen)',
-      'Sans EPI = exclu de l\'atelier. Téléphone et alcool interdits.',
-      'Tu peux <strong>refuser</strong> une tâche dangereuse (droit de retrait)'
-    ]
+    explication: `
+      <p>En atelier, tu es sous la <strong>responsabilité de ton prof</strong>. C'est lui qui supervise, qui décide ce que tu peux faire ou non. Mais cette responsabilité n'est pas un blanc-seing : elle fonctionne à <strong>2 conditions</strong>.</p>
+      <p>1️⃣ <strong>Tu suis les consignes</strong> (équipement, port des EPI, gestes appris). Si tu sors du cadre — par exemple tu enlèves tes gants pendant un câblage — tu reprends une part de responsabilité dans ce qui se passe.</p>
+      <p>2️⃣ <strong>Tu peux refuser une tâche dangereuse</strong> (droit de retrait). Si tu sens un risque grave et imminent, tu peux dire stop, sans sanction.</p>
+
+      <h4>En cas d'accident — la chaîne PEAS</h4>
+      <p><strong>P</strong>rotéger (sécuriser la zone, couper le courant, éloigner les autres) →
+      <strong>E</strong>xaminer (la victime est-elle consciente ? respire-t-elle ?) →
+      <strong>A</strong>lerter (15 SAMU, 18 pompiers, 112 européen) →
+      <strong>S</strong>ecourir (gestes appris en SST si tu en as).</p>
+
+      <p>Téléphone, alcool, drogues : <strong>strictement interdits</strong> en atelier. Les EPI sont obligatoires : sans eux, tu n'as pas le droit d'entrer dans la zone de travail.</p>
+    `
   },
   fgaz: {
-    titre: '❄ F-GAZ',
+    titre: '❄ F-GAZ — la réglementation des fluides',
     fiche: 'ressources/04_fiche_fgaz.html',
-    points: [
-      '<strong>Catégories I à V</strong> : I = pleine, II = circuits hermétiques, V = camions',
-      'L\'<strong>entreprise</strong> a une attestation de capacité, le <strong>technicien</strong> une attestation d\'aptitude',
-      'GWP : R744 (CO₂) = <strong>1</strong>, R290 (propane) = 3, R32 = 675, R134a = 1430',
-      'A1 = non-inflammable (R744), A2L = faiblement inflammable (R32, R454B, R1234yf), A3 = inflammable (R290)',
-      'Récupération obligatoire en fin de vie. Manipulation interdite sans attestation.',
-      'F-GAZ III (arrêtés 21/11/2025) : seuils contrôle d\'étanchéité selon kg ou tCO₂eq'
-    ]
+    explication: `
+      <p>Les fluides frigorigènes peuvent réchauffer le climat (effet de serre). C'est pour ça que la réglementation <strong>F-GAZ</strong> les encadre. Depuis 2025, on est sur la <strong>F-GAZ III</strong>.</p>
+
+      <h4>L'attestation, qui peut faire quoi ?</h4>
+      <p>Pour <strong>manipuler</strong> un fluide (charger, récupérer, dépanner), il faut une <strong>attestation d'aptitude</strong> personnelle, classée en 5 catégories de I à V. Catégorie <strong>I</strong> = la plus complète (toutes installations, tous fluides). La V = camions/remorques uniquement.</p>
+      <p>L'<strong>entreprise</strong>, elle, a besoin d'une <strong>attestation de capacité</strong> (différente). Donc : entreprise = capacité, technicien = aptitude. Les deux sont obligatoires.</p>
+
+      <h4>Pourquoi certains fluides sont meilleurs que d'autres ?</h4>
+      <p>Le critère clé est le <strong>GWP</strong> (Global Warming Potential — pouvoir de réchauffement global). Le CO₂ sert de référence : son GWP = 1.</p>
+      <p>Plus le GWP est haut, plus le fluide est nocif si fuite. Les fluides à <strong>haut GWP</strong> (R134a = 1430, R410A = 2088) sont progressivement interdits. Les fluides <strong>naturels</strong> (R744 CO₂ = 1, R290 propane = 3, ammoniac) sont privilégiés mais ont leurs contraintes (haute pression, inflammabilité).</p>
+
+      <h4>Inflammabilité — classes A et B</h4>
+      <p><strong>A1</strong> = non-toxique, non-inflammable (R744). <strong>A2L</strong> = faiblement inflammable (R32, R454B, R1234yf). <strong>A3</strong> = inflammable (R290 propane). Plus inflammable = règles d'installation plus strictes (volumes, ventilation).</p>
+
+      <h4>Étanchéité — pourquoi on contrôle</h4>
+      <p>Une installation qui fuit, c'est du fluide qui part dans l'atmosphère. La loi impose des contrôles d'étanchéité périodiques selon la <strong>charge en kg</strong> (ou en <strong>tCO₂eq</strong>, qui combine kg × GWP). Plus la charge est grosse, plus le contrôle est fréquent.</p>
+    `
   },
   thermo: {
-    titre: '🌡 Thermodynamique — Croix du frigoriste',
+    titre: '🌡 Thermodynamique — La croix du frigoriste',
     fiche: 'ressources/05_fiche_thermodynamique.html',
-    points: [
-      '<strong>Aspiration compresseur</strong> = vapeur surchauffée <strong>BP froide</strong> (sortie évaporateur)',
-      '<strong>Refoulement compresseur</strong> = vapeur surchauffée <strong>HP chaude</strong> (entrée condenseur)',
-      '<strong>Sortie condenseur</strong> = liquide <strong>sous-refroidi HP</strong> (3-7 K en-dessous de la saturation)',
-      '<strong>Sortie détendeur</strong> = mélange <strong>liquide+vapeur BP froid</strong>',
-      'Surchauffe typique à l\'aspi : <strong>5 à 10 K</strong> au-dessus de la saturation',
-      'Chaleur sensible (Q = m·c·ΔT) ≠ chaleur latente (Q = m·L) ; vaporisation/condensation = latente',
-      '0 °C = <strong>273 K</strong>. À pression donnée, T saturation unique pour un fluide donné.'
-    ]
+    explication: `
+      <p>Le cycle frigo, c'est <strong>4 composants</strong> en boucle. À chaque endroit du circuit, le fluide n'est pas dans le même état. C'est ce qu'on appelle <strong>la croix du frigoriste</strong> :</p>
+
+      <h4>Aspiration compresseur (entrée du compresseur)</h4>
+      <p>Le fluide arrive de l'évaporateur. C'est de la <strong>vapeur surchauffée</strong>, en <strong>basse pression (BP)</strong>, et la canalisation est <strong>FROIDE</strong> au toucher. La surchauffe à l'aspi est typiquement de <strong>5 à 10 K</strong> au-dessus de la température de saturation.</p>
+
+      <h4>Refoulement compresseur (sortie du compresseur)</h4>
+      <p>Le compresseur a élevé la pression ET la température. Le fluide en sortie est de la <strong>vapeur surchauffée</strong> en <strong>haute pression (HP)</strong>, et c'est <strong>TRÈS CHAUD</strong> (60-100 °C selon le fluide). Touche jamais directement.</p>
+
+      <h4>Sortie du condenseur</h4>
+      <p>Le condenseur a évacué la chaleur. Le fluide est devenu <strong>liquide</strong>, toujours en <strong>HP</strong>, et il est encore chaud mais moins. On parle de <strong>liquide sous-refroidi</strong> : sa température est <strong>3 à 7 K en dessous</strong> de la température de saturation pour cette pression. C'est important : ça garantit qu'on n'a que du liquide en arrivant au détendeur.</p>
+
+      <h4>Sortie du détendeur (= entrée évaporateur)</h4>
+      <p>Le détendeur fait chuter la pression brutalement (HP → BP). Le fluide se transforme en <strong>mélange liquide+vapeur BP très FROID</strong>. Il va absorber la chaleur de la pièce/chambre froide en se vaporisant dans l'évaporateur, puis repart à l'aspi du compresseur. Le cycle recommence.</p>
+
+      <h4>Notions à comprendre</h4>
+      <p><strong>Chaleur sensible</strong> : on chauffe ou on refroidit, la température change (Q = m·c·ΔT).
+      <strong>Chaleur latente</strong> : on change d'état (vaporisation, condensation), la température reste constante mais l'énergie est énorme (Q = m·L). Le cycle frigo joue surtout sur la chaleur latente.</p>
+      <p><strong>Rapport pression-température</strong> : pour un fluide donné, à une <strong>pression</strong> de saturation correspond une <strong>température</strong> de saturation unique. C'est ce qu'on lit sur la <strong>réglette</strong> du frigoriste ou sur le diagramme.</p>
+    `
   },
   frigo: {
-    titre: '🔧 Composants frigorifiques',
+    titre: '🔧 Composants du circuit frigo',
     fiche: 'ressources/06_fiche_composants_frigo.html',
-    points: [
-      '<strong>Compresseur</strong> : aspire BP, refoule HP. Met le fluide en mouvement et l\'élève en T et en P.',
-      '<strong>Condenseur</strong> : HP, rejette la chaleur (ventilateur ou eau)',
-      '<strong>Détendeur</strong> : passage HP → BP. Le thermo régule selon la surchauffe',
-      '<strong>Évaporateur</strong> : BP, absorbe la chaleur du milieu à refroidir',
-      '<strong>Bouteille liquide</strong> : réserve, après condenseur',
-      '<strong>Filtre déshydrateur</strong> : retient impuretés + humidité (avant détendeur)',
-      '<strong>Voyant liquide</strong> : voir le fluide + indicateur d\'humidité (vert = sec, jaune = humide)'
-    ]
+    explication: `
+      <p>Pour reconnaître un composant sur un schéma, demande-toi <strong>à quoi il sert</strong> dans le cycle :</p>
+
+      <h4>Les 4 composants principaux</h4>
+      <p><strong>Compresseur</strong> : c'est le « cœur » qui pompe le fluide, l'aspire en BP froide et le refoule en HP chaude. Plusieurs technologies : piston, scroll (spirale), vis, rotatif.</p>
+      <p><strong>Condenseur</strong> : c'est l'échangeur où la chaleur HP est rejetée vers l'extérieur (ventilateur ou eau). Le fluide y change d'état : vapeur → liquide.</p>
+      <p><strong>Détendeur</strong> : passage HP → BP. C'est l'organe de régulation. Le détendeur thermostatique a un <strong>bulbe</strong> qui mesure la surchauffe en sortie d'évaporateur et adapte le débit.</p>
+      <p><strong>Évaporateur</strong> : c'est l'échangeur côté BP qui absorbe la chaleur du milieu à refroidir (chambre froide, ambiance, eau). Le fluide y change d'état : liquide → vapeur.</p>
+
+      <h4>Les accessoires utiles</h4>
+      <p><strong>Bouteille de liquide</strong> : réserve placée après le condenseur. Sert de tampon en cas de variation de charge.</p>
+      <p><strong>Filtre déshydrateur</strong> : placé avant le détendeur. Il piège les <strong>impuretés</strong> et l'<strong>humidité</strong> qui auraient pu entrer dans le circuit (humidité = bouchage par formation de glace).</p>
+      <p><strong>Voyant liquide</strong> : petite « fenêtre » sur la conduite. Permet de <strong>voir le fluide</strong> (s'il y a des bulles = manque de fluide ou problème) et a un <strong>indicateur d'humidité</strong> qui change de couleur (vert = sec, jaune = humide → il faut intervenir).</p>
+      <p><strong>Électrovanne</strong> : vanne <strong>commandée électriquement</strong>. S'ouvre/ferme à distance pour démarrer ou arrêter le passage du fluide.</p>
+    `
   },
   electrotech: {
-    titre: '⚙ Électrotechnique — repérage des bornes',
+    titre: '⚙ Électrotechnique — Les bornes parlent',
     fiche: 'ressources/07_fiche_electrotech.html',
-    points: [
-      'Contact <strong>NO</strong> = bornes <strong>13-14</strong> (ou 23-24, 33-34) — fermé quand bobine alimentée',
-      'Contact <strong>NF</strong> = bornes <strong>21-22</strong> (ou 11-12, 31-32) — ouvert quand bobine alimentée',
-      'Contact <strong>NO temporisé</strong> = bornes <strong>67-68</strong>',
-      'Bobine de contacteur : bornes <strong>A1 (haut) - A2 (bas)</strong>',
-      'Relais thermique : <strong>95-96</strong> = NF, <strong>97-98</strong> = NO',
-      'Polarité : 1P (phase), 2P (phase+neutre), 3P (3 phases), 4P (3 phases + neutre)',
-      'Courbes B/C/D = sensibilité magnétique du disjoncteur (B = sensible, D = peu sensible)'
-    ]
+    explication: `
+      <p>En électrotechnique, <strong>les chiffres marqués sur les bornes te disent ce qu'est le composant</strong>. C'est un langage normalisé. Apprendre à lire ce langage = apprendre à lire un schéma.</p>
+
+      <h4>Contacts NO et NF (Normalement Ouvert / Normalement Fermé)</h4>
+      <p>« Normalement » = au repos, quand la bobine n'est pas alimentée.</p>
+      <p>Un contact <strong>NO</strong> est <strong>ouvert au repos</strong> et se ferme quand on alimente la bobine. Bornes : <strong>13-14</strong> (1ᵉʳ contact auxiliaire), 23-24, 33-34. Astuce : finit par <strong>3-4</strong>.</p>
+      <p>Un contact <strong>NF</strong> est <strong>fermé au repos</strong> et s'ouvre quand on alimente la bobine. Bornes : <strong>21-22</strong>, 11-12, 31-32. Astuce : finit par <strong>1-2</strong>.</p>
+      <p>Un contact <strong>temporisé travail</strong> : finit par <strong>7-8</strong> (par exemple 67-68). Il y a un retard à l'enclenchement.</p>
+
+      <h4>Bobine (le « moteur » du contacteur)</h4>
+      <p>Bornes <strong>A1</strong> (haut) et <strong>A2</strong> (bas). Quand on alimente A1-A2, la bobine fait basculer tous les contacts du contacteur en même temps.</p>
+
+      <h4>Relais thermique (protection moteur)</h4>
+      <p>Bornes <strong>95-96</strong> (NF — coupe le circuit de commande en cas de surchauffe) et <strong>97-98</strong> (NO — peut allumer un voyant d'alarme).</p>
+
+      <h4>Polarité — combien de fils on coupe</h4>
+      <p><strong>1P</strong> = 1 pôle (juste la phase). <strong>2P</strong> = phase + neutre. <strong>3P</strong> = trois phases (triphasé). <strong>4P</strong> = trois phases + neutre. Pour une protection complète d'un circuit triphasé avec neutre, on utilise du 4P.</p>
+
+      <h4>Pouvoir de coupure et courbes B/C/D</h4>
+      <p>Le <strong>pouvoir de coupure</strong> (en kA) = courant maximum que le disjoncteur peut interrompre sans exploser. Plus le réseau est costaud, plus il faut un kA élevé.</p>
+      <p>Les courbes <strong>B / C / D</strong> définissent la sensibilité magnétique. <strong>B</strong> = sensible (éclairage, prises), <strong>C</strong> = courant général, <strong>D</strong> = peu sensible (moteurs avec pic de démarrage).</p>
+    `
   },
   ri_classe: {
-    titre: '📜 Règlement intérieur',
+    titre: '📜 Règlement intérieur et vie de classe',
     fiche: 'ressources/08_fiche_ri_vie_classe.html',
-    points: [
-      'LP <strong>Privé</strong> Jacques Raynaud — Campus ÉQUATIO Marseille',
-      'Ponctualité, tenue d\'atelier (combinaison + chaussures de sécurité)',
-      'Téléphone interdit en cours, Pronote = preuve de communication',
-      'Absence justifiée sous 48 h',
-      'Dégradation du matériel = signaler immédiatement'
-    ]
+    explication: `
+      <p>Tu es au <strong>LP Privé Jacques Raynaud — Campus ÉQUATIO Marseille</strong>. C'est un établissement privé sous contrat. Le règlement intérieur est ton cadre de vie : il te protège et protège tes camarades.</p>
+
+      <h4>Atelier = environnement professionnel</h4>
+      <p>En atelier, c'est comme en entreprise : <strong>combinaison de travail + chaussures de sécurité obligatoires</strong>. Un jean troué et des baskets ne suffisent pas — un copeau qui tombe sur ton pied, c'est un accident.</p>
+      <p>Le <strong>téléphone</strong> est interdit en cours et en atelier. Les communications passent par <strong>Pronote</strong>, qui est aussi le carnet de correspondance officiel.</p>
+      <p>Les <strong>retards</strong> sont enregistrés. 5 minutes de retard répétés = absence comptabilisée. Une <strong>absence</strong> doit être justifiée sous 48 heures.</p>
+
+      <h4>Matériel d'atelier</h4>
+      <p>Le matériel pro coûte cher (un détecteur de fluide = 800 €, un mano numérique = 400 €). Si quelque chose casse ou se dégrade : <strong>signaler immédiatement</strong> à ton prof. Ce n'est pas pour te punir, c'est pour qu'on remplace ou répare avant qu'un autre élève s'en serve et se blesse.</p>
+    `
   },
   orientation: {
-    titre: '🎓 Orientation post-TNE',
+    titre: '🎓 Orientation après la 2nde TNE',
     fiche: 'ressources/09_fiche_orientation_post_tne.html',
-    points: [
-      '5 spécialités Bac Pro famille TNE :',
-      '🔵 <strong>MELEC</strong> = Métiers de l\'Électricité',
-      '🟢 <strong>MFER</strong> = Métiers du Froid et des Énergies Renouvelables (frigoriste)',
-      '🟡 <strong>ICCER</strong> = Installateur Chauffage Climatisation Énergies Renouvelables',
-      '🟠 <strong>MEE</strong> = Maintenance Efficacité Énergétique',
-      '🟣 <strong>CIEL</strong> = Cybersécurité Informatique Électronique réseauX',
-      'Choix en fin de 2nde TNE. Voie scolaire ou apprentissage (CFA).'
-    ]
+    explication: `
+      <p>La <strong>2nde TNE</strong> (Transition Numérique et Énergétique) est une 2nde commune à <strong>5 spécialités de Bac Pro</strong>. À la fin de la 2nde, tu choisis ta spécialité.</p>
+
+      <h4>🔵 MELEC — Métiers de l'Électricité et des Environnements Connectés</h4>
+      <p>Installation électrique, domotique, courants faibles. Débouchés : électricien bâtiment, industriel, télécoms.</p>
+
+      <h4>🟢 MFER — Métiers du Froid et des Énergies Renouvelables</h4>
+      <p>Frigoriste, climaticien, technicien froid commercial, pompes à chaleur. C'est la spécialité « Froid » au LP Jacques Raynaud.</p>
+
+      <h4>🟡 ICCER — Installateur Chauffage Climatisation Énergies Renouvelables</h4>
+      <p>Chauffage central, climatisation, panneaux solaires, géothermie.</p>
+
+      <h4>🟠 MEE — Maintenance et Efficacité Énergétique</h4>
+      <p>Maintenance d'installations, audit énergétique, optimisation.</p>
+
+      <h4>🟣 CIEL — Cybersécurité, Informatique, Électronique, Réseaux</h4>
+      <p>Réseaux, sécurité info, électronique embarquée.</p>
+
+      <h4>Voie scolaire ou apprentissage ?</h4>
+      <p>Tu peux faire ton Bac Pro en <strong>voie scolaire</strong> (au LP, avec PFMP en entreprise) ou en <strong>apprentissage</strong> (CFA + entreprise, salaire). Les deux donnent le même diplôme. Après le Bac Pro : BTS FED, BTS MS, BTS CIRA, école d'ingénieur post-bac, ou directement la vie active.</p>
+    `
   }
 };
 
+// ============================================================
+// MODALE AIDE — 2 modes : aide rapide (texte pédagogique) + fiche complète (iframe)
+// ============================================================
 function ouvrirAide() {
   if (etat.fini) return;
   const q = etat.questions_session[etat.q_index];
@@ -1117,13 +1235,19 @@ function ouvrirAide() {
   const aide = AIDE_PAR_THEME[q.theme];
   if (!aide) return;
 
+  // Mode aide rapide visible
+  $('modal-aide-mode-rapide').style.display = '';
+  $('modal-aide-mode-fiche').style.display = 'none';
+
   $('modal-aide-titre').textContent = '💡 ' + aide.titre;
-  let html = '<div class="aide-note">📖 Voici les <strong>repères clés</strong> pour ce thème. Tu n\'es pas pénalisé(e) si tu consultes l\'aide, mais le compteur est visible par ton prof.</div>';
-  html += '<h4>Points à retenir</h4><ul>';
-  aide.points.forEach(p => html += '<li>' + p + '</li>');
-  html += '</ul>';
-  html += '<a href="' + aide.fiche + '" target="_blank" rel="noopener" class="fiche-link">📚 Voir la fiche complète</a>';
+  let html = '<div class="aide-note">📖 Lis tranquillement, prends le temps de comprendre. Tu n\'es pas pénalisé(e), mais ton prof voit que tu as consulté l\'aide.</div>';
+  html += aide.explication;
+  html += '<button class="fiche-link" id="btn-ouvrir-fiche-iframe" data-fiche="' + aide.fiche + '">📚 Voir la fiche complète</button>';
   $('modal-aide-corps').innerHTML = html;
+
+  // Brancher le bouton fiche complète (créé dynamiquement)
+  const btnFiche = document.getElementById('btn-ouvrir-fiche-iframe');
+  if (btnFiche) btnFiche.addEventListener('click', () => ouvrirFicheIframe(aide.fiche));
 
   $('modal-aide').classList.add('actif');
 
@@ -1132,14 +1256,35 @@ function ouvrirAide() {
   api('log_event', { type: 'AIDE_CONSULTEE', classe: etat.classe, pseudo: etat.pseudo, message: 'theme=' + q.theme + ' q=q' + (etat.q_index + 1) + ' total=' + etat.aide_count, token: etat.token });
 }
 
-function fermerAide() { $('modal-aide').classList.remove('actif'); }
+function ouvrirFicheIframe(url) {
+  $('modal-aide-mode-rapide').style.display = 'none';
+  $('modal-aide-mode-fiche').style.display = 'flex';
+  $('iframe-fiche').src = url;
+}
 
-// Branchement listeners aide (script en bas du body, DOM déjà prêt)
+function retournerAideRapide() {
+  $('modal-aide-mode-fiche').style.display = 'none';
+  $('modal-aide-mode-rapide').style.display = '';
+  $('iframe-fiche').src = 'about:blank'; // libère la mémoire
+}
+
+function fermerAide() {
+  $('modal-aide').classList.remove('actif');
+  $('iframe-fiche').src = 'about:blank';
+  $('modal-aide-mode-rapide').style.display = '';
+  $('modal-aide-mode-fiche').style.display = 'none';
+}
+
+// Branchement listeners aide
 (function brancherAide() {
   const btn = document.getElementById('btn-aide');
   if (btn) btn.addEventListener('click', ouvrirAide);
-  const close = document.getElementById('btn-fermer-aide');
-  if (close) close.addEventListener('click', fermerAide);
+  const close1 = document.getElementById('btn-fermer-aide');
+  if (close1) close1.addEventListener('click', fermerAide);
+  const close2 = document.getElementById('btn-fermer-fiche-iframe');
+  if (close2) close2.addEventListener('click', fermerAide);
+  const back = document.getElementById('btn-retour-aide-rapide');
+  if (back) back.addEventListener('click', retournerAideRapide);
   const modal = document.getElementById('modal-aide');
   if (modal) modal.addEventListener('click', e => { if (e.target.id === 'modal-aide') fermerAide(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') fermerAide(); });
