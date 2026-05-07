@@ -82,7 +82,7 @@ tr.fini td { background: #eff6ff; }
   <span class="flocon">❄</span>
   <span class="nom-edu">inerWeb</span>
   <span class="cartouche-edu">Édu</span>
-  <span class="signature-edu">Tableau de bord LIVE — Bilan 2nde TNE — F. Henninot</span>
+  <span class="signature-edu">Tableau de bord LIVE — F. Henninot</span>
 </header>
 
 <div id="auth-bloc">
@@ -95,12 +95,10 @@ tr.fini td { background: #eff6ff; }
 
 <div id="interface">
   <div class="bandeau">
-    <h1>🎮 Live — Bilan d'année 2nde TNE</h1>
+    <h1 id="titre-h1">🎮 Live — Bilan inerWeb</h1>
     <div class="raffinement">
       <select id="filtre-classe">
         <option value="TOUTES">Toutes classes</option>
-        <option value="2TNE">2nde TNE</option>
-        <option value="TEST">TEST</option>
       </select>
       <input type="text" id="filtre-pseudo" placeholder="🔍 Pseudo..." style="width:140px">
       <button id="btn-pause" class="bouton-toggle">⏸ Pause</button>
@@ -184,6 +182,25 @@ $('btn-auth').addEventListener('click', async () => {
   rafraichir();
   installerTimer();
 });
+
+// Charger config publique : titre + classes pour filtre
+(async function chargerConfig() {
+  try {
+    const r = await api('get_config_publique', {}, 'GET');
+    if (r && r.ok) {
+      if (r.titre_session) $('titre-h1').textContent = '🎮 Live — ' + r.titre_session;
+      const sel = $('filtre-classe');
+      // Garde "Toutes classes" en première option
+      while (sel.options.length > 1) sel.remove(1);
+      (r.classes || []).forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.code;
+        opt.textContent = c.label;
+        sel.appendChild(opt);
+      });
+    }
+  } catch(e) {}
+})();
 
 // Auto-login si code en session storage
 try {

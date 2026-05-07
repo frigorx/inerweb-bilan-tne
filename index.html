@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bilan d'année 2nde TNE — inerWeb Édu</title>
+<title>Bilan inerWeb — Édu</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <style>
 :root { --bleu: #1b3a63; --bleu-fonce: #142848; --orange: #ff6b35; --vert: #16a34a; --gris: #6b7280; --gris-clair: #f5f7fa; --bord: #e5e7eb; }
@@ -54,8 +54,8 @@ h1, h2, h3 { font-family: 'Trebuchet MS', sans-serif; font-weight: bold; color: 
 </header>
 
 <div class="bandeau">
-  <h1>Bilan d'année — 2<sup>nde</sup> TNE</h1>
-  <div class="sous">Cockpit Frigo · 50 questions · ~1 h · note /20 + radar</div>
+  <h1 id="titre-session">Bilan inerWeb</h1>
+  <div class="sous" id="sous-titre">Cockpit Frigo · 50 questions · ~1 h · note /20 + radar</div>
 </div>
 
 <div class="conteneur">
@@ -117,9 +117,22 @@ h1, h2, h3 { font-family: 'Trebuchet MS', sans-serif; font-weight: bold; color: 
 </div>
 
 <div class="pied">
-  <div class="gros">LP Privé Jacques Raynaud — Campus ÉQUATIO Marseille · F. Henninot · 2026</div>
+  <div class="gros" id="pied-etablissement">LP Privé Jacques Raynaud — Campus ÉQUATIO Marseille · F. Henninot · 2026</div>
   Données traitées localement, chiffrées AES-256, suppression au 31/08. Pseudo + initiale uniquement côté serveur.
 </div>
 
+<script>
+// Titre dynamique chargé depuis Apps Script
+(async function chargerConfig() {
+  try {
+    const r = await fetch('https://script.google.com/macros/s/AKfycbxsBftvAR73qXbWIqSDm2pIgNMHtMHq5QDJaCVQ_9tp0iVjGv6LxAch49bvVVhOMyJ4/exec?action=get_config_publique');
+    const cfg = await r.json();
+    if (cfg && cfg.ok) {
+      if (cfg.titre_session) document.getElementById('titre-session').textContent = cfg.titre_session;
+      if (cfg.sous_titre) document.getElementById('sous-titre').textContent = cfg.sous_titre;
+    }
+  } catch(e) {}
+})();
+</script>
 </body>
 </html>

@@ -39,7 +39,26 @@ const HMAC_SECRET = 'inerWeb-FH-2026-bilan-tne-secret-hmac-key'; // Modifiable
 const MODULE = 'inerweb-bilan-tne';
 const VERSION = '1.0';
 
-const CLASSES_AUTORISEES = ['2TNE', 'TEST'];
+// Classes par défaut si paramètres absents — surchargées par la clé "classes_json" des params
+const CLASSES_DEFAUT = [
+  { code: '2TNE', label: '2nde TNE' },
+  { code: 'TEST', label: 'TEST (essai)' }
+];
+
+function getClassesAutorisees() {
+  const p = lireParams();
+  if (p.classes_json) {
+    try {
+      const arr = JSON.parse(p.classes_json);
+      if (Array.isArray(arr) && arr.length) return arr;
+    } catch (e) {}
+  }
+  return CLASSES_DEFAUT;
+}
+
+function classeAutorisee(code) {
+  return getClassesAutorisees().some(c => c.code === code);
+}
 const LIMITE_COMPTES_PAR_CLASSE = 40;
 const LOCKOUT_DUREE_MS = 5 * 60 * 1000;
 const LOCKOUT_MAX_ESSAIS = 5;
@@ -64,6 +83,9 @@ function handleRequest(e, methode) {
   let result;
   try {
     switch (action) {
+      // --- Route publique (sans auth) — config UI ---
+      case 'get_config_publique': result = getConfigPublique(params); break;
+
       // --- Routes élève ---
       case 'check_pseudo':       result = checkPseudo(params); break;
       case 'create_account':     result = createAccount(params); break;
@@ -139,8 +161,11 @@ function initSheet(sh, nom) {
         ['date_fin_global', ''],
         ['max_tentatives', '1'],
         ['limite_comptes_par_classe', String(LIMITE_COMPTES_PAR_CLASSE)],
-        ['titre_session', 'Bilan d\'année 2nde TNE'],
-        ['duree_indicative_min', '60']
+        ['titre_session', 'Bilan inerWeb'],
+        ['sous_titre', '50 questions · ~1 h · note /20 + radar'],
+        ['etablissement', 'LP Privé Jacques Raynaud — Campus ÉQUATIO Marseille'],
+        ['duree_indicative_min', '60'],
+        ['classes_json', JSON.stringify(CLASSES_DEFAUT)]
       ];
       defauts.forEach(l => sh.appendRow(l));
       return sh;
@@ -233,12 +258,31 @@ function logSecu(type, classe, pseudo, message, token) {
 }
 
 // ========================
+// ROUTE PUBLIQUE : get_config_publique
+// Retourne titre, classes ouvertes, durée — sans auth, pour personnaliser l'UI
+// ========================
+function getConfigPublique(params) {
+  const p = lireParams();
+  const classes = getClassesAutorisees();
+  // Filtrer pour ne renvoyer que les classes ouvertes
+  const ouvertes = classes.filter(c => estVrai(p['ouvert_' + c.code]));
+  return {
+    ok: true,
+    titre_session: p.titre_session || 'Bilan inerWeb',
+    sous_titre: p.sous_titre || '',
+    duree_indicative_min: parseInt(p.duree_indicative_min || 60),
+    classes: ouvertes.length ? ouvertes : classes,
+    etablissement: p.etablissement || 'LP Privé Jacques Raynaud — Campus ÉQUATIO Marseille'
+  };
+}
+
+// ========================
 // ROUTE : check_pseudo
 // ========================
 function checkPseudo(params) {
   const classe = params.classe;
   const pseudo = (params.pseudo || '').toUpperCase();
-  if (!CLASSES_AUTORISEES.includes(classe)) return { ok: false, error: 'Classe inconnue' };
+  if (!classeAutorisee(classe)) return { ok: false, error: 'Classe inconnue' };
   const { lignes } = lireToutesLignes(getSheet(ONGLET_COMPTES));
   const exists = lignes.some(l => l.classe === classe && (l.pseudo || '').toUpperCase() === pseudo);
   return { ok: true, exists };
@@ -253,7 +297,7 @@ function createAccount(params) {
   const nomInitiale = (params.nom_initiale || '').trim();
   const mdp = params.mdp || classe;
 
-  if (!CLASSES_AUTORISEES.includes(classe)) return { ok: false, error: 'Classe inconnue' };
+  if (!classeAutorisee(classe)) return { ok: false, error: 'Classe inconnue' };
   if (!pseudo || pseudo.length < 4) return { ok: false, error: 'Pseudo trop court (4 caractères minimum)' };
   if (!/^[A-Z0-9_-]+$/.test(pseudo)) return { ok: false, error: 'Pseudo invalide (lettres, chiffres, _ et - uniquement)' };
 

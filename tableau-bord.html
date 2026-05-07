@@ -100,12 +100,10 @@ tr.invalidee td { background: #f3f4f6; opacity: 0.6; text-decoration: line-throu
 
 <div id="interface">
   <div class="bandeau">
-    <h1>📊 Bilan d'année 2nde TNE — Vue prof</h1>
+    <h1 id="titre-h1">📊 Bilan inerWeb — Vue prof</h1>
     <div class="raffinement">
       <select id="filtre-classe">
         <option value="TOUTES">Toutes classes</option>
-        <option value="2TNE">2nde TNE</option>
-        <option value="TEST">TEST</option>
       </select>
       <button id="btn-export">📥 Export CSV</button>
       <button id="btn-rafraichir">🔄</button>
@@ -227,6 +225,24 @@ $('btn-auth').addEventListener('click', async () => {
   $('interface').style.display = 'block';
   rafraichir();
 });
+
+// Charger config publique : titre + classes pour filtre
+(async function chargerConfig() {
+  try {
+    const r = await api('get_config_publique', {}, 'GET');
+    if (r && r.ok) {
+      if (r.titre_session) $('titre-h1').textContent = '📊 ' + r.titre_session + ' — Vue prof';
+      const sel = $('filtre-classe');
+      while (sel.options.length > 1) sel.remove(1);
+      (r.classes || []).forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.code;
+        opt.textContent = c.label;
+        sel.appendChild(opt);
+      });
+    }
+  } catch(e) {}
+})();
 
 try {
   const c = sessionStorage.getItem('bilan_tne_prof_code');

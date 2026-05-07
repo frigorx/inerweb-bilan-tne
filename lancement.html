@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>🚀 Lancement bilan 2TNE — inerWeb Édu</title>
+<title>🚀 Lancement bilan inerWeb · Édu</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <style>
 :root { --bleu: #1b3a63; --bleu-fonce: #142848; --orange: #ff6b35; --vert: #16a34a; --rouge: #dc2626; --gris: #6b7280; --gris-clair: #f5f7fa; --bord: #e5e7eb; }
@@ -107,8 +107,8 @@ button, a.btn { font-family: inherit; cursor: pointer; }
 </header>
 
 <div class="bandeau-titre">
-  <h1>Bilan d'année — 2<sup>nde</sup> TNE</h1>
-  <div class="sous">Cockpit Frigo · 50 questions · ~ 1 h · temps libre</div>
+  <h1 id="titre-session">Bilan inerWeb</h1>
+  <div class="sous" id="sous-titre">Cockpit Frigo · 50 questions · ~ 1 h · temps libre</div>
   <div class="meta">📅 <span id="date-jour">—</span></div>
 </div>
 
@@ -221,16 +221,39 @@ document.getElementById('btn-projo').addEventListener('click', () => {
   }
 });
 
-// QR code — auto-détecte l'URL courante (locale ou github pages) + intègre classe + passphrase
+// Config publique chargée depuis Apps Script (titre, sous-titre, mdp d'épreuve)
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxsBftvAR73qXbWIqSDm2pIgNMHtMHq5QDJaCVQ_9tp0iVjGv6LxAch49bvVVhOMyJ4/exec';
+
+(async function appliquerConfigPublique() {
+  try {
+    const r = await fetch(APPS_SCRIPT_URL + '?action=get_config_publique');
+    const cfg = await r.json();
+    if (cfg && cfg.ok) {
+      if (cfg.titre_session) document.getElementById('titre-session').textContent = cfg.titre_session;
+      if (cfg.sous_titre) document.getElementById('sous-titre').textContent = cfg.sous_titre;
+    }
+  } catch(e) { /* fallback : valeurs HTML par défaut */ }
+})();
+
+// Mot de passe d'épreuve modifiable côté Sheet — récupéré au login par les élèves
+// (ici on l'affiche en gros mais c'est le prof qui décide)
+const PASSPHRASE = (function() {
+  // Permet de surcharger via URL : lancement.html?p=XXX
+  const m = location.search.match(/[?&]p=([^&]+)/);
+  return m ? decodeURIComponent(m[1]) : '2tne2526';
+})();
+
+// Met à jour l'affichage du mot de passe en gros sur la page (CSS-cible)
+document.querySelectorAll('.mdp-zone .val').forEach(el => el.textContent = PASSPHRASE);
+
+// QR code — URL générique, classe choisie par l'élève à la connexion
 (function genererQR() {
-  const PASSPHRASE = '2tne2526';
-  const CLASSE = '2TNE';
   const urlBase = (location.origin && location.origin !== 'null' && !location.origin.startsWith('file:'))
     ? location.origin + location.pathname.replace(/lancement\.html$/, '') + 'arcade.html'
     : 'https://frigorx.github.io/inerweb-bilan-tne/arcade.html';
-  const urlArcade = urlBase + '#classe=' + encodeURIComponent(CLASSE) + '&p=' + encodeURIComponent(PASSPHRASE);
+  // QR avec passphrase mais sans classe → l'élève choisit sa classe à la connexion
+  const urlArcade = urlBase + '#p=' + encodeURIComponent(PASSPHRASE);
 
-  // Affiche l'URL "humaine" (sans le # technique) pour ceux qui tapent à la main
   document.getElementById('url-arcade').textContent = urlBase;
 
   const zone = document.getElementById('qr-zone');

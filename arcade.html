@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Bilan d'année 2nde TNE — Cockpit Frigo · inerWeb Édu</title>
+<title>Bilan inerWeb — Cockpit Frigo · inerWeb Édu</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <style>
 :root {
@@ -204,8 +204,8 @@ label.lab { display: block; font-weight: bold; color: var(--bleu); margin: 12px 
   </header>
 
   <div class="bandeau-titre">
-    <h1>Bilan d'année — 2nde TNE</h1>
-    <div class="sous">Cockpit Frigo — 50 questions, ~1 h, temps libre</div>
+    <h1 id="titre-session">Bilan inerWeb</h1>
+    <div class="sous" id="sous-titre">50 questions · ~1 h · temps libre · Cockpit Frigo</div>
   </div>
 
   <div class="conteneur">
@@ -221,11 +221,10 @@ label.lab { display: block; font-weight: bold; color: var(--bleu); margin: 12px 
              enterkeyhint="go" maxlength="30">
       <div class="aide">Exemple : <em>Marie D.</em> &nbsp;ou&nbsp; <em>Lucas B.</em></div>
 
-      <!-- Sélecteur classe — masqué par défaut, visible si pas pré-sélectionnée -->
+      <!-- Sélecteur classe — généré dynamiquement depuis get_config_publique -->
       <div id="zone-classe" style="margin-top:14px; display:none">
         <label class="lab">Ta classe</label>
-        <button class="btn-classe" data-classe="2TNE">2<sup>nde</sup> TNE</button>
-        <button class="btn-classe" data-classe="TEST">TEST (essai)</button>
+        <div id="liste-classes"></div>
       </div>
 
       <!-- Mot de passe d'épreuve — masqué si déjà passé via URL -->
@@ -550,25 +549,49 @@ function obtenirMdpPerso() {
 }
 
 // Initialisation au chargement
-(function initEcranConnexion() {
+(async function initEcranConnexion() {
   const params = lireParamsHash();
+
+  // Charger config publique (titre + liste classes) sans bloquer l'UI
+  let config = null;
+  try {
+    const r = await api('get_config_publique', {}, 'GET');
+    if (r && r.ok) config = r;
+  } catch(e) {}
+
+  // Appliquer titre/sous-titre dynamiques si dispo
+  if (config) {
+    if (config.titre_session) $('titre-session').textContent = config.titre_session;
+    if (config.sous_titre) $('sous-titre').textContent = config.sous_titre;
+  }
+
+  // Liste de classes (depuis config ou défauts)
+  const classes = (config && config.classes && config.classes.length)
+    ? config.classes
+    : [{ code: '2TNE', label: '2nde TNE' }, { code: 'TEST', label: 'TEST (essai)' }];
 
   // Classe pré-sélectionnée par URL ?
   if (params.classe) {
     etat.classe = params.classe;
   } else {
-    // Pas de classe en URL → afficher les boutons de classe
+    // Génération dynamique des boutons classe
     $('zone-classe').style.display = 'block';
-    document.querySelectorAll('.btn-classe').forEach(b => {
-      b.addEventListener('click', () => {
+    const liste = $('liste-classes');
+    liste.innerHTML = '';
+    classes.forEach((c, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'btn-classe';
+      btn.dataset.classe = c.code;
+      btn.textContent = c.label;
+      btn.addEventListener('click', () => {
         document.querySelectorAll('.btn-classe').forEach(x => x.classList.remove('actif'));
-        b.classList.add('actif');
-        etat.classe = b.dataset.classe;
+        btn.classList.add('actif');
+        etat.classe = c.code;
       });
+      liste.appendChild(btn);
+      // Sélectionner la première par défaut
+      if (i === 0) { btn.classList.add('actif'); etat.classe = c.code; }
     });
-    // Sélectionner 2TNE par défaut
-    const defaut = document.querySelector('.btn-classe[data-classe="2TNE"]');
-    if (defaut) { defaut.classList.add('actif'); etat.classe = '2TNE'; }
   }
 
   // Passphrase pré-saisie par URL ?
