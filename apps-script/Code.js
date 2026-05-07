@@ -39,7 +39,7 @@ const HMAC_SECRET = 'inerWeb-FH-2026-bilan-tne-secret-hmac-key'; // Modifiable
 const MODULE = 'inerweb-bilan-tne';
 const VERSION = '1.0';
 
-const CLASSES_AUTORISEES = ['2TNE-A', '2TNE-B', '2TNE-C', 'TEST'];
+const CLASSES_AUTORISEES = ['2TNE', 'TEST'];
 const LIMITE_COMPTES_PAR_CLASSE = 40;
 const LOCKOUT_DUREE_MS = 5 * 60 * 1000;
 const LOCKOUT_MAX_ESSAIS = 5;
@@ -131,12 +131,10 @@ function initSheet(sh, nom) {
     case ONGLET_PARAMS:
       sh.appendRow(['cle', 'valeur']);
       const defauts = [
-        ['ouvert_2TNE-A', 'true'],
-        ['ouvert_2TNE-B', 'true'],
-        ['ouvert_2TNE-C', 'true'],
+        ['ouvert_2TNE', 'true'],
         ['ouvert_TEST', 'true'],
         ['code_lppjr', CODE_LPPJR],
-        ['code_aes', 'BILAN-TNE-2026'],
+        ['code_aes', '2tne2526'],
         ['date_debut_global', ''],
         ['date_fin_global', ''],
         ['max_tentatives', '1'],
