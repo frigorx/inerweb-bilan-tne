@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bilan TNE — Tableau de bord LIVE · inerWeb Édu</title>
+<style>
+:root { --bleu: #1b3a63; --orange: #ff6b35; --vert: #16a34a; --rouge: #dc2626; --jaune: #f59e0b; --gris: #6b7280; --gris-clair: #f5f7fa; --bord: #e5e7eb; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; font-family: 'Calibri','Segoe UI',Arial,sans-serif; font-size: 15px; line-height: 1.5; background: var(--gris-clair); color: #1f2937; }
+h1, h2, h3 { font-family: 'Trebuchet MS', sans-serif; font-weight: bold; color: var(--bleu); margin: 0; }
+button { font-family: inherit; cursor: pointer; }
+
+.entete-edu { background: var(--bleu); color: white; padding: 12px 20px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); position: relative; }
+.entete-edu::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--orange); }
+.flocon { font-size: 26px; }
+.nom-edu { font-family: 'Trebuchet MS', sans-serif; font-weight: bold; font-size: 22px; }
+.cartouche-edu { background: var(--orange); padding: 3px 10px; border-radius: 3px; font-size: 13px; font-weight: bold; }
+.signature-edu { margin-left: auto; color: rgba(255,255,255,0.7); font-size: 12px; font-style: italic; }
+
+.bandeau { background: linear-gradient(135deg, var(--bleu), #142848); color: white; padding: 18px 24px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.bandeau h1 { color: white; font-size: 22px; }
+.bandeau .raffinement { display: flex; gap: 10px; margin-left: auto; align-items: center; flex-wrap: wrap; }
+.bandeau select, .bandeau input { padding: 8px 12px; border-radius: 6px; border: none; font-size: 14px; font-family: inherit; }
+.bandeau button { padding: 8px 14px; border-radius: 6px; border: none; background: var(--orange); color: white; font-weight: bold; font-size: 14px; }
+
+#auth-bloc { max-width: 480px; margin: 60px auto; background: white; border-radius: 12px; padding: 28px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+#auth-bloc h2 { font-size: 20px; margin-bottom: 14px; color: var(--bleu); }
+#auth-bloc input { width: 100%; padding: 12px; font-size: 16px; border: 2px solid var(--bord); border-radius: 8px; margin-bottom: 12px; font-family: inherit; }
+#auth-bloc button { width: 100%; padding: 12px; background: var(--orange); color: white; font-size: 16px; font-weight: bold; border: none; border-radius: 8px; }
+#auth-msg { color: var(--rouge); margin-top: 8px; font-size: 14px; }
+
+#interface { display: none; padding: 16px; }
+
+.stats-grille { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.stat-card { background: white; border-radius: 10px; padding: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); text-align: center; }
+.stat-card .num { font-family: 'Trebuchet MS', sans-serif; font-weight: bold; font-size: 28px; color: var(--bleu); }
+.stat-card .lab { font-size: 12px; color: var(--gris); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+.stat-card.alerte .num { color: var(--rouge); }
+.stat-card.warn .num { color: var(--jaune); }
+.stat-card.ok .num { color: var(--vert); }
+
+.legende { background: white; border-radius: 10px; padding: 12px 14px; margin-bottom: 14px; display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; }
+.legende span { display: flex; align-items: center; gap: 6px; }
+.point { display: inline-block; width: 12px; height: 12px; border-radius: 50%; }
+.p-actif { background: var(--vert); }
+.p-lent { background: var(--jaune); }
+.p-suspect { background: var(--rouge); }
+.p-deconnecte { background: #4b5563; }
+.p-fini { background: var(--bleu); }
+
+table { width: 100%; background: white; border-radius: 10px; overflow: hidden; border-collapse: collapse; box-shadow: 0 2px 4px rgba(0,0,0,0.05); font-size: 14px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--bord); }
+th { background: var(--bleu); color: white; font-weight: bold; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+tr:last-child td { border-bottom: none; }
+tr.suspect td { background: #fef2f2; }
+tr.lent td { background: #fffbeb; }
+tr.deconnecte td { background: #f3f4f6; opacity: 0.7; }
+tr.fini td { background: #eff6ff; }
+
+.etat-cell { font-weight: bold; }
+.etat-cell.actif { color: var(--vert); }
+.etat-cell.lent { color: var(--jaune); }
+.etat-cell.suspect { color: var(--rouge); }
+.etat-cell.deconnecte { color: #4b5563; }
+.etat-cell.fini { color: var(--bleu); }
+
+.barre-mini { display: inline-block; width: 60px; height: 8px; background: var(--bord); border-radius: 4px; overflow: hidden; vertical-align: middle; margin-right: 6px; }
+.barre-mini-rempl { height: 100%; background: var(--orange); }
+
+.alerte-tag { display: inline-block; background: var(--rouge); color: white; padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: bold; margin-right: 4px; }
+.warn-tag { background: var(--jaune); }
+
+.maj-info { font-size: 12px; color: var(--gris); margin-bottom: 12px; }
+.bouton-toggle { background: var(--vert); }
+.bouton-toggle.off { background: var(--gris); }
+</style>
+</head>
+<body>
+
+<header class="entete-edu">
+  <span class="flocon">❄</span>
+  <span class="nom-edu">inerWeb</span>
+  <span class="cartouche-edu">Édu</span>
+  <span class="signature-edu">Tableau de bord LIVE — Bilan 2nde TNE — F. Henninot</span>
+</header>
+
+<div id="auth-bloc">
+  <h2>🔒 Accès prof</h2>
+  <p>Entre le code prof pour voir le tableau de bord en direct.</p>
+  <input type="password" id="inp-code" placeholder="Code prof (LPPJR2026)" maxlength="40">
+  <button id="btn-auth">Voir le tableau LIVE</button>
+  <div id="auth-msg"></div>
+</div>
+
+<div id="interface">
+  <div class="bandeau">
+    <h1>🎮 Live — Bilan d'année 2nde TNE</h1>
+    <div class="raffinement">
+      <select id="filtre-classe">
+        <option value="TOUTES">Toutes classes</option>
+        <option value="2TNE-A">2TNE-A</option>
+        <option value="2TNE-B">2TNE-B</option>
+        <option value="2TNE-C">2TNE-C</option>
+        <option value="TEST">TEST</option>
+      </select>
+      <input type="text" id="filtre-pseudo" placeholder="🔍 Pseudo..." style="width:140px">
+      <button id="btn-pause" class="bouton-toggle">⏸ Pause</button>
+      <button id="btn-rafraichir">🔄 Refresh</button>
+    </div>
+  </div>
+
+  <div style="padding: 16px;">
+    <div class="maj-info" id="maj-info">Dernière mise à jour : —</div>
+
+    <!-- Stats globales -->
+    <div class="stats-grille" id="stats-grille"></div>
+
+    <!-- Légende -->
+    <div class="legende">
+      <span><span class="point p-actif"></span> Actif (heartbeat &lt; 30 s, action &lt; 1 min)</span>
+      <span><span class="point p-lent"></span> Lent (aucune réponse depuis 1+ min)</span>
+      <span><span class="point p-suspect"></span> Suspect (focus/devtools/3+ reconnects)</span>
+      <span><span class="point p-deconnecte"></span> Déconnecté (heartbeat &gt; 60 s)</span>
+      <span><span class="point p-fini"></span> Terminé</span>
+    </div>
+
+    <!-- Tableau -->
+    <table id="tbl-live">
+      <thead>
+        <tr>
+          <th>État</th>
+          <th>Pseudo</th>
+          <th>Nom</th>
+          <th>Classe</th>
+          <th>Avancement</th>
+          <th>Dernière action</th>
+          <th>Focus perdu</th>
+          <th>Reconnects</th>
+          <th>Alertes</th>
+        </tr>
+      </thead>
+      <tbody id="tbody-live">
+        <tr><td colspan="9" style="text-align:center; padding:20px; color:var(--gris)">Chargement...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxsBftvAR73qXbWIqSDm2pIgNMHtMHq5QDJaCVQ_9tp0iVjGv6LxAch49bvVVhOMyJ4/exec';
+const INTERVALLE_MS = 5000;
+let codeProf = '';
+let timerLive = null;
+let enPause = false;
+
+function $(id) { return document.getElementById(id); }
+
+async function api(action, params, methode) {
+  methode = methode || 'POST';
+  if (APPS_SCRIPT_URL.startsWith('__')) {
+    return { ok: false, error: 'APPS_SCRIPT_URL non configurée — éditer tableau-bord-live.html' };
+  }
+  const url = APPS_SCRIPT_URL + '?action=' + encodeURIComponent(action);
+  if (methode === 'GET') {
+    const qs = Object.keys(params || {}).map(k => k + '=' + encodeURIComponent(params[k])).join('&');
+    const r = await fetch(url + '&' + qs);
+    return await r.json();
+  }
+  const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(params || {}) });
+  return await r.json();
+}
+
+$('btn-auth').addEventListener('click', async () => {
+  const code = $('inp-code').value.trim();
+  $('auth-msg').textContent = '';
+  if (!code) { $('auth-msg').textContent = 'Code requis'; return; }
+  // Test : appeler live_status pour valider le code
+  const r = await api('live_status', { code: code });
+  if (!r.ok) { $('auth-msg').textContent = r.error || 'Échec'; return; }
+  codeProf = code;
+  try { sessionStorage.setItem('bilan_tne_prof_code', code); } catch(e) {}
+  $('auth-bloc').style.display = 'none';
+  $('interface').style.display = 'block';
+  rafraichir();
+  installerTimer();
+});
+
+// Auto-login si code en session storage
+try {
+  const c = sessionStorage.getItem('bilan_tne_prof_code');
+  if (c) { $('inp-code').value = c; $('btn-auth').click(); }
+} catch(e) {}
+
+$('inp-code').addEventListener('keypress', e => { if (e.key === 'Enter') $('btn-auth').click(); });
+$('filtre-classe').addEventListener('change', rafraichir);
+$('filtre-pseudo').addEventListener('input', rafraichir);
+$('btn-rafraichir').addEventListener('click', rafraichir);
+
+$('btn-pause').addEventListener('click', () => {
+  enPause = !enPause;
+  if (enPause) { if (timerLive) clearInterval(timerLive); $('btn-pause').textContent = '▶ Reprendre'; $('btn-pause').classList.add('off'); }
+  else { installerTimer(); $('btn-pause').textContent = '⏸ Pause'; $('btn-pause').classList.remove('off'); rafraichir(); }
+});
+
+function installerTimer() {
+  if (timerLive) clearInterval(timerLive);
+  timerLive = setInterval(rafraichir, INTERVALLE_MS);
+}
+
+async function rafraichir() {
+  const classe = $('filtre-classe').value;
+  const r = await api('live_status', { code: codeProf, classe: classe });
+  if (!r.ok) { $('tbody-live').innerHTML = '<tr><td colspan="9" style="text-align:center; color:var(--rouge);">Erreur : ' + (r.error || 'inconnu') + '</td></tr>'; return; }
+
+  // Filtre pseudo
+  const filtrePseudo = ($('filtre-pseudo').value || '').toUpperCase();
+  let sessions = r.sessions || [];
+  if (filtrePseudo) sessions = sessions.filter(s => (s.pseudo || '').toUpperCase().includes(filtrePseudo));
+
+  // Stats
+  const s = r.stats || {};
+  $('stats-grille').innerHTML = `
+    <div class="stat-card"><div class="num">${s.total || 0}</div><div class="lab">Connectés</div></div>
+    <div class="stat-card ok"><div class="num">${s.actifs || 0}</div><div class="lab">🟢 Actifs</div></div>
+    <div class="stat-card warn"><div class="num">${s.lents || 0}</div><div class="lab">🟡 Lents</div></div>
+    <div class="stat-card alerte"><div class="num">${s.suspects || 0}</div><div class="lab">🔴 Suspects</div></div>
+    <div class="stat-card"><div class="num">${s.deconnectes || 0}</div><div class="lab">⚫ Déconn.</div></div>
+    <div class="stat-card"><div class="num">${s.finis || 0}</div><div class="lab">✅ Finis</div></div>
+    <div class="stat-card"><div class="num">${s.avancement_moyen || 0}</div><div class="lab">Avanc. moyen / 50</div></div>
+    <div class="stat-card alerte"><div class="num">${s.alertes_devtools || 0}</div><div class="lab">⚠ DevTools</div></div>
+  `;
+
+  // Tableau
+  if (sessions.length === 0) {
+    $('tbody-live').innerHTML = '<tr><td colspan="9" style="text-align:center; padding:20px; color:var(--gris)">Aucun élève connecté pour le moment</td></tr>';
+  } else {
+    $('tbody-live').innerHTML = sessions.map(s => ligneSession(s)).join('');
+  }
+
+  $('maj-info').textContent = 'Dernière mise à jour : ' + new Date().toLocaleTimeString('fr-FR') + ' — serveur : ' + (r.ts_serveur || '—');
+}
+
+function ligneSession(s) {
+  const pct = Math.min(100, Math.round(s.q_repondues / 50 * 100));
+  const dernActSec = s.gap_action_sec;
+  let derAct;
+  if (s.fini) derAct = '✅ terminé';
+  else if (dernActSec < 10) derAct = 'à l\'instant';
+  else if (dernActSec < 60) derAct = 'il y a ' + dernActSec + ' s';
+  else if (dernActSec < 3600) derAct = 'il y a ' + Math.floor(dernActSec / 60) + ' min ' + (dernActSec % 60) + ' s';
+  else derAct = 'il y a ' + Math.floor(dernActSec / 3600) + ' h';
+
+  const etatLabel = { 'actif': '🟢 actif', 'lent': '🟡 lent', 'suspect': '🔴 suspect', 'deconnecte': '⚫ déconn.', 'fini': '✅ fini' }[s.etat] || s.etat;
+
+  let alertes = '';
+  if (s.devtools_count > 0) alertes += '<span class="alerte-tag">DevTools</span>';
+  if (s.token_changes > 0) alertes += '<span class="alerte-tag">Token</span>';
+  if (s.reconnect_count >= 3) alertes += '<span class="alerte-tag">Reconnect ' + s.reconnect_count + '×</span>';
+  else if (s.reconnect_count > 0) alertes += '<span class="alerte-tag warn-tag">Reconnect ' + s.reconnect_count + '×</span>';
+  if (s.focus_perdu_count >= 3) alertes += '<span class="alerte-tag">Focus ' + s.focus_perdu_count + '×</span>';
+  else if (s.focus_perdu_count > 0) alertes += '<span class="alerte-tag warn-tag">Focus ' + s.focus_perdu_count + '×</span>';
+  if (!alertes) alertes = '<span style="color:var(--gris)">—</span>';
+
+  const note = s.fini && s.note_20 ? ' · <strong>' + s.note_20 + '/20</strong>' : '';
+
+  return `<tr class="${s.etat}">
+    <td class="etat-cell ${s.etat}">${etatLabel}${note}</td>
+    <td><strong>${s.pseudo}</strong></td>
+    <td>${s.nom_initiale || '—'}</td>
+    <td>${s.classe}</td>
+    <td><span class="barre-mini"><span class="barre-mini-rempl" style="width:${pct}%"></span></span> ${s.q_repondues} / 50</td>
+    <td>${derAct}</td>
+    <td>${s.focus_perdu_count}</td>
+    <td>${s.reconnect_count}</td>
+    <td>${alertes}</td>
+  </tr>`;
+}
+</script>
+</body>
+</html>

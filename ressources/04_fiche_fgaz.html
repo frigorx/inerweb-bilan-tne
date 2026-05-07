@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Fiche 04 — F-GAZ III — 2nde TNE</title>
+<style>
+  *{box-sizing:border-box}
+  body{font-family:Calibri,"Segoe UI",Arial,sans-serif;font-size:14pt;line-height:1.5;color:#000;background:#fff;margin:0;padding:20px 30px;text-align:left}
+  h1,h2,h3{font-family:"Trebuchet MS",sans-serif;font-weight:bold;color:#1b3a63;text-align:left}
+  h1{font-size:22pt;margin:6px 0 4px 0}
+  h2{font-size:16pt;border-bottom:2px solid #1b3a63;padding-bottom:3px;margin-top:18px}
+  h3{font-size:14pt;color:#ff6b35;margin:12px 0 6px 0}
+  .entete{display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #1b3a63;padding-bottom:8px;margin-bottom:12px}
+  .logo{display:flex;align-items:center;gap:8px;font-family:"Trebuchet MS",sans-serif}
+  .flocon{color:#1b3a63;font-size:24pt}
+  .nom{color:#1b3a63;font-weight:bold;font-size:20pt}
+  .cartouche{background:#ff6b35;color:#fff;padding:2px 8px;border-radius:4px;font-weight:bold;font-size:14pt}
+  .signature{color:#666;font-size:11pt}
+  .btn-print{background:#1b3a63;color:#fff;border:none;padding:8px 14px;border-radius:6px;font-size:12pt;cursor:pointer;font-family:Calibri,sans-serif}
+  .btn-print:hover{background:#ff6b35}
+  .encadre-orange{background:#fff3e0;border-left:4px solid #ff6b35;padding:12px;margin:12px 0;border-radius:4px}
+  .encadre-rouge{background:#ffebee;border-left:4px solid #c62828;padding:12px;margin:12px 0;border-radius:4px}
+  .encadre-vert{background:#e8f5e9;border-left:4px solid #2e7d32;padding:12px;margin:12px 0;border-radius:4px}
+  .encadre-bleu{background:#e3f0fc;border-left:4px solid #1b3a63;padding:12px;margin:12px 0;border-radius:4px}
+  ul{margin:6px 0 6px 20px;padding:0}
+  li{margin:4px 0}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13pt}
+  th{background:#1b3a63;color:#fff;padding:6px;text-align:left;font-family:"Trebuchet MS",sans-serif}
+  td{border:1px solid #ccc;padding:6px;vertical-align:top}
+  tr:nth-child(even) td{background:#f7f9fc}
+  .danger{color:#c62828;font-weight:bold}
+  .ok{color:#2e7d32;font-weight:bold}
+  .meta{color:#666;font-size:11pt}
+  footer{margin-top:18px;border-top:1px solid #ccc;padding-top:8px;color:#666;font-size:11pt}
+  .bandeau-fiche{background:#1b3a63;color:#fff;padding:6px 12px;border-radius:4px;display:inline-block;font-family:"Trebuchet MS",sans-serif;font-weight:bold;margin-bottom:6px}
+  .header-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  @media print{body{padding:10mm}.btn-print{display:none}h2{page-break-after:avoid}table,.encadre-orange,.encadre-rouge,.encadre-vert,.encadre-bleu{page-break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<header class="entete">
+  <div class="logo">
+    <span class="flocon">❄</span>
+    <span class="nom">inerWeb</span>
+    <span class="cartouche">Édu</span>
+  </div>
+  <div class="signature">par F. Henninot — LP Privé Jacques Raynaud · Campus ÉQUATIO Marseille</div>
+</header>
+
+<div class="header-row">
+  <div>
+    <div class="bandeau-fiche">FICHE 04 · 2nde TNE</div>
+    <h1>Réglementation F-GAZ III</h1>
+    <div class="meta">Catégories I à V · GWP des fluides · Seuils tCO₂eq · Récupération</div>
+  </div>
+  <button class="btn-print" onclick="window.print()">📥 Imprimer</button>
+</div>
+
+<h2>1. Cadre réglementaire</h2>
+<div class="encadre-bleu">Règlement européen <strong>F-GAZ III (2024/573)</strong>, transposé en France par les <strong>arrêtés du 21 novembre 2025</strong>. Objectif : réduire les émissions de fluides à effet de serre.</div>
+
+<h2>2. Les 5 catégories d'attestation d'aptitude</h2>
+<table>
+<tr><th>Catégorie</th><th>Domaine d'intervention</th></tr>
+<tr><td><strong>I</strong></td><td>Toutes opérations · pleine compétence (frigoriste polyvalent)</td></tr>
+<tr><td><strong>II</strong></td><td>Circuits contenant <strong>&lt; 3 kg</strong> de fluide ou <strong>hermétiques &lt; 6 kg</strong></td></tr>
+<tr><td><strong>III</strong></td><td>Récupération sur équipements <strong>hermétiques &lt; 3 kg</strong></td></tr>
+<tr><td><strong>IV</strong></td><td>Contrôle d'étanchéité <strong>sans manipulation</strong> de fluide</td></tr>
+<tr><td><strong>V</strong></td><td>Camions et remorques frigorifiques (transport)</td></tr>
+</table>
+
+<h2>3. GWP — Pouvoir de Réchauffement Global</h2>
+<div class="encadre-orange">Le <strong>GWP</strong> mesure l'impact d'un fluide sur le climat par rapport au CO₂ (référence GWP = 1 sur 100 ans).</div>
+<table>
+<tr><th>Fluide</th><th>Famille</th><th>GWP</th></tr>
+<tr><td><strong>R744</strong> (CO₂)</td><td>Naturel</td><td><span class="ok">1</span></td></tr>
+<tr><td><strong>R290</strong> (propane)</td><td>HC naturel</td><td><span class="ok">3</span></td></tr>
+<tr><td><strong>R1234yf</strong></td><td>HFO</td><td><span class="ok">4</span></td></tr>
+<tr><td><strong>R454B</strong></td><td>HFO/HFC mix</td><td>466</td></tr>
+<tr><td><strong>R32</strong></td><td>HFC</td><td>675</td></tr>
+</table>
+
+<h2>4. Seuils de contrôle d'étanchéité (en tCO₂eq)</h2>
+<table>
+<tr><th>Charge équivalente</th><th>Fréquence du contrôle</th></tr>
+<tr><td>≥ <strong>5 tCO₂eq</strong></td><td>1 fois / 12 mois</td></tr>
+<tr><td>≥ <strong>50 tCO₂eq</strong></td><td>1 fois / 6 mois</td></tr>
+<tr><td>≥ <strong>500 tCO₂eq</strong></td><td>1 fois / 3 mois (+ détecteur fixe)</td></tr>
+</table>
+<div class="encadre-bleu"><strong>Calcul :</strong> tCO₂eq = (charge en kg × GWP) ÷ 1000</div>
+
+<h2>5. Récupération obligatoire</h2>
+<ul>
+  <li>Récupération <strong>obligatoire</strong> en fin de vie de l'équipement</li>
+  <li>Récupération avant toute opération sur le circuit</li>
+  <li>Bouteille de récupération dédiée (jamais bouteille de fluide neuf)</li>
+  <li><strong>Bordereau de Suivi de Déchets (BSD)</strong> à compléter</li>
+</ul>
+
+<div class="encadre-rouge"><span class="danger">INTERDIT —</span> Rejet à l'atmosphère = délit, amende et peine de prison. Toute manipulation hors attestation est sanctionnée.</div>
+
+<h2>6. Documents obligatoires de l'entreprise</h2>
+<ul>
+  <li><strong>Attestation de capacité</strong> de l'entreprise (auprès d'un organisme agréé)</li>
+  <li><strong>Attestation d'aptitude</strong> personnelle de l'opérateur</li>
+  <li><strong>Journal de suivi</strong> par équipement (CERFA 15497*04)</li>
+  <li>Registre des manipulations (charge, récupération, contrôles)</li>
+</ul>
+
+<div class="encadre-vert"><span class="ok">Bonne pratique —</span> Préférer dès la conception les fluides à <strong>faible GWP</strong> : R290, R744, R1234yf. C'est l'avenir du métier.</div>
+
+<footer>
+  LP Privé Jacques Raynaud — Campus ÉQUATIO · F. Henninot · 2026<br>
+  <span class="meta">Données traitées par F. Henninot, enseignant LP Jacques Raynaud. Stockage local. Aucune donnée personnelle élève dans ces fiches.</span>
+</footer>
+
+</body>
+</html>

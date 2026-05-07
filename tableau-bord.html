@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bilan TNE — Tableau de bord BILAN · inerWeb Édu</title>
+<style>
+:root { --bleu: #1b3a63; --orange: #ff6b35; --vert: #16a34a; --rouge: #dc2626; --jaune: #f59e0b; --gris: #6b7280; --gris-clair: #f5f7fa; --bord: #e5e7eb; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; font-family: 'Calibri','Segoe UI',Arial,sans-serif; font-size: 15px; line-height: 1.5; background: var(--gris-clair); color: #1f2937; }
+h1, h2, h3 { font-family: 'Trebuchet MS', sans-serif; font-weight: bold; color: var(--bleu); margin: 0; }
+button { font-family: inherit; cursor: pointer; }
+
+.entete-edu { background: var(--bleu); color: white; padding: 12px 20px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); position: relative; }
+.entete-edu::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--orange); }
+.flocon { font-size: 26px; }
+.nom-edu { font-family: 'Trebuchet MS', sans-serif; font-weight: bold; font-size: 22px; }
+.cartouche-edu { background: var(--orange); padding: 3px 10px; border-radius: 3px; font-size: 13px; font-weight: bold; }
+.signature-edu { margin-left: auto; color: rgba(255,255,255,0.7); font-size: 12px; font-style: italic; }
+
+.bandeau { background: linear-gradient(135deg, var(--bleu), #142848); color: white; padding: 18px 24px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.bandeau h1 { color: white; font-size: 22px; }
+.bandeau .raffinement { display: flex; gap: 10px; margin-left: auto; align-items: center; flex-wrap: wrap; }
+.bandeau select, .bandeau input { padding: 8px 12px; border-radius: 6px; border: none; font-size: 14px; font-family: inherit; }
+.bandeau button { padding: 8px 14px; border-radius: 6px; border: none; background: var(--orange); color: white; font-weight: bold; font-size: 14px; }
+
+#auth-bloc { max-width: 480px; margin: 60px auto; background: white; border-radius: 12px; padding: 28px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+#auth-bloc h2 { font-size: 20px; margin-bottom: 14px; color: var(--bleu); }
+#auth-bloc input { width: 100%; padding: 12px; font-size: 16px; border: 2px solid var(--bord); border-radius: 8px; margin-bottom: 12px; font-family: inherit; }
+#auth-bloc button { width: 100%; padding: 12px; background: var(--orange); color: white; font-size: 16px; font-weight: bold; border: none; border-radius: 8px; }
+#auth-msg { color: var(--rouge); margin-top: 8px; font-size: 14px; }
+
+#interface { display: none; padding: 16px; }
+
+.onglets { background: white; border-radius: 10px; padding: 6px; display: inline-flex; gap: 4px; margin-bottom: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+.onglet { padding: 10px 16px; border-radius: 6px; border: none; background: transparent; color: var(--gris); font-weight: bold; cursor: pointer; }
+.onglet.actif { background: var(--bleu); color: white; }
+
+.vue { display: none; }
+.vue.actif { display: block; }
+
+.stats-grille { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.stat-card { background: white; border-radius: 10px; padding: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); text-align: center; }
+.stat-card .num { font-family: 'Trebuchet MS', sans-serif; font-weight: bold; font-size: 28px; color: var(--bleu); }
+.stat-card .lab { font-size: 12px; color: var(--gris); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+table { width: 100%; background: white; border-radius: 10px; overflow: hidden; border-collapse: collapse; box-shadow: 0 2px 4px rgba(0,0,0,0.05); font-size: 14px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--bord); }
+th { background: var(--bleu); color: white; font-weight: bold; font-size: 12px; text-transform: uppercase; }
+tr:last-child td { border-bottom: none; }
+tr.invalidee td { background: #f3f4f6; opacity: 0.6; text-decoration: line-through; }
+
+.note-cell { font-weight: bold; font-family: 'Trebuchet MS', sans-serif; font-size: 16px; }
+.note-cell.fort { color: var(--vert); }
+.note-cell.moyen { color: var(--jaune); }
+.note-cell.faible { color: var(--rouge); }
+
+.alerte-tag { display: inline-block; background: var(--rouge); color: white; padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: bold; margin-right: 4px; }
+.warn-tag { background: var(--jaune); }
+
+.btn-detail { padding: 5px 10px; background: white; border: 1px solid var(--bleu); color: var(--bleu); border-radius: 5px; font-size: 12px; cursor: pointer; }
+
+.modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+.modal.actif { display: flex; }
+.modal-contenu { background: white; border-radius: 12px; max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 24px; }
+.modal-contenu h2 { margin-bottom: 14px; }
+.modal-fermer { float: right; cursor: pointer; font-size: 24px; color: var(--gris); }
+
+.heatmap { display: grid; gap: 4px; background: white; padding: 14px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 16px; }
+.heatmap-cell { padding: 12px 8px; text-align: center; font-size: 12px; font-weight: bold; border-radius: 4px; }
+.heatmap-cell.h-fort { background: #d1fae5; color: #065f46; }
+.heatmap-cell.h-moyen { background: #fef3c7; color: #92400e; }
+.heatmap-cell.h-faible { background: #fee2e2; color: #991b1b; }
+.heatmap-cell.h-vide { background: var(--gris-clair); color: var(--gris); }
+.heatmap-cell.h-titre { background: var(--bleu); color: white; }
+
+.maj-info { font-size: 12px; color: var(--gris); margin-bottom: 12px; }
+.lien-live { color: var(--orange); font-weight: bold; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header class="entete-edu">
+  <span class="flocon">❄</span>
+  <span class="nom-edu">inerWeb</span>
+  <span class="cartouche-edu">Édu</span>
+  <span class="signature-edu">Tableau de bord BILAN — F. Henninot</span>
+</header>
+
+<div id="auth-bloc">
+  <h2>🔒 Accès prof</h2>
+  <p>Entre le code prof pour voir le bilan post-épreuve.</p>
+  <input type="password" id="inp-code" placeholder="Code prof (LPPJR2026)" maxlength="40">
+  <button id="btn-auth">Voir le bilan</button>
+  <div id="auth-msg"></div>
+  <p style="margin-top:14px; font-size:13px; color:var(--gris)">
+    👉 Pour la <strong>surveillance temps réel</strong> pendant l'épreuve, ouvre <a href="tableau-bord-live.html" class="lien-live">tableau-bord-live.html</a>
+  </p>
+</div>
+
+<div id="interface">
+  <div class="bandeau">
+    <h1>📊 Bilan d'année 2nde TNE — Vue prof</h1>
+    <div class="raffinement">
+      <select id="filtre-classe">
+        <option value="TOUTES">Toutes classes</option>
+        <option value="2TNE-A">2TNE-A</option>
+        <option value="2TNE-B">2TNE-B</option>
+        <option value="2TNE-C">2TNE-C</option>
+        <option value="TEST">TEST</option>
+      </select>
+      <button id="btn-export">📥 Export CSV</button>
+      <button id="btn-rafraichir">🔄</button>
+      <a href="tableau-bord-live.html" style="text-decoration:none"><button style="background:var(--vert)">🟢 LIVE</button></a>
+    </div>
+  </div>
+
+  <div style="padding:16px;">
+    <div class="onglets">
+      <button class="onglet actif" data-vue="liste">📋 Liste élèves</button>
+      <button class="onglet" data-vue="heatmap">🌡 Heatmap thèmes</button>
+      <button class="onglet" data-vue="moyenne">📐 Radar classe</button>
+      <button class="onglet" data-vue="alertes">⚠ Alertes</button>
+    </div>
+
+    <div class="maj-info" id="maj-info">—</div>
+
+    <!-- VUE LISTE -->
+    <div class="vue actif" id="vue-liste">
+      <div class="stats-grille" id="stats-grille"></div>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th><th>Pseudo</th><th>Nom</th><th>Classe</th>
+            <th>Note /20</th><th>Score</th><th>Durée</th>
+            <th>Alertes</th><th>Détail</th>
+          </tr>
+        </thead>
+        <tbody id="tbody-resultats">
+          <tr><td colspan="9" style="text-align:center; padding:20px; color:var(--gris)">Chargement...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- VUE HEATMAP -->
+    <div class="vue" id="vue-heatmap">
+      <h2 style="margin-bottom:14px">🌡 Réussite par thème</h2>
+      <p style="color:var(--gris); margin-bottom:14px">Pourcentage moyen de réussite par thème pour chaque classe. Vert = solide, jaune = à consolider, rouge = à retravailler en priorité.</p>
+      <div id="heatmap-zone"></div>
+    </div>
+
+    <!-- VUE RADAR MOYEN -->
+    <div class="vue" id="vue-moyenne">
+      <h2 style="margin-bottom:14px">📐 Radar moyen</h2>
+      <p style="color:var(--gris); margin-bottom:14px">Profil moyen de la classe sélectionnée sur les 9 thèmes du bilan.</p>
+      <div style="background:white; border-radius:10px; padding:20px; box-shadow:0 2px 4px rgba(0,0,0,0.05); display:flex; justify-content:center;">
+        <canvas id="radar-classe" width="500" height="500" style="max-width:100%; height:auto;"></canvas>
+      </div>
+    </div>
+
+    <!-- VUE ALERTES -->
+    <div class="vue" id="vue-alertes">
+      <h2 style="margin-bottom:14px">⚠ Élèves avec alertes anti-triche</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Pseudo</th><th>Nom</th><th>Classe</th>
+            <th>Focus perdu</th><th>Reconnects</th><th>Token</th><th>DevTools</th>
+            <th>Note</th><th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="tbody-alertes">
+          <tr><td colspan="9" style="text-align:center; padding:20px; color:var(--gris)">Chargement...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal détail élève -->
+<div class="modal" id="modal-detail">
+  <div class="modal-contenu">
+    <span class="modal-fermer" id="modal-fermer">×</span>
+    <h2 id="modal-titre">Détail élève</h2>
+    <div id="modal-corps"></div>
+  </div>
+</div>
+
+<script>
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxsBftvAR73qXbWIqSDm2pIgNMHtMHq5QDJaCVQ_9tp0iVjGv6LxAch49bvVVhOMyJ4/exec';
+let codeProf = '';
+let resultatsCache = [];
+let themesNoms = [
+  { id: 'secu_elec', label: 'Sécurité élec' },
+  { id: 'hauteur', label: 'Hauteur' },
+  { id: 'responsabilite', label: 'Responsabilité' },
+  { id: 'fgaz', label: 'F-GAZ' },
+  { id: 'thermo', label: 'Thermo' },
+  { id: 'frigo', label: 'Composants frigo' },
+  { id: 'electrotech', label: 'Électrotech' },
+  { id: 'ri_classe', label: 'RI / vie classe' },
+  { id: 'orientation', label: 'Orientation' }
+];
+
+function $(id) { return document.getElementById(id); }
+
+async function api(action, params, methode) {
+  methode = methode || 'POST';
+  if (APPS_SCRIPT_URL.startsWith('__')) return { ok: false, error: 'APPS_SCRIPT_URL non configurée' };
+  const url = APPS_SCRIPT_URL + '?action=' + encodeURIComponent(action);
+  if (methode === 'GET') {
+    const qs = Object.keys(params || {}).map(k => k + '=' + encodeURIComponent(params[k])).join('&');
+    const r = await fetch(url + '&' + qs);
+    return await r.json();
+  }
+  const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(params || {}) });
+  return await r.json();
+}
+
+$('btn-auth').addEventListener('click', async () => {
+  const code = $('inp-code').value.trim();
+  $('auth-msg').textContent = '';
+  if (!code) { $('auth-msg').textContent = 'Code requis'; return; }
+  const r = await api('list_results', { code: code });
+  if (!r.ok) { $('auth-msg').textContent = r.error || 'Échec'; return; }
+  codeProf = code;
+  try { sessionStorage.setItem('bilan_tne_prof_code', code); } catch(e) {}
+  $('auth-bloc').style.display = 'none';
+  $('interface').style.display = 'block';
+  rafraichir();
+});
+
+try {
+  const c = sessionStorage.getItem('bilan_tne_prof_code');
+  if (c) { $('inp-code').value = c; $('btn-auth').click(); }
+} catch(e) {}
+
+$('inp-code').addEventListener('keypress', e => { if (e.key === 'Enter') $('btn-auth').click(); });
+$('filtre-classe').addEventListener('change', rafraichir);
+$('btn-rafraichir').addEventListener('click', rafraichir);
+
+document.querySelectorAll('.onglet').forEach(o => {
+  o.addEventListener('click', () => {
+    document.querySelectorAll('.onglet').forEach(x => x.classList.remove('actif'));
+    document.querySelectorAll('.vue').forEach(x => x.classList.remove('actif'));
+    o.classList.add('actif');
+    $('vue-' + o.dataset.vue).classList.add('actif');
+    if (o.dataset.vue === 'heatmap') dessinerHeatmap();
+    if (o.dataset.vue === 'moyenne') dessinerRadarMoyen();
+    if (o.dataset.vue === 'alertes') afficherAlertes();
+  });
+});
+
+async function rafraichir() {
+  const classe = $('filtre-classe').value;
+  const r = await api('list_results', { code: codeProf, classe: classe });
+  if (!r.ok) { $('tbody-resultats').innerHTML = '<tr><td colspan="9" style="text-align:center; color:var(--rouge)">Erreur : ' + r.error + '</td></tr>'; return; }
+  resultatsCache = r.resultats || [];
+  afficherListe();
+  $('maj-info').textContent = 'Dernière mise à jour : ' + new Date().toLocaleString('fr-FR') + ' — ' + resultatsCache.length + ' résultats chargés.';
+}
+
+function afficherListe() {
+  // Stats
+  const valides = resultatsCache.filter(r => !r.invalidee);
+  const moyenne = valides.length ? (valides.reduce((s, r) => s + parseFloat(r.note_20 || 0), 0) / valides.length) : 0;
+  const reussite = valides.filter(r => parseFloat(r.note_20) >= 10).length;
+  const echec = valides.filter(r => parseFloat(r.note_20) < 10).length;
+  const dureeM = valides.length ? Math.round(valides.reduce((s, r) => s + parseInt(r.duree_sec || 0), 0) / valides.length / 60) : 0;
+  const alertes = valides.filter(r => parseInt(r.focus_perdu_count || 0) > 0 || parseInt(r.reconnect_count || 0) >= 3 || r.devtools_ouvert || parseInt(r.token_changes || 0) > 0).length;
+  $('stats-grille').innerHTML = `
+    <div class="stat-card"><div class="num">${valides.length}</div><div class="lab">Élèves passés</div></div>
+    <div class="stat-card"><div class="num">${moyenne.toFixed(1)}</div><div class="lab">Moyenne /20</div></div>
+    <div class="stat-card"><div class="num" style="color:var(--vert)">${reussite}</div><div class="lab">≥ 10/20</div></div>
+    <div class="stat-card"><div class="num" style="color:var(--rouge)">${echec}</div><div class="lab">&lt; 10/20</div></div>
+    <div class="stat-card"><div class="num">${dureeM} min</div><div class="lab">Durée moyenne</div></div>
+    <div class="stat-card"><div class="num" style="color:var(--rouge)">${alertes}</div><div class="lab">⚠ Avec alertes</div></div>
+  `;
+
+  if (resultatsCache.length === 0) {
+    $('tbody-resultats').innerHTML = '<tr><td colspan="9" style="text-align:center; padding:20px; color:var(--gris)">Aucun résultat enregistré pour cette classe</td></tr>';
+    return;
+  }
+  $('tbody-resultats').innerHTML = resultatsCache.map(r => {
+    const note = parseFloat(r.note_20 || 0);
+    const cls = note >= 14 ? 'fort' : (note >= 10 ? 'moyen' : 'faible');
+    const date = (r.date || '').slice(0, 16).replace('T', ' ');
+    const dur = parseInt(r.duree_sec || 0);
+    const dureeStr = Math.floor(dur / 60) + ' min ' + (dur % 60) + ' s';
+    let alertes = '';
+    if (r.devtools_ouvert) alertes += '<span class="alerte-tag">DevTools</span>';
+    if (parseInt(r.token_changes || 0) > 0) alertes += '<span class="alerte-tag">Token</span>';
+    if (parseInt(r.reconnect_count || 0) >= 3) alertes += '<span class="alerte-tag">Reconnect</span>';
+    if (parseInt(r.focus_perdu_count || 0) >= 3) alertes += '<span class="alerte-tag">Focus</span>';
+    if (!alertes) alertes = '<span style="color:var(--gris)">—</span>';
+    return `<tr class="${r.invalidee ? 'invalidee' : ''}">
+      <td>${date}</td>
+      <td><strong>${r.pseudo}</strong></td>
+      <td>${r.nom_initiale || '—'}</td>
+      <td>${r.classe}</td>
+      <td class="note-cell ${cls}">${note.toFixed(1)} / 20</td>
+      <td>${r.nb_correctes} / ${r.nb_questions}</td>
+      <td>${dureeStr}</td>
+      <td>${alertes}</td>
+      <td><button class="btn-detail" onclick="afficherDetail(${r._row})">Détail</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function afficherAlertes() {
+  const avec = resultatsCache.filter(r => parseInt(r.focus_perdu_count || 0) > 0 || parseInt(r.reconnect_count || 0) > 0 || r.devtools_ouvert || parseInt(r.token_changes || 0) > 0);
+  if (avec.length === 0) {
+    $('tbody-alertes').innerHTML = '<tr><td colspan="9" style="text-align:center; padding:20px; color:var(--gris)">✅ Aucune alerte sur les résultats de cette classe</td></tr>';
+    return;
+  }
+  $('tbody-alertes').innerHTML = avec.map(r => {
+    const note = parseFloat(r.note_20 || 0);
+    return `<tr>
+      <td><strong>${r.pseudo}</strong></td>
+      <td>${r.nom_initiale || '—'}</td>
+      <td>${r.classe}</td>
+      <td>${r.focus_perdu_count || 0}</td>
+      <td>${r.reconnect_count || 0}</td>
+      <td>${r.token_changes || 0}</td>
+      <td>${r.devtools_ouvert ? '<span class="alerte-tag">OUI</span>' : '—'}</td>
+      <td>${note.toFixed(1)}</td>
+      <td><button class="btn-detail" onclick="afficherDetail(${r._row})">Détail</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function dessinerHeatmap() {
+  // Calcul moyenne par classe × thème
+  const classes = [...new Set(resultatsCache.map(r => r.classe))].sort();
+  const cellules = {};
+  classes.forEach(c => {
+    cellules[c] = {};
+    themesNoms.forEach(t => cellules[c][t.id] = { somme: 0, n: 0 });
+  });
+  resultatsCache.forEach(r => {
+    if (r.invalidee) return;
+    let sn;
+    try { sn = JSON.parse(r.sous_notes_themes || '{}'); } catch(e) { sn = {}; }
+    Object.keys(sn).forEach(k => {
+      if (cellules[r.classe] && cellules[r.classe][k]) {
+        cellules[r.classe][k].somme += sn[k].pct || 0;
+        cellules[r.classe][k].n += 1;
+      }
+    });
+  });
+
+  const cols = themesNoms.length + 1;
+  let html = '<div class="heatmap" style="grid-template-columns: repeat(' + cols + ', 1fr);">';
+  html += '<div class="heatmap-cell h-titre">Classe \\ Thème</div>';
+  themesNoms.forEach(t => { html += '<div class="heatmap-cell h-titre">' + t.label + '</div>'; });
+  classes.forEach(c => {
+    html += '<div class="heatmap-cell h-titre">' + c + '</div>';
+    themesNoms.forEach(t => {
+      const cel = cellules[c][t.id];
+      if (cel.n === 0) html += '<div class="heatmap-cell h-vide">—</div>';
+      else {
+        const pct = Math.round(cel.somme / cel.n);
+        const cls = pct >= 70 ? 'h-fort' : (pct >= 50 ? 'h-moyen' : 'h-faible');
+        html += '<div class="heatmap-cell ' + cls + '">' + pct + ' %</div>';
+      }
+    });
+  });
+  html += '</div>';
+  $('heatmap-zone').innerHTML = html;
+}
+
+function dessinerRadarMoyen() {
+  // Moyenne tous résultats valides
+  const moyennes = themesNoms.map(t => ({ label: t.label, total: 0, n: 0 }));
+  resultatsCache.forEach(r => {
+    if (r.invalidee) return;
+    let sn;
+    try { sn = JSON.parse(r.sous_notes_themes || '{}'); } catch(e) { sn = {}; }
+    themesNoms.forEach((t, i) => {
+      if (sn[t.id] && typeof sn[t.id].pct === 'number') {
+        moyennes[i].total += sn[t.id].pct;
+        moyennes[i].n += 1;
+      }
+    });
+  });
+  const data = moyennes.map(m => ({ label: m.label, pct: m.n > 0 ? Math.round(m.total / m.n) : 0 }));
+
+  const canvas = $('radar-classe');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const cx = W / 2, cy = H / 2;
+  const R = Math.min(W, H) / 2 - 60;
+  const N = data.length;
+  ctx.clearRect(0, 0, W, H);
+
+  // Grille
+  ctx.strokeStyle = '#d1d5db'; ctx.lineWidth = 1;
+  for (let r = 1; r <= 5; r++) {
+    ctx.beginPath();
+    for (let i = 0; i <= N; i++) {
+      const a = (i / N) * Math.PI * 2 - Math.PI / 2;
+      const x = cx + Math.cos(a) * R * (r / 5);
+      const y = cy + Math.sin(a) * R * (r / 5);
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  }
+  // Axes
+  ctx.strokeStyle = '#9ca3af';
+  for (let i = 0; i < N; i++) {
+    const a = (i / N) * Math.PI * 2 - Math.PI / 2;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + Math.cos(a) * R, cy + Math.sin(a) * R);
+    ctx.stroke();
+  }
+  // Polygone
+  ctx.fillStyle = 'rgba(255, 107, 53, 0.35)';
+  ctx.strokeStyle = '#ff6b35';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  data.forEach((s, i) => {
+    const a = (i / N) * Math.PI * 2 - Math.PI / 2;
+    const r = R * (s.pct / 100);
+    const x = cx + Math.cos(a) * r;
+    const y = cy + Math.sin(a) * r;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  });
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+  // Labels
+  ctx.fillStyle = '#1b3a63';
+  ctx.font = 'bold 13px Calibri, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  data.forEach((s, i) => {
+    const a = (i / N) * Math.PI * 2 - Math.PI / 2;
+    const x = cx + Math.cos(a) * (R + 30);
+    const y = cy + Math.sin(a) * (R + 30);
+    ctx.fillText(s.label + ' ' + s.pct + '%', x, y);
+  });
+}
+
+function afficherDetail(row) {
+  const r = resultatsCache.find(x => x._row === row);
+  if (!r) return;
+  let sn = {};
+  try { sn = JSON.parse(r.sous_notes_themes || '{}'); } catch(e) {}
+  let detail = [];
+  try { detail = JSON.parse(r.detail_questions || '[]'); } catch(e) {}
+
+  let html = '<p><strong>' + r.pseudo + '</strong> · ' + (r.nom_initiale || '—') + ' · ' + r.classe + '</p>';
+  html += '<p>Note : <strong>' + parseFloat(r.note_20).toFixed(1) + ' / 20</strong> — ' + r.nb_correctes + ' bonnes / ' + r.nb_questions + '</p>';
+  html += '<p>Durée : ' + Math.floor(r.duree_sec / 60) + ' min ' + (r.duree_sec % 60) + ' s</p>';
+
+  if (Object.keys(sn).length > 0) {
+    html += '<h3 style="margin-top:14px">Sous-notes par thème</h3><table style="margin-top:8px"><thead><tr><th>Thème</th><th>Score</th><th>%</th></tr></thead><tbody>';
+    Object.values(sn).forEach(s => {
+      const pct = s.pct || 0;
+      const cls = pct >= 70 ? 'fort' : (pct >= 50 ? 'moyen' : 'faible');
+      html += '<tr><td>' + s.label + '</td><td>' + s.correct + ' / ' + s.total + '</td><td class="note-cell ' + cls + '">' + pct + ' %</td></tr>';
+    });
+    html += '</tbody></table>';
+  }
+
+  html += '<h3 style="margin-top:14px">Anti-triche</h3>';
+  html += '<ul><li>Focus perdu : ' + (r.focus_perdu_count || 0) + '</li>';
+  html += '<li>Reconnexions : ' + (r.reconnect_count || 0) + '</li>';
+  html += '<li>Token changes : ' + (r.token_changes || 0) + '</li>';
+  html += '<li>DevTools détecté : ' + (r.devtools_ouvert ? 'OUI' : 'non') + '</li></ul>';
+
+  $('modal-titre').textContent = '📋 Détail — ' + r.pseudo;
+  $('modal-corps').innerHTML = html;
+  $('modal-detail').classList.add('actif');
+}
+window.afficherDetail = afficherDetail;
+
+$('modal-fermer').addEventListener('click', () => $('modal-detail').classList.remove('actif'));
+$('modal-detail').addEventListener('click', e => { if (e.target.id === 'modal-detail') $('modal-detail').classList.remove('actif'); });
+
+$('btn-export').addEventListener('click', () => {
+  if (resultatsCache.length === 0) { alert('Aucun résultat à exporter'); return; }
+  const lignes = [['Date', 'Pseudo', 'Nom', 'Classe', 'Note/20', 'Bonnes', 'Total', 'Durée_sec', 'Focus_perdu', 'Reconnects', 'Token_changes', 'DevTools', 'Invalidée']];
+  resultatsCache.forEach(r => lignes.push([r.date, r.pseudo, r.nom_initiale || '', r.classe, r.note_20, r.nb_correctes, r.nb_questions, r.duree_sec, r.focus_perdu_count, r.reconnect_count, r.token_changes, r.devtools_ouvert ? 'oui' : 'non', r.invalidee ? 'oui' : 'non']));
+  const csv = lignes.map(l => l.map(c => '"' + String(c || '').replace(/"/g, '""') + '"').join(';')).join('\n');
+  const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'bilan-tne_' + new Date().toISOString().slice(0, 10) + '.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+});
+</script>
+</body>
+</html>

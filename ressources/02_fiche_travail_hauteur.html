@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Fiche 02 — Travail en hauteur — 2nde TNE</title>
+<style>
+  *{box-sizing:border-box}
+  body{font-family:Calibri,"Segoe UI",Arial,sans-serif;font-size:14pt;line-height:1.5;color:#000;background:#fff;margin:0;padding:20px 30px;text-align:left}
+  h1,h2,h3{font-family:"Trebuchet MS",sans-serif;font-weight:bold;color:#1b3a63;text-align:left}
+  h1{font-size:22pt;margin:6px 0 4px 0}
+  h2{font-size:16pt;border-bottom:2px solid #1b3a63;padding-bottom:3px;margin-top:18px}
+  h3{font-size:14pt;color:#ff6b35;margin:12px 0 6px 0}
+  .entete{display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #1b3a63;padding-bottom:8px;margin-bottom:12px}
+  .logo{display:flex;align-items:center;gap:8px;font-family:"Trebuchet MS",sans-serif}
+  .flocon{color:#1b3a63;font-size:24pt}
+  .nom{color:#1b3a63;font-weight:bold;font-size:20pt}
+  .cartouche{background:#ff6b35;color:#fff;padding:2px 8px;border-radius:4px;font-weight:bold;font-size:14pt}
+  .signature{color:#666;font-size:11pt}
+  .btn-print{background:#1b3a63;color:#fff;border:none;padding:8px 14px;border-radius:6px;font-size:12pt;cursor:pointer;font-family:Calibri,sans-serif}
+  .btn-print:hover{background:#ff6b35}
+  .encadre-orange{background:#fff3e0;border-left:4px solid #ff6b35;padding:12px;margin:12px 0;border-radius:4px}
+  .encadre-rouge{background:#ffebee;border-left:4px solid #c62828;padding:12px;margin:12px 0;border-radius:4px}
+  .encadre-vert{background:#e8f5e9;border-left:4px solid #2e7d32;padding:12px;margin:12px 0;border-radius:4px}
+  .encadre-bleu{background:#e3f0fc;border-left:4px solid #1b3a63;padding:12px;margin:12px 0;border-radius:4px}
+  ul{margin:6px 0 6px 20px;padding:0}
+  li{margin:4px 0}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13pt}
+  th{background:#1b3a63;color:#fff;padding:6px;text-align:left;font-family:"Trebuchet MS",sans-serif}
+  td{border:1px solid #ccc;padding:6px;vertical-align:top}
+  tr:nth-child(even) td{background:#f7f9fc}
+  .danger{color:#c62828;font-weight:bold}
+  .ok{color:#2e7d32;font-weight:bold}
+  .meta{color:#666;font-size:11pt}
+  footer{margin-top:18px;border-top:1px solid #ccc;padding-top:8px;color:#666;font-size:11pt}
+  .bandeau-fiche{background:#1b3a63;color:#fff;padding:6px 12px;border-radius:4px;display:inline-block;font-family:"Trebuchet MS",sans-serif;font-weight:bold;margin-bottom:6px}
+  .header-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  @media print{body{padding:10mm}.btn-print{display:none}h2{page-break-after:avoid}table,.encadre-orange,.encadre-rouge,.encadre-vert,.encadre-bleu{page-break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<header class="entete">
+  <div class="logo">
+    <span class="flocon">❄</span>
+    <span class="nom">inerWeb</span>
+    <span class="cartouche">Édu</span>
+  </div>
+  <div class="signature">par F. Henninot — LP Privé Jacques Raynaud · Campus ÉQUATIO Marseille</div>
+</header>
+
+<div class="header-row">
+  <div>
+    <div class="bandeau-fiche">FICHE 02 · 2nde TNE</div>
+    <h1>Travail en hauteur</h1>
+    <div class="meta">Définition · EPI antichute · Échelles · Échafaudages · Nacelles</div>
+  </div>
+  <button class="btn-print" onclick="window.print()">📥 Imprimer</button>
+</div>
+
+<h2>1. Définition réglementaire</h2>
+<div class="encadre-orange">Le travail en hauteur commence dès qu'il existe un <strong>risque de chute</strong>. Repère pratique enseigné : <strong>au-delà de 2 m</strong>, dispositif de protection obligatoire.</div>
+
+<h2>2. EPI antichute (harnais ABCDE)</h2>
+<table>
+<tr><th>Lettre</th><th>Élément</th></tr>
+<tr><td>A</td><td>Point d'accrochage dorsal du harnais</td></tr>
+<tr><td>B</td><td>Bretelles</td></tr>
+<tr><td>C</td><td>Ceinture</td></tr>
+<tr><td>D</td><td>Cuissardes</td></tr>
+<tr><td>E</td><td>Sangle sternale (point d'accrochage avant)</td></tr>
+</table>
+<ul>
+  <li><strong>Longes</strong> avec absorbeur d'énergie</li>
+  <li><strong>Point d'ancrage</strong> résistance &gt; <strong>1000 daN</strong> (≈ 1 tonne)</li>
+  <li>Harnais vérifié <strong>tous les 12 mois</strong> par personne compétente</li>
+</ul>
+
+<h2>3. Échelles — règles essentielles</h2>
+<ul>
+  <li>Maintenir <strong>3 points de contact</strong> en permanence (2 mains + 1 pied ou 2 pieds + 1 main)</li>
+  <li>Échelle = <strong>moyen d'accès</strong>, jamais poste de travail (pas de stationnement)</li>
+  <li>Ne jamais se <strong>déporter</strong> latéralement</li>
+  <li><strong>Dépassement de 1 m</strong> au-dessus du niveau d'accès</li>
+  <li>Inclinaison ≈ 75° (règle 1/4 — 1 m d'écart pour 4 m de hauteur)</li>
+</ul>
+
+<h2>4. Échafaudages roulants</h2>
+<div class="encadre-bleu"><strong>Formation R408</strong> obligatoire pour le montage / démontage / vérification.</div>
+<ul>
+  <li><strong>Freins</strong> bloqués sur les 4 roues avant montée</li>
+  <li><strong>Garde-corps 1 m</strong> + <strong>plinthe</strong> au plancher de travail</li>
+  <li><strong>Accès par l'intérieur</strong> (trappe + échelle intégrée)</li>
+  <li>Sol horizontal et stable · ne jamais déplacer avec personne dessus</li>
+</ul>
+
+<h2>5. Nacelles élévatrices</h2>
+<div class="encadre-orange"><strong>CACES R486</strong> obligatoire. Catégorie A (verticale) ou B (multidirectionnelle).</div>
+<ul>
+  <li>Harnais antichute longé au panier</li>
+  <li>Vérification du sol et des obstacles aériens</li>
+</ul>
+
+<h2>6. Facteur de chute</h2>
+<table>
+<tr><th>Facteur</th><th>Situation</th><th>Risque</th></tr>
+<tr><td><strong>0</strong></td><td>Point d'ancrage au-dessus de la tête, longe tendue</td><td>Faible</td></tr>
+<tr><td><strong>1</strong></td><td>Point d'ancrage au niveau de l'opérateur</td><td>Moyen</td></tr>
+<tr><td><strong>2</strong></td><td>Point d'ancrage <strong>sous</strong> les pieds</td><td><span class="danger">Élevé</span></td></tr>
+</table>
+
+<div class="encadre-rouge"><span class="danger">DANGER —</span> Facteur 2 : choc violent, risque traumatique grave. Toujours chercher un ancrage <strong>au-dessus</strong> de soi.</div>
+
+<div class="encadre-vert"><span class="ok">Bonne pratique —</span> Avant toute intervention en hauteur : analyse de risque, choix du moyen le plus sûr (échafaudage avant nacelle, nacelle avant échelle).</div>
+
+<footer>
+  LP Privé Jacques Raynaud — Campus ÉQUATIO · F. Henninot · 2026<br>
+  <span class="meta">Données traitées par F. Henninot, enseignant LP Jacques Raynaud. Stockage local. Aucune donnée personnelle élève dans ces fiches.</span>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>🚀 Lancement bilan 2TNE — inerWeb Édu</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+:root { --bleu: #1b3a63; --bleu-fonce: #142848; --orange: #ff6b35; --vert: #16a34a; --rouge: #dc2626; --gris: #6b7280; --gris-clair: #f5f7fa; --bord: #e5e7eb; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; min-height: 100%; font-family: 'Calibri','Segoe UI',Arial,sans-serif; font-size: 16px; line-height: 1.5; background: var(--gris-clair); color: #1f2937; }
+h1, h2, h3, h4 { font-family: 'Trebuchet MS', sans-serif; font-weight: bold; color: var(--bleu); margin: 0; }
+button, a.btn { font-family: inherit; cursor: pointer; }
+
+.entete-edu { background: var(--bleu); color: white; padding: 12px 20px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); position: relative; }
+.entete-edu::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--orange); }
+.flocon { font-size: 28px; }
+.nom-edu { font-family: 'Trebuchet MS', sans-serif; font-weight: bold; font-size: 24px; }
+.cartouche-edu { background: var(--orange); padding: 4px 12px; border-radius: 4px; font-size: 14px; font-weight: bold; }
+.signature-edu { margin-left: auto; color: rgba(255,255,255,0.8); font-size: 13px; font-style: italic; }
+.actions-prof { margin-left: 16px; display: flex; gap: 8px; }
+.actions-prof a { background: rgba(255,255,255,0.15); color: white; padding: 6px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: bold; }
+.actions-prof a:hover { background: rgba(255,255,255,0.3); }
+
+.bandeau-titre { background: linear-gradient(135deg, var(--bleu), var(--bleu-fonce)); color: white; padding: 32px 24px; text-align: center; }
+.bandeau-titre h1 { color: white; font-size: 40px; line-height: 1.15; }
+.bandeau-titre .sous { color: var(--orange); font-size: 22px; font-style: italic; margin-top: 6px; }
+.bandeau-titre .meta { color: rgba(255,255,255,0.8); font-size: 16px; margin-top: 14px; }
+
+/* Zone centrale : QR + URL + mdp */
+.lancement-grille { max-width: 1200px; margin: 28px auto; padding: 0 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+@media (max-width: 900px) { .lancement-grille { grid-template-columns: 1fr; } }
+
+.card { background: white; border-radius: 14px; padding: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+
+.card-qr { text-align: center; }
+.card-qr h2 { font-size: 22px; margin-bottom: 14px; }
+.qr-zone { display: inline-block; background: white; padding: 16px; border: 4px solid var(--bleu); border-radius: 12px; }
+.qr-zone img, .qr-zone canvas, .qr-zone svg { display: block; max-width: 380px; height: auto; }
+.qr-fallback { color: var(--rouge); font-size: 14px; padding: 18px; }
+
+.card-info h2 { font-size: 22px; margin-bottom: 14px; }
+.url-zone { background: var(--gris-clair); border: 2px solid var(--bord); border-radius: 10px; padding: 14px; margin-bottom: 16px; word-break: break-all; }
+.url-zone .lab { font-size: 13px; color: var(--gris); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.url-zone .val { font-family: 'Consolas', 'Courier New', monospace; font-size: 18px; color: var(--bleu); font-weight: bold; }
+
+.mdp-zone { background: linear-gradient(135deg, var(--orange), #ffaa55); color: white; border-radius: 10px; padding: 18px; text-align: center; margin-top: 12px; }
+.mdp-zone .lab { font-size: 14px; text-transform: uppercase; letter-spacing: 2px; opacity: 0.9; }
+.mdp-zone .val { font-family: 'Trebuchet MS', sans-serif; font-weight: bold; font-size: 36px; letter-spacing: 2px; margin-top: 6px; user-select: all; }
+
+/* Instructions */
+.instructions { max-width: 1200px; margin: 0 auto 28px; padding: 0 24px; }
+.instructions h2 { font-size: 24px; margin-bottom: 14px; text-align: center; }
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+.step { background: white; border-radius: 12px; padding: 18px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); position: relative; padding-left: 60px; }
+.step::before { content: attr(data-num); position: absolute; left: 14px; top: 14px; width: 36px; height: 36px; background: var(--bleu); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Trebuchet MS', sans-serif; font-weight: bold; font-size: 18px; }
+.step h3 { font-size: 16px; margin-bottom: 6px; color: var(--bleu); }
+.step p { font-size: 14px; color: #1f2937; margin: 0; }
+
+/* Récap pédagogique */
+.recap-grille { max-width: 1200px; margin: 0 auto 28px; padding: 0 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }
+.recap-card { background: white; border-radius: 10px; padding: 14px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+.recap-card .num { font-family: 'Trebuchet MS', sans-serif; font-weight: bold; font-size: 32px; color: var(--orange); }
+.recap-card .lab { font-size: 13px; color: var(--gris); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+.themes-list { max-width: 1200px; margin: 0 auto 28px; padding: 0 24px; }
+.themes-list h2 { font-size: 22px; text-align: center; margin-bottom: 14px; }
+.themes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+.theme-tag-card { background: white; padding: 12px 14px; border-radius: 8px; border-left: 4px solid var(--orange); box-shadow: 0 2px 4px rgba(0,0,0,0.04); }
+.theme-tag-card .titre { font-weight: bold; color: var(--bleu); font-size: 14px; }
+.theme-tag-card .nb { color: var(--gris); font-size: 12px; margin-top: 2px; }
+
+/* Pied de page */
+.pied { background: white; border-top: 1px solid var(--bord); padding: 20px 24px; text-align: center; color: var(--gris); font-size: 13px; line-height: 1.6; }
+.pied .gros { color: var(--bleu); font-weight: bold; }
+
+@media (max-width: 600px) {
+  .bandeau-titre h1 { font-size: 26px; }
+  .bandeau-titre .sous { font-size: 16px; }
+  .mdp-zone .val { font-size: 26px; }
+  .qr-zone img, .qr-zone canvas { max-width: 280px; }
+  .signature-edu, .actions-prof { display: none; }
+}
+
+/* Mode "présentation projetée" — masque tout sauf l'essentiel */
+.mode-projo .entete-edu, .mode-projo .recap-grille, .mode-projo .themes-list, .mode-projo .pied { display: none; }
+.mode-projo .bandeau-titre { padding: 16px 20px; }
+.mode-projo .bandeau-titre h1 { font-size: 32px; }
+.mode-projo .lancement-grille { margin: 14px auto; }
+
+.bouton-projo { position: fixed; bottom: 20px; right: 20px; background: var(--bleu); color: white; border: none; padding: 12px 18px; border-radius: 24px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 100; }
+.bouton-projo:hover { background: var(--bleu-fonce); }
+</style>
+</head>
+<body>
+
+<header class="entete-edu">
+  <span class="flocon">❄</span>
+  <span class="nom-edu">inerWeb</span>
+  <span class="cartouche-edu">Édu</span>
+  <div class="actions-prof">
+    <a href="tableau-bord-live.html" target="_blank">🟢 LIVE prof</a>
+    <a href="tableau-bord.html" target="_blank">📊 BILAN prof</a>
+    <a href="ressources/index.html" target="_blank">📚 Fiches</a>
+  </div>
+  <span class="signature-edu">par F. Henninot — LP Privé Jacques Raynaud</span>
+</header>
+
+<div class="bandeau-titre">
+  <h1>Bilan d'année — 2<sup>nde</sup> TNE</h1>
+  <div class="sous">Cockpit Frigo · 50 questions · ~ 1 h · temps libre</div>
+  <div class="meta">📅 <span id="date-jour">—</span></div>
+</div>
+
+<div class="lancement-grille">
+
+  <!-- QR code -->
+  <div class="card card-qr">
+    <h2>📱 Flashe le QR code avec ton téléphone</h2>
+    <div class="qr-zone" id="qr-zone">
+      <div class="qr-fallback" id="qr-fallback">QR code en chargement…</div>
+    </div>
+    <p style="margin-top:14px; color:var(--gris); font-size:13px;">
+      Ou tape l'URL ci-contre dans ton navigateur.
+    </p>
+  </div>
+
+  <!-- URL + mot de passe -->
+  <div class="card card-info">
+    <h2>🔑 Pour te connecter</h2>
+
+    <div class="url-zone">
+      <div class="lab">URL de l'épreuve</div>
+      <div class="val" id="url-arcade">https://frigorx.github.io/inerweb-bilan-tne/arcade.html</div>
+    </div>
+
+    <div class="mdp-zone">
+      <div class="lab">Mot de passe d'épreuve</div>
+      <div class="val">BILAN-TNE-2026</div>
+    </div>
+
+    <p style="margin-top:14px; color:var(--gris); font-size:14px;">
+      💡 <strong>Astuce</strong> : crée ton compte la première fois, retiens ton mot de passe perso pour pouvoir te reconnecter en cas de coupure.
+    </p>
+  </div>
+</div>
+
+<!-- Instructions step-by-step -->
+<div class="instructions">
+  <h2>📋 Comment ça se passe — 4 étapes</h2>
+  <div class="steps">
+    <div class="step" data-num="1">
+      <h3>Connecte-toi</h3>
+      <p>Choisis ta classe → ton pseudo (4+ caractères) → prénom + initiale du nom → blason → mot de passe perso.</p>
+    </div>
+    <div class="step" data-num="2">
+      <h3>Démarre l'épreuve</h3>
+      <p>Saisis le mot de passe d'épreuve (au tableau) → clic « 🚀 Démarrer ». 50 questions tirées au hasard.</p>
+    </div>
+    <div class="step" data-num="3">
+      <h3>Réponds aux questions</h3>
+      <p>Pas de chrono. Pour chaque question : 4 choix → confirme. Bonne réponse = +XP, combo. Tu vois ton avancement.</p>
+    </div>
+    <div class="step" data-num="4">
+      <h3>Termine et reçois ton bilan</h3>
+      <p>Note finale /20, médaille (bronze/argent/or), radar de tes 9 thèmes. Tu sais où tu es solide et où retravailler.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Récap chiffres -->
+<div class="recap-grille">
+  <div class="recap-card"><div class="num">50</div><div class="lab">Questions</div></div>
+  <div class="recap-card"><div class="num">~1 h</div><div class="lab">Durée libre</div></div>
+  <div class="recap-card"><div class="num">9</div><div class="lab">Thèmes</div></div>
+  <div class="recap-card"><div class="num">/20</div><div class="lab">Note finale</div></div>
+  <div class="recap-card"><div class="num">+ Radar</div><div class="lab">Bilan par thème</div></div>
+</div>
+
+<!-- Liste des thèmes -->
+<div class="themes-list">
+  <h2>🎯 Sur quoi tu es interrogé</h2>
+  <div class="themes-grid">
+    <div class="theme-tag-card"><div class="titre">⚡ Sécurité électrique</div><div class="nb">8 questions</div></div>
+    <div class="theme-tag-card"><div class="titre">🪜 Travail en hauteur</div><div class="nb">5 questions</div></div>
+    <div class="theme-tag-card"><div class="titre">🧑‍🎓 Responsabilité élève</div><div class="nb">3 questions</div></div>
+    <div class="theme-tag-card"><div class="titre">❄ F-GAZ</div><div class="nb">7 questions</div></div>
+    <div class="theme-tag-card"><div class="titre">🌡️ Thermodynamique</div><div class="nb">7 questions</div></div>
+    <div class="theme-tag-card"><div class="titre">🔧 Composants frigo</div><div class="nb">6 questions</div></div>
+    <div class="theme-tag-card"><div class="titre">⚙️ Électrotechnique</div><div class="nb">8 questions</div></div>
+    <div class="theme-tag-card"><div class="titre">📜 RI + vie de classe</div><div class="nb">3 questions</div></div>
+    <div class="theme-tag-card"><div class="titre">🎓 Orientation post-TNE</div><div class="nb">3 questions</div></div>
+  </div>
+</div>
+
+<div class="pied">
+  <div class="gros">LP Privé Jacques Raynaud — Campus ÉQUATIO Marseille · F. Henninot · 2026</div>
+  Données traitées localement, chiffrement AES-256, suppression au 31/08. Pseudo + initiale du nom uniquement.
+</div>
+
+<button class="bouton-projo" id="btn-projo">📺 Mode présentation</button>
+
+<script>
+// Date du jour
+(function() {
+  const j = new Date();
+  const jours = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
+  const mois = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+  document.getElementById('date-jour').textContent = jours[j.getDay()] + ' ' + j.getDate() + ' ' + mois[j.getMonth()] + ' ' + j.getFullYear();
+})();
+
+// Mode projection
+document.getElementById('btn-projo').addEventListener('click', () => {
+  document.body.classList.toggle('mode-projo');
+  if (document.body.classList.contains('mode-projo')) {
+    if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(() => {});
+    document.getElementById('btn-projo').textContent = '↩ Quitter la présentation';
+  } else {
+    if (document.exitFullscreen && document.fullscreenElement) document.exitFullscreen().catch(() => {});
+    document.getElementById('btn-projo').textContent = '📺 Mode présentation';
+  }
+});
+
+// QR code — auto-détecte l'URL courante (locale ou github pages)
+(function genererQR() {
+  const urlArcade = (location.origin && location.origin !== 'null' && !location.origin.startsWith('file:'))
+    ? location.origin + location.pathname.replace(/lancement\.html$/, '') + 'arcade.html'
+    : 'https://frigorx.github.io/inerweb-bilan-tne/arcade.html';
+
+  document.getElementById('url-arcade').textContent = urlArcade;
+
+  const zone = document.getElementById('qr-zone');
+  const fallback = document.getElementById('qr-fallback');
+
+  // Charger qrcode-generator depuis CDN, fallback sur api.qrserver
+  const s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js';
+  s.onload = function() {
+    try {
+      const qr = qrcode(0, 'M');
+      qr.addData(urlArcade);
+      qr.make();
+      const taille = 380;
+      const cellSize = Math.floor(taille / qr.getModuleCount());
+      const margin = 0;
+      zone.innerHTML = qr.createImgTag(cellSize, margin);
+      const img = zone.querySelector('img');
+      if (img) { img.style.maxWidth = taille + 'px'; img.style.height = 'auto'; img.alt = 'QR vers ' + urlArcade; }
+    } catch (e) {
+      utiliserFallbackImg();
+    }
+  };
+  s.onerror = utiliserFallbackImg;
+  document.head.appendChild(s);
+
+  function utiliserFallbackImg() {
+    // Fallback : api.qrserver.com (image PNG distante)
+    const img = document.createElement('img');
+    img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=380x380&margin=0&data=' + encodeURIComponent(urlArcade);
+    img.alt = 'QR vers ' + urlArcade;
+    img.style.maxWidth = '380px';
+    img.onerror = function() {
+      zone.innerHTML = '<div class="qr-fallback">⚠ QR code indisponible.<br>Tape l\'URL en clair :<br><br><strong>' + urlArcade + '</strong></div>';
+    };
+    zone.innerHTML = '';
+    zone.appendChild(img);
+  }
+})();
+</script>
+</body>
+</html>

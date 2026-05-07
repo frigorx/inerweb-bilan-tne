@@ -1,0 +1,22 @@
+# Fichiers à ne JAMAIS pousser sur GitHub Pages
+
+# Banque en clair (contient les bonnes réponses)
+data/bilan-tne.json
+data/bilan-tne.enc.json
+
+# Mappings prof (correspondance SVG → noms réels)
+MAPPING.md
+assets/svg-frigo/MAPPING.md
+assets/svg-electrotech/MAPPING.md
+
+# Node.js
+node_modules/
+package-lock.json
+
+# OS / Éditeur
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.bak

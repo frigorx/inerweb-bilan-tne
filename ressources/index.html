@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Fiches de révision — Bilan d'année 2nde TNE</title>
+<style>
+  *{box-sizing:border-box}
+  body{
+    font-family:Calibri,"Segoe UI",Arial,sans-serif;
+    font-size:14pt;
+    line-height:1.5;
+    color:#000;
+    background:#fff;
+    margin:0;
+    padding:20px 30px;
+    text-align:left;
+  }
+  h1,h2{font-family:"Trebuchet MS",sans-serif;font-weight:bold;color:#1b3a63;text-align:left}
+  h1{font-size:24pt;margin:6px 0 4px 0}
+  h2{font-size:16pt;border-bottom:2px solid #1b3a63;padding-bottom:3px;margin-top:18px}
+  .entete{display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #1b3a63;padding-bottom:8px;margin-bottom:12px}
+  .logo{display:flex;align-items:center;gap:8px;font-family:"Trebuchet MS",sans-serif}
+  .flocon{color:#1b3a63;font-size:24pt}
+  .nom{color:#1b3a63;font-weight:bold;font-size:20pt}
+  .cartouche{background:#ff6b35;color:#fff;padding:2px 8px;border-radius:4px;font-weight:bold;font-size:14pt}
+  .signature{color:#666;font-size:11pt}
+  .meta{color:#666;font-size:12pt}
+  .intro{background:#e3f0fc;border-left:4px solid #1b3a63;padding:14px;border-radius:4px;margin:14px 0}
+  .grille{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0}
+  .carte{
+    border:2px solid #1b3a63;
+    border-radius:8px;
+    padding:14px;
+    background:#fff;
+    text-decoration:none;
+    color:#000;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    transition:transform 0.15s, box-shadow 0.15s, background 0.15s;
+    min-height:170px;
+  }
+  .carte:hover{
+    transform:translateY(-3px);
+    box-shadow:0 6px 12px rgba(27,58,99,0.18);
+    background:#fff3e0;
+    border-color:#ff6b35;
+  }
+  .carte .num{
+    font-family:"Trebuchet MS",sans-serif;
+    font-size:11pt;
+    color:#fff;
+    background:#1b3a63;
+    padding:2px 8px;
+    border-radius:4px;
+    align-self:flex-start;
+    font-weight:bold;
+  }
+  .carte .icone{font-size:30pt;line-height:1;margin:4px 0}
+  .carte h3{
+    font-family:"Trebuchet MS",sans-serif;
+    color:#1b3a63;
+    font-size:14pt;
+    margin:0;
+    font-weight:bold;
+  }
+  .carte:hover h3{color:#ff6b35}
+  .carte .desc{font-size:12pt;color:#000;line-height:1.4}
+  footer{margin-top:18px;border-top:1px solid #ccc;padding-top:8px;color:#666;font-size:11pt}
+  .bandeau-titre{background:#1b3a63;color:#fff;padding:6px 12px;border-radius:4px;display:inline-block;font-family:"Trebuchet MS",sans-serif;font-weight:bold;margin-bottom:6px;font-size:12pt}
+  @media (max-width:900px){.grille{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:600px){.grille{grid-template-columns:1fr}}
+  @media print{
+    body{padding:10mm}
+    .grille{grid-template-columns:repeat(3,1fr)}
+    .carte{break-inside:avoid;min-height:160px;border:1px solid #1b3a63}
+    .carte:hover{transform:none;box-shadow:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="entete">
+  <div class="logo">
+    <span class="flocon">❄</span>
+    <span class="nom">inerWeb</span>
+    <span class="cartouche">Édu</span>
+  </div>
+  <div class="signature">par F. Henninot — LP Privé Jacques Raynaud · Campus ÉQUATIO Marseille</div>
+</header>
+
+<div class="bandeau-titre">2nde TNE · BILAN D'ANNÉE 2025-2026</div>
+<h1>Fiches de révision</h1>
+<div class="meta">9 fiches autonomes — imprimables individuellement — synthèse pour le bilan</div>
+
+<div class="intro">
+  Bienvenue dans ton tableau de bord de révisions. Chaque carte ouvre une fiche complète au format A4. Tu peux la lire à l'écran ou cliquer sur le bouton <strong>📥 Imprimer</strong> en haut à droite de chaque fiche pour l'imprimer ou l'enregistrer en PDF.
+</div>
+
+<div class="grille">
+
+  <a class="carte" href="01_fiche_securite_electrique.html">
+    <span class="num">FICHE 01</span>
+    <div class="icone">⚡</div>
+    <h3>Sécurité électrique</h3>
+    <div class="desc">Habilitations B0/H0/BS/BR/BC, EPI, VAT, consignation S.C.I.V., effets du courant.</div>
+  </a>
+
+  <a class="carte" href="02_fiche_travail_hauteur.html">
+    <span class="num">FICHE 02</span>
+    <div class="icone">🪜</div>
+    <h3>Travail en hauteur</h3>
+    <div class="desc">Harnais ABCDE, échelles, échafaudages R408, nacelles CACES R486, facteur de chute.</div>
+  </a>
+
+  <a class="carte" href="03_fiche_responsabilite_eleve.html">
+    <span class="num">FICHE 03</span>
+    <div class="icone">🛟</div>
+    <h3>Responsabilité de l'élève</h3>
+    <div class="desc">Statut, P.E.A.S., droit de retrait, numéros d'urgence, rôle du SST.</div>
+  </a>
+
+  <a class="carte" href="04_fiche_fgaz.html">
+    <span class="num">FICHE 04</span>
+    <div class="icone">🌍</div>
+    <h3>Réglementation F-GAZ III</h3>
+    <div class="desc">5 catégories d'attestation, GWP des fluides, seuils tCO₂eq, récupération obligatoire.</div>
+  </a>
+
+  <a class="carte" href="05_fiche_thermodynamique.html">
+    <span class="num">FICHE 05</span>
+    <div class="icone">🌡️</div>
+    <h3>Thermodynamique</h3>
+    <div class="desc">Chaleur sensible/latente, enthalpie, surchauffe, sous-refroidissement, titre x.</div>
+  </a>
+
+  <a class="carte" href="06_fiche_composants_frigo.html">
+    <span class="num">FICHE 06</span>
+    <div class="icone">❄</div>
+    <h3>Composants frigorifiques</h3>
+    <div class="desc">Les 9 composants de base, symboles normés, cycle Co-Co-Dé-É.</div>
+  </a>
+
+  <a class="carte" href="07_fiche_electrotech.html">
+    <span class="num">FICHE 07</span>
+    <div class="icone">🔌</div>
+    <h3>Électrotechnique</h3>
+    <div class="desc">Repérage 13-14/21-22, contacteurs, relais, fusibles gG/aM, courbes B/C/D.</div>
+  </a>
+
+  <a class="carte" href="08_fiche_ri_vie_classe.html">
+    <span class="num">FICHE 08</span>
+    <div class="icone">📋</div>
+    <h3>Règlement intérieur</h3>
+    <div class="desc">Ponctualité, tenue d'atelier, téléphone, communication, respect du matériel.</div>
+  </a>
+
+  <a class="carte" href="09_fiche_orientation_post_tne.html">
+    <span class="num">FICHE 09</span>
+    <div class="icone">🎯</div>
+    <h3>Orientation post-TNE</h3>
+    <div class="desc">5 spécialités Bac Pro, voie scolaire / apprentissage, poursuite d'études BTS.</div>
+  </a>
+
+</div>
+
+<h2>Mode d'emploi</h2>
+<ul>
+  <li>Clique sur une carte pour ouvrir la fiche.</li>
+  <li>Chaque fiche tient sur une page A4 imprimable.</li>
+  <li>Pour imprimer toutes les fiches : ouvre chaque fiche et clique sur <strong>📥 Imprimer</strong>.</li>
+  <li>Les fiches sont autonomes — tu peux les enregistrer dans un dossier et les ouvrir hors ligne.</li>
+</ul>
+
+<footer>
+  LP Privé Jacques Raynaud — Campus ÉQUATIO · F. Henninot · 2026<br>
+  <span class="meta">Données traitées par F. Henninot, enseignant LP Jacques Raynaud. Stockage local. Aucune donnée personnelle élève dans ces fiches.</span>
+</footer>
+
+</body>
+</html>

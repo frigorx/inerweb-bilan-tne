@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Fiche 01 — Sécurité électrique — 2nde TNE</title>
+<style>
+  *{box-sizing:border-box}
+  body{
+    font-family:Calibri,"Segoe UI",Arial,sans-serif;
+    font-size:14pt;
+    line-height:1.5;
+    color:#000;
+    background:#fff;
+    margin:0;
+    padding:20px 30px;
+    text-align:left;
+  }
+  h1,h2,h3{font-family:"Trebuchet MS",sans-serif;font-weight:bold;color:#1b3a63;text-align:left}
+  h1{font-size:22pt;margin:6px 0 4px 0}
+  h2{font-size:16pt;border-bottom:2px solid #1b3a63;padding-bottom:3px;margin-top:18px}
+  h3{font-size:14pt;color:#ff6b35;margin:12px 0 6px 0}
+  .entete{display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #1b3a63;padding-bottom:8px;margin-bottom:12px}
+  .logo{display:flex;align-items:center;gap:8px;font-family:"Trebuchet MS",sans-serif}
+  .flocon{color:#1b3a63;font-size:24pt}
+  .nom{color:#1b3a63;font-weight:bold;font-size:20pt}
+  .cartouche{background:#ff6b35;color:#fff;padding:2px 8px;border-radius:4px;font-weight:bold;font-size:14pt}
+  .signature{color:#666;font-size:11pt}
+  .btn-print{background:#1b3a63;color:#fff;border:none;padding:8px 14px;border-radius:6px;font-size:12pt;cursor:pointer;font-family:Calibri,sans-serif}
+  .btn-print:hover{background:#ff6b35}
+  .encadre-orange{background:#fff3e0;border-left:4px solid #ff6b35;padding:12px;margin:12px 0;border-radius:4px}
+  .encadre-rouge{background:#ffebee;border-left:4px solid #c62828;padding:12px;margin:12px 0;border-radius:4px}
+  .encadre-vert{background:#e8f5e9;border-left:4px solid #2e7d32;padding:12px;margin:12px 0;border-radius:4px}
+  .encadre-bleu{background:#e3f0fc;border-left:4px solid #1b3a63;padding:12px;margin:12px 0;border-radius:4px}
+  ul{margin:6px 0 6px 20px;padding:0}
+  li{margin:4px 0}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13pt}
+  th{background:#1b3a63;color:#fff;padding:6px;text-align:left;font-family:"Trebuchet MS",sans-serif}
+  td{border:1px solid #ccc;padding:6px;vertical-align:top}
+  tr:nth-child(even) td{background:#f7f9fc}
+  .danger{color:#c62828;font-weight:bold}
+  .ok{color:#2e7d32;font-weight:bold}
+  .meta{color:#666;font-size:11pt}
+  footer{margin-top:18px;border-top:1px solid #ccc;padding-top:8px;color:#666;font-size:11pt}
+  @media print{
+    body{padding:10mm}
+    .btn-print{display:none}
+    h2{page-break-after:avoid}
+    table,.encadre-orange,.encadre-rouge,.encadre-vert,.encadre-bleu{page-break-inside:avoid}
+  }
+  .bandeau-fiche{background:#1b3a63;color:#fff;padding:6px 12px;border-radius:4px;display:inline-block;font-family:"Trebuchet MS",sans-serif;font-weight:bold;margin-bottom:6px}
+  .header-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+</style>
+</head>
+<body>
+
+<header class="entete">
+  <div class="logo">
+    <span class="flocon">❄</span>
+    <span class="nom">inerWeb</span>
+    <span class="cartouche">Édu</span>
+  </div>
+  <div class="signature">par F. Henninot — LP Privé Jacques Raynaud · Campus ÉQUATIO Marseille</div>
+</header>
+
+<div class="header-row">
+  <div>
+    <div class="bandeau-fiche">FICHE 01 · 2nde TNE</div>
+    <h1>Sécurité électrique</h1>
+    <div class="meta">Habilitations · EPI · VAT · Consignation · Effets du courant</div>
+  </div>
+  <button class="btn-print" onclick="window.print()">📥 Imprimer</button>
+</div>
+
+<h2>1. Habilitations électriques (norme NF C 18-510)</h2>
+<table>
+<tr><th>Symbole</th><th>Signification</th><th>Domaine</th></tr>
+<tr><td><strong>B0 / H0</strong></td><td>Non électricien · travaux non électriques</td><td>BT (B) ou HT (H)</td></tr>
+<tr><td><strong>BS</strong></td><td>Intervention BT élémentaire (remplacement, raccordement simple)</td><td>BT seulement</td></tr>
+<tr><td><strong>BR</strong></td><td>Intervention générale BT (dépannage, mesurage)</td><td>BT</td></tr>
+<tr><td><strong>BC</strong></td><td>Chargé de consignation</td><td>BT / HT</td></tr>
+</table>
+<div class="encadre-orange"><strong>Repère :</strong> 1<sup>re</sup> lettre = domaine de tension (B = Basse, H = Haute) · 2<sup>e</sup> lettre/chiffre = type d'opération.</div>
+
+<h2>2. EPI électricien</h2>
+<ul>
+  <li><strong>Gants isolants</strong> (classe 00 ou 0 pour BT) · vérifiés avant chaque usage</li>
+  <li><strong>Casque isolant</strong> avec jugulaire</li>
+  <li><strong>Écran facial</strong> anti-arc électrique</li>
+  <li><strong>Chaussures de sécurité</strong> isolantes (norme S3 SRC)</li>
+  <li><strong>Vêtements</strong> en coton ou anti-arc, manches longues</li>
+</ul>
+
+<h2>3. VAT — Vérificateur d'Absence de Tension</h2>
+<div class="encadre-bleu">Appareil dédié et contrôlé. On vérifie le VAT <strong>avant</strong> et <strong>après</strong> la mesure sur une source connue sous tension.</div>
+
+<h2>4. Consignation — les 4 étapes (S.C.I.V.)</h2>
+<table>
+<tr><th>#</th><th>Étape</th><th>Action</th></tr>
+<tr><td>1</td><td><strong>S</strong>éparation</td><td>Couper l'alimentation (sectionneur, disjoncteur)</td></tr>
+<tr><td>2</td><td><strong>C</strong>ondamnation</td><td>Cadenas + étiquette "Ne pas manœuvrer"</td></tr>
+<tr><td>3</td><td><strong>I</strong>dentification</td><td>S'assurer du bon ouvrage</td></tr>
+<tr><td>4</td><td><strong>V</strong>érification d'absence de tension</td><td>VAT entre phases et phases/neutre/terre</td></tr>
+</table>
+
+<h2>5. TBTS / TBTP</h2>
+<ul>
+  <li><strong>TBTS</strong> = Très Basse Tension de Sécurité (≤ 50 V AC / 120 V DC, source isolée, sans liaison à la terre)</li>
+  <li><strong>TBTP</strong> = Très Basse Tension de Protection (idem mais avec liaison à la terre)</li>
+</ul>
+
+<h2>6. Effets du courant sur le corps humain</h2>
+<table>
+<tr><th>Intensité</th><th>Effet</th></tr>
+<tr><td>1 mA</td><td>Seuil de perception</td></tr>
+<tr><td>10 mA</td><td>Contraction musculaire — non lâcher</td></tr>
+<tr><td>30 mA</td><td>Seuil de paralysie respiratoire (seuil DDR 30 mA)</td></tr>
+<tr><td>100 mA</td><td>Fibrillation cardiaque</td></tr>
+<tr><td>&gt; 500 mA</td><td>Arrêt cardiaque · brûlures graves</td></tr>
+</table>
+
+<div class="encadre-rouge"><span class="danger">DANGER —</span> Le risque dépend de l'<strong>intensité</strong>, du <strong>temps</strong> de passage et du <strong>trajet</strong> dans le corps. Le DDR 30 mA est obligatoire en habitat.</div>
+
+<h2>7. Distance de sécurité</h2>
+<ul>
+  <li>BT (≤ 1000 V AC) : <strong>0,30 m</strong> minimum sans EPI</li>
+  <li>HT : distance qui augmente avec la tension (consulter le tableau réglementaire)</li>
+</ul>
+
+<div class="encadre-vert"><span class="ok">Bonne pratique —</span> Toujours travailler <strong>hors tension</strong> chaque fois que possible. Sinon, EPI complet + habilitation à jour.</div>
+
+<footer>
+  LP Privé Jacques Raynaud — Campus ÉQUATIO · F. Henninot · 2026<br>
+  <span class="meta">Données traitées par F. Henninot, enseignant LP Jacques Raynaud. Stockage local. Aucune donnée personnelle élève dans ces fiches.</span>
+</footer>
+
+</body>
+</html>

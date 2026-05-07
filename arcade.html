@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Bilan d'année 2nde TNE — Cockpit Frigo · inerWeb Édu</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+:root {
+  --bleu: #1b3a63;
+  --bleu-fonce: #142848;
+  --bleu-clair: #2d5a8e;
+  --orange: #ff6b35;
+  --orange-clair: #ffe8de;
+  --vert: #16a34a;
+  --vert-clair: #d1fae5;
+  --rouge: #dc2626;
+  --rouge-clair: #fee2e2;
+  --jaune: #f59e0b;
+  --gris-clair: #f5f7fa;
+  --gris: #6b7280;
+  --gris-fonce: #374151;
+  --texte: #1f2937;
+  --bord: #e5e7eb;
+  --led-on: #22c55e;
+  --led-off: #4b5563;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; padding: 0; min-height: 100%; font-family: 'Calibri', 'Segoe UI', Arial, sans-serif; font-size: 16px; line-height: 1.5; background: var(--gris-clair); color: var(--texte); }
+body { padding: 0; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+h1, h2, h3, h4 { font-family: 'Trebuchet MS', sans-serif; font-weight: bold; color: var(--bleu); margin: 0; }
+
+/* === ÉCRANS === */
+.ecran { display: none; min-height: 100vh; }
+.ecran.actif { display: flex; flex-direction: column; }
+
+/* === EN-TÊTE inerWeb Édu === */
+.entete-edu { background: var(--bleu); color: white; padding: 12px 20px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); position: relative; }
+.entete-edu::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--orange); }
+.flocon { font-size: 28px; color: white; }
+.nom-edu { font-family: 'Trebuchet MS', sans-serif; font-weight: bold; font-size: 22px; color: white; }
+.cartouche-edu { background: var(--orange); color: white; padding: 3px 10px; border-radius: 3px; font-size: 13px; font-weight: bold; letter-spacing: 0.5px; }
+.signature-edu { margin-left: auto; color: rgba(255,255,255,0.7); font-size: 12px; font-style: italic; }
+@media (max-width: 600px) { .signature-edu { display: none; } }
+
+/* === ÉCRAN GARDE / CONNEXION === */
+#ecran-garde { background: var(--gris-clair); padding: 0 0 40px; }
+.bandeau-titre { background: linear-gradient(135deg, var(--bleu) 0%, var(--bleu-fonce) 100%); color: white; padding: 28px 24px; text-align: center; }
+.bandeau-titre h1 { color: white; font-size: 26px; margin-bottom: 6px; }
+.bandeau-titre .sous { color: var(--orange); font-size: 16px; font-style: italic; }
+
+.conteneur { max-width: 720px; margin: 0 auto; padding: 20px; }
+.bloc { background: white; border-radius: 12px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+.bloc h2 { font-size: 18px; margin-bottom: 12px; }
+.bloc h3 { font-size: 16px; margin: 16px 0 8px; color: var(--bleu); }
+.bloc p { margin: 8px 0; }
+
+/* === FORMULAIRES === */
+label.lab { display: block; font-weight: bold; color: var(--bleu); margin: 12px 0 4px; font-size: 14px; }
+.input { width: 100%; padding: 12px 14px; font-size: 16px; border: 2px solid var(--bord); border-radius: 8px; font-family: inherit; background: white; color: var(--texte); }
+.input:focus { outline: none; border-color: var(--orange); }
+.aide { font-size: 13px; color: var(--gris); margin-top: 4px; }
+
+.btn { padding: 14px 18px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+.btn-primaire { background: var(--orange); color: white; width: 100%; }
+.btn-primaire:hover { background: #e0552a; }
+.btn-primaire:disabled { background: var(--gris); cursor: not-allowed; }
+.btn-secondaire { background: white; color: var(--bleu); border: 2px solid var(--bleu); width: 100%; }
+.btn-secondaire:hover { background: var(--bleu); color: white; }
+.btn-classe { width: 100%; padding: 12px; background: white; color: var(--bleu); border: 2px solid var(--bleu); border-radius: 8px; font-weight: bold; margin-bottom: 8px; text-align: left; }
+.btn-classe.actif { background: var(--bleu); color: white; }
+
+/* === BLASONS === */
+.grille-blasons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 8px; }
+.blason { aspect-ratio: 1; border: 2px solid var(--bord); border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 32px; background: white; transition: all 0.15s; }
+.blason:hover { border-color: var(--orange); transform: scale(1.05); }
+.blason.actif { border-color: var(--orange); background: var(--orange-clair); transform: scale(1.05); }
+
+/* === MESSAGES === */
+.message { padding: 12px; border-radius: 8px; margin: 12px 0; font-size: 14px; }
+.message.info { background: #dbeafe; border-left: 4px solid #2563eb; color: #1e3a8a; }
+.message.warn { background: #fef3c7; border-left: 4px solid #f59e0b; color: #92400e; }
+.message.erreur { background: var(--rouge-clair); border-left: 4px solid var(--rouge); color: #7f1d1d; }
+.message.ok { background: var(--vert-clair); border-left: 4px solid var(--vert); color: #14532d; }
+
+/* === COCKPIT JEU === */
+#ecran-jeu { background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%); color: white; padding: 0; }
+#ecran-jeu .conteneur { max-width: 900px; }
+
+.cockpit-bandeau { background: rgba(0,0,0,0.4); padding: 14px 20px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; border-bottom: 2px solid var(--orange); }
+.cockpit-bandeau .gauche { display: flex; align-items: center; gap: 12px; }
+.cockpit-flocon { font-size: 24px; color: var(--orange); }
+.cockpit-titre { font-family: 'Trebuchet MS', sans-serif; font-weight: bold; font-size: 18px; color: white; }
+.cockpit-stats { display: flex; gap: 12px; margin-left: auto; flex-wrap: wrap; }
+.stat-led { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 6px 12px; font-size: 13px; display: flex; align-items: center; gap: 6px; }
+.led { width: 10px; height: 10px; border-radius: 50%; background: var(--led-on); box-shadow: 0 0 6px var(--led-on); }
+.led.off { background: var(--led-off); box-shadow: none; }
+.stat-led .num { font-weight: bold; color: var(--orange); }
+
+.cockpit-progression { background: rgba(0,0,0,0.4); padding: 12px 20px; }
+.barre-prog { background: rgba(255,255,255,0.1); height: 14px; border-radius: 7px; overflow: hidden; position: relative; }
+.barre-prog-remplie { background: linear-gradient(90deg, var(--orange) 0%, #ffaa55 100%); height: 100%; transition: width 0.4s; box-shadow: 0 0 10px rgba(255,107,53,0.5); }
+.barre-prog-texte { text-align: center; font-size: 13px; margin-top: 4px; color: rgba(255,255,255,0.7); }
+
+.cockpit-q { padding: 30px 24px; }
+.cockpit-q .theme-tag { display: inline-block; background: var(--orange); color: white; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: bold; letter-spacing: 0.5px; margin-bottom: 14px; text-transform: uppercase; }
+.cockpit-q h2 { color: white; font-size: 22px; line-height: 1.4; margin-bottom: 22px; }
+.cockpit-svg { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; display: flex; justify-content: center; min-height: 240px; }
+.cockpit-svg svg { max-width: 280px; max-height: 240px; width: 100%; height: auto; }
+
+.choix-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+@media (min-width: 600px) { .choix-grid { grid-template-columns: 1fr 1fr; } }
+.choix { background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.2); border-radius: 10px; padding: 16px; cursor: pointer; color: white; font-size: 16px; transition: all 0.15s; text-align: left; line-height: 1.4; }
+.choix:hover { background: rgba(255,255,255,0.15); border-color: var(--orange); }
+.choix.bonne { background: rgba(34,197,94,0.3); border-color: var(--vert); }
+.choix.mauvaise { background: rgba(220,38,38,0.3); border-color: var(--rouge); }
+.choix.disabled { pointer-events: none; opacity: 0.6; }
+
+.feedback { margin-top: 16px; padding: 14px; border-radius: 8px; font-size: 15px; line-height: 1.5; display: none; }
+.feedback.show { display: block; animation: slideIn 0.3s; }
+.feedback.bonne { background: rgba(34,197,94,0.2); border-left: 4px solid var(--vert); color: #d1fae5; }
+.feedback.mauvaise { background: rgba(220,38,38,0.2); border-left: 4px solid var(--rouge); color: #fecaca; }
+.feedback strong { color: white; }
+@keyframes slideIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+
+.bouton-suivant { display: none; margin-top: 18px; }
+.bouton-suivant.show { display: block; }
+
+.combo-flash { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Trebuchet MS', sans-serif; font-weight: bold; font-size: 64px; color: var(--orange); text-shadow: 0 0 24px var(--orange); pointer-events: none; opacity: 0; transition: all 0.5s; z-index: 1000; }
+.combo-flash.show { opacity: 1; animation: comboPop 0.6s; }
+@keyframes comboPop { 0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; } 50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 0; } }
+
+/* === ÉCRAN FIN === */
+#ecran-fin { background: var(--gris-clair); padding: 0 0 40px; }
+.medaille-bloc { text-align: center; padding: 40px 20px; }
+.medaille { font-size: 100px; margin-bottom: 12px; }
+.titre-medaille { font-family: 'Trebuchet MS', sans-serif; font-weight: bold; font-size: 28px; color: var(--bleu); }
+.note-finale { font-size: 64px; font-weight: bold; color: var(--orange); margin: 12px 0; font-family: 'Trebuchet MS', sans-serif; }
+.note-finale .sur20 { font-size: 24px; color: var(--gris); font-weight: normal; }
+
+.radar-conteneur { background: white; border-radius: 12px; padding: 20px; margin: 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+.radar-conteneur h3 { text-align: center; margin-bottom: 14px; }
+
+.themes-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+.themes-table th, .themes-table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--bord); }
+.themes-table th { background: var(--bleu); color: white; font-weight: bold; font-size: 13px; }
+.themes-table .pct-cell { font-weight: bold; }
+.themes-table .pct-cell.fort { color: var(--vert); }
+.themes-table .pct-cell.moyen { color: var(--jaune); }
+.themes-table .pct-cell.faible { color: var(--rouge); }
+
+/* === RGPD bas de page === */
+.mention-rgpd { font-size: 12px; color: var(--gris); padding: 16px 20px; text-align: center; background: white; border-top: 1px solid var(--bord); }
+</style>
+</head>
+<body>
+
+<!-- ===================== ÉCRAN GARDE ===================== -->
+<div id="ecran-garde" class="ecran actif">
+  <header class="entete-edu">
+    <span class="flocon">❄</span>
+    <span class="nom-edu">inerWeb</span>
+    <span class="cartouche-edu">Édu</span>
+    <span class="signature-edu">par F. Henninot</span>
+  </header>
+
+  <div class="bandeau-titre">
+    <h1>Bilan d'année — 2nde TNE</h1>
+    <div class="sous">Cockpit Frigo — 50 questions, ~1 h, temps libre</div>
+  </div>
+
+  <div class="conteneur">
+
+    <!-- Étape 1 : choix classe -->
+    <div class="bloc" id="bloc-classe">
+      <h2>1 · Sélectionne ta classe</h2>
+      <button class="btn-classe" data-classe="2TNE-A">2TNE-A</button>
+      <button class="btn-classe" data-classe="2TNE-B">2TNE-B</button>
+      <button class="btn-classe" data-classe="2TNE-C">2TNE-C</button>
+      <button class="btn-classe" data-classe="TEST">TEST (essai)</button>
+    </div>
+
+    <!-- Étape 2 : pseudo + nom -->
+    <div class="bloc" id="bloc-identite" style="display:none">
+      <h2>2 · Ton identité</h2>
+      <label class="lab">Pseudo (4 caractères min, lettres/chiffres/_-)</label>
+      <input type="text" class="input" id="inp-pseudo" placeholder="Ex : ICEBLUE42" maxlength="20">
+      <div class="aide">Choisi par toi. C'est ce que tes camarades verront.</div>
+
+      <label class="lab">Prénom + initiale du nom</label>
+      <input type="text" class="input" id="inp-nom" placeholder="Ex : Marie D." maxlength="30">
+      <div class="aide">Pour que ton prof sache qui tu es. Visible uniquement par lui.</div>
+
+      <button class="btn btn-primaire" id="btn-suivant-identite" style="margin-top:14px">Continuer →</button>
+    </div>
+
+    <!-- Étape 3 : choix blason -->
+    <div class="bloc" id="bloc-blason" style="display:none">
+      <h2>3 · Choisis ton blason de frigoriste</h2>
+      <div class="grille-blasons" id="grille-blasons">
+        <div class="blason" data-blason="❄">❄</div>
+        <div class="blason" data-blason="🔧">🔧</div>
+        <div class="blason" data-blason="⚙️">⚙️</div>
+        <div class="blason" data-blason="🛠️">🛠️</div>
+        <div class="blason" data-blason="🔥">🔥</div>
+        <div class="blason" data-blason="⚡">⚡</div>
+        <div class="blason" data-blason="🌡️">🌡️</div>
+        <div class="blason" data-blason="🧊">🧊</div>
+      </div>
+      <button class="btn btn-primaire" id="btn-suivant-blason" style="margin-top:14px" disabled>Continuer →</button>
+    </div>
+
+    <!-- Étape 4 : mot de passe + démarrage -->
+    <div class="bloc" id="bloc-auth" style="display:none">
+      <h2>4 · Mot de passe</h2>
+      <p class="aide" id="aide-auth">Première fois ? Crée un mot de passe (4+ caractères). Il te servira à reconnecter si tu perds ta connexion.</p>
+
+      <label class="lab">Mot de passe</label>
+      <input type="password" class="input" id="inp-mdp" placeholder="••••" maxlength="30">
+
+      <label class="lab">Mot de passe d'épreuve (donné par ton prof)</label>
+      <input type="text" class="input" id="inp-passphrase" placeholder="Ex : BILAN-TNE-2026" maxlength="60">
+      <div class="aide">Le prof l'écrit au tableau au début de l'épreuve.</div>
+
+      <button class="btn btn-primaire" id="btn-demarrer" style="margin-top:14px">🚀 Démarrer l'épreuve</button>
+      <div id="msg-auth"></div>
+    </div>
+
+    <div class="message info" style="margin: 0 20px 20px">
+      <strong>📋 Comment ça se passe ?</strong>
+      <ul style="margin: 8px 0 0; padding-left: 20px;">
+        <li>50 questions tirées au hasard, durée libre prévue ≈ 1 h</li>
+        <li>9 thèmes : sécurité, hauteur, F-GAZ, thermo, frigo, électrotech, etc.</li>
+        <li>Note finale /20 + médaille en fin d'épreuve</li>
+        <li>Ne change pas d'onglet, ça compte pour ton prof !</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="mention-rgpd">
+    Données traitées par F. Henninot, enseignant LP Privé Jacques Raynaud — Campus ÉQUATIO Marseille.<br>
+    Stockage chiffré (AES-256). Pseudo + initiale visible du prof uniquement. Suppression au 31/08.
+  </div>
+</div>
+
+<!-- ===================== ÉCRAN JEU ===================== -->
+<div id="ecran-jeu" class="ecran">
+  <div class="cockpit-bandeau">
+    <div class="gauche">
+      <span class="cockpit-flocon">❄</span>
+      <span class="cockpit-titre" id="cockpit-titre-pseudo">Pilote ICEBLUE42</span>
+    </div>
+    <div class="cockpit-stats">
+      <div class="stat-led"><span class="led" id="led-sys"></span><span>SYS</span></div>
+      <div class="stat-led">XP <span class="num" id="stat-xp">0</span></div>
+      <div class="stat-led">COMBO <span class="num" id="stat-combo">×1</span></div>
+      <div class="stat-led">⏱ <span class="num" id="stat-temps">0:00</span></div>
+    </div>
+  </div>
+
+  <div class="cockpit-progression">
+    <div class="barre-prog"><div class="barre-prog-remplie" id="barre-remplie" style="width:0%"></div></div>
+    <div class="barre-prog-texte" id="barre-texte">Question 1 / 50</div>
+  </div>
+
+  <div class="cockpit-q">
+    <div class="theme-tag" id="theme-tag">SÉCURITÉ ÉLEC</div>
+    <h2 id="enonce-q">Chargement...</h2>
+
+    <div class="cockpit-svg" id="zone-svg" style="display:none"></div>
+
+    <div class="choix-grid" id="zone-choix"></div>
+
+    <div class="feedback" id="feedback"></div>
+
+    <button class="btn btn-primaire bouton-suivant" id="btn-suivant">Question suivante →</button>
+  </div>
+
+  <div class="combo-flash" id="combo-flash"></div>
+</div>
+
+<!-- ===================== ÉCRAN FIN ===================== -->
+<div id="ecran-fin" class="ecran">
+  <header class="entete-edu">
+    <span class="flocon">❄</span>
+    <span class="nom-edu">inerWeb</span>
+    <span class="cartouche-edu">Édu</span>
+    <span class="signature-edu">par F. Henninot</span>
+  </header>
+
+  <div class="medaille-bloc">
+    <div class="medaille" id="fin-medaille">🏅</div>
+    <div class="titre-medaille" id="fin-titre">Médaille de bronze</div>
+    <div class="note-finale"><span id="fin-note">12,5</span><span class="sur20"> / 20</span></div>
+    <div id="fin-pseudo" style="color:var(--gris); font-size:14px;"></div>
+  </div>
+
+  <div class="radar-conteneur">
+    <h3>Bilan par thème</h3>
+    <canvas id="radar" width="400" height="400" style="display:block; max-width:100%; height:auto; margin: 0 auto;"></canvas>
+    <table class="themes-table" id="themes-table"></table>
+  </div>
+
+  <div class="conteneur">
+    <div class="bloc">
+      <h3>Et maintenant ?</h3>
+      <p>Ton bilan est enregistré. Ton prof reçoit le détail (note + sous-notes par thème).</p>
+      <p>Tu peux revoir les fiches de révision pour combler ce qui a coincé.</p>
+      <a href="ressources/index.html" class="btn btn-secondaire" style="display:block; text-decoration:none; text-align:center; margin-top:12px;">📚 Voir les fiches de révision</a>
+    </div>
+  </div>
+
+  <div class="mention-rgpd">
+    Données traitées par F. Henninot, enseignant LP Privé Jacques Raynaud — Campus ÉQUATIO Marseille.<br>
+    Stockage chiffré (AES-256). Suppression au 31/08.
+  </div>
+</div>
+
+<script>
+// ============================================================
+// CONFIGURATION
+// ============================================================
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxsBftvAR73qXbWIqSDm2pIgNMHtMHq5QDJaCVQ_9tp0iVjGv6LxAch49bvVVhOMyJ4/exec';
+const ENC_FICHIER = 'data/bilan-tne.enc';
+const HEARTBEAT_INTERVAL_MS = 15000;
+
+// ============================================================
+// ÉTAT GLOBAL
+// ============================================================
+const etat = {
+  // Identité
+  classe: '', pseudo: '', nom_initiale: '', blason: '❄',
+  token: '', code_aes: '',
+  // Banque
+  banque: null, questions_session: [], svg_index: {},
+  // Avancement
+  q_index: 0, q_repondues: 0, score: 0, combo: 0, combo_max: 0,
+  reponses: [], // { id, theme, ok, choix_index }
+  t_debut: 0, t_courant: 0,
+  // Anti-triche
+  focus_perdu_count: 0, devtools_count: 0, reconnect_count: 0, token_changes: 0,
+  // Heartbeat
+  hb_timer: null, time_timer: null,
+  // Fini
+  fini: false
+};
+
+// ============================================================
+// HELPERS
+// ============================================================
+function $(id) { return document.getElementById(id); }
+function show(id) { document.querySelectorAll('.ecran').forEach(e => e.classList.remove('actif')); $(id).classList.add('actif'); }
+function showBlock(id) { $(id).style.display = 'block'; }
+
+async function api(action, params, methode) {
+  methode = methode || 'POST';
+  if (APPS_SCRIPT_URL.startsWith('__')) {
+    console.warn('[DEV] APPS_SCRIPT_URL non configurée — réponse simulée pour ' + action);
+    return { ok: true, _simulated: true };
+  }
+  const url = APPS_SCRIPT_URL + '?action=' + encodeURIComponent(action);
+  if (methode === 'GET') {
+    const qs = Object.keys(params || {}).map(k => k + '=' + encodeURIComponent(params[k])).join('&');
+    const r = await fetch(url + '&' + qs);
+    return await r.json();
+  }
+  const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(params || {}) });
+  return await r.json();
+}
+
+// ============================================================
+// CHIFFREMENT (Web Crypto)
+// ============================================================
+async function dechiffrerBanque(blobBase64, motDePasse) {
+  const blob = JSON.parse(atob(blobBase64));
+  const salt = Uint8Array.from(atob(blob.salt), c => c.charCodeAt(0));
+  const iv = Uint8Array.from(atob(blob.iv), c => c.charCodeAt(0));
+  const ct = Uint8Array.from(atob(blob.ct), c => c.charCodeAt(0));
+  const enc = new TextEncoder();
+  const baseKey = await crypto.subtle.importKey('raw', enc.encode(motDePasse), 'PBKDF2', false, ['deriveKey']);
+  const key = await crypto.subtle.deriveKey(
+    { name: 'PBKDF2', salt: salt, iterations: blob.iter, hash: 'SHA-256' },
+    baseKey, { name: 'AES-GCM', length: 256 }, false, ['decrypt']
+  );
+  const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv }, key, ct);
+  return JSON.parse(new TextDecoder().decode(plain));
+}
+
+// ============================================================
+// HMAC côté client (synchronisé avec Apps Script)
+// ============================================================
+async function calculerHmac(donnees, secret) {
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey('raw', enc.encode(secret),
+    { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const sig = await crypto.subtle.sign('HMAC', key, enc.encode(donnees));
+  return btoa(String.fromCharCode(...new Uint8Array(sig)));
+}
+
+// ============================================================
+// MÉLANGE FISHER-YATES + TIRAGE PAR THÈME
+// ============================================================
+function melange(arr) {
+  arr = arr.slice();
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function tirerSession(banque) {
+  const themes = banque.themes;
+  const questions = banque.questions;
+  let session = [];
+  themes.forEach(theme => {
+    const dispo = questions.filter(q => q.theme === theme.id);
+    const tirees = melange(dispo).slice(0, theme.tirees);
+    session = session.concat(tirees);
+  });
+  // Mélange final ordre des questions (sauf garder ri_classe et orientation à la fin)
+  const fin = session.filter(q => q.theme === 'ri_classe' || q.theme === 'orientation');
+  const debut = session.filter(q => q.theme !== 'ri_classe' && q.theme !== 'orientation');
+  session = melange(debut).concat(melange(fin));
+  // Mélange choix + réindex reponse
+  session = session.map(q => {
+    const ordre = melange(q.choix.map((_, i) => i));
+    const nouveauxChoix = ordre.map(i => q.choix[i]);
+    const nouveauReponse = ordre.indexOf(q.reponse);
+    return Object.assign({}, q, { choix: nouveauxChoix, reponse: nouveauReponse, _ordreChoix: ordre });
+  });
+  return session;
+}
+
+// ============================================================
+// SVG : index par id
+// ============================================================
+function indexerSvgs(banque) {
+  const idx = {};
+  (banque.symboles_frigo || []).forEach(s => idx[s.id] = s.svg);
+  (banque.symboles_electrotech || []).forEach(s => idx[s.id] = s.svg);
+  return idx;
+}
+
+// Sanitisation runtime supplémentaire (au cas où)
+function sanitiseSvgRuntime(svgText) {
+  if (!svgText) return '';
+  return svgText
+    .replace(/<!--[\s\S]*?-->/g, '')
+    .replace(/<title>[\s\S]*?<\/title>/gi, '')
+    .replace(/<desc>[\s\S]*?<\/desc>/gi, '')
+    .replace(/<metadata>[\s\S]*?<\/metadata>/gi, '')
+    .replace(/\sid="[^"]*"/g, '')
+    .replace(/\s(inkscape|sodipodi):[^=\s]+="[^"]*"/g, '')
+    .replace(/\saria-label="[^"]*"/g, '')
+    .replace(/\sdata-[^=]+="[^"]*"/g, '');
+}
+
+// ============================================================
+// ÉCRAN GARDE — flux 4 étapes
+// ============================================================
+document.querySelectorAll('.btn-classe').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.btn-classe').forEach(x => x.classList.remove('actif'));
+    b.classList.add('actif');
+    etat.classe = b.dataset.classe;
+    showBlock('bloc-identite');
+    setTimeout(() => $('inp-pseudo').focus(), 100);
+  });
+});
+
+$('btn-suivant-identite').addEventListener('click', () => {
+  const pseudo = $('inp-pseudo').value.toUpperCase().trim();
+  const nom = $('inp-nom').value.trim();
+  if (!/^[A-Z0-9_-]{4,20}$/.test(pseudo)) { alert('Pseudo invalide (4-20 caractères, lettres/chiffres/_-)'); return; }
+  if (nom.length < 3) { alert('Saisis ton prénom + initiale (ex : Marie D.)'); return; }
+  etat.pseudo = pseudo;
+  etat.nom_initiale = nom;
+  showBlock('bloc-blason');
+});
+
+document.querySelectorAll('.blason').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.blason').forEach(x => x.classList.remove('actif'));
+    b.classList.add('actif');
+    etat.blason = b.dataset.blason;
+    $('btn-suivant-blason').disabled = false;
+  });
+});
+
+$('btn-suivant-blason').addEventListener('click', () => {
+  showBlock('bloc-auth');
+  setTimeout(() => $('inp-mdp').focus(), 100);
+});
+
+$('btn-demarrer').addEventListener('click', async () => {
+  const mdp = $('inp-mdp').value;
+  const passphrase = $('inp-passphrase').value.trim();
+  const msg = $('msg-auth');
+  msg.innerHTML = '';
+
+  if (mdp.length < 4) { msg.innerHTML = '<div class="message erreur">Mot de passe trop court (4 caractères min)</div>'; return; }
+  if (!passphrase) { msg.innerHTML = '<div class="message erreur">Mot de passe d\'épreuve requis</div>'; return; }
+
+  $('btn-demarrer').disabled = true;
+  $('btn-demarrer').textContent = '⏳ Connexion...';
+
+  // 1. check_pseudo → existe ou non
+  const check = await api('check_pseudo', { classe: etat.classe, pseudo: etat.pseudo });
+  if (!check.ok) { msg.innerHTML = '<div class="message erreur">' + (check.error || 'Erreur') + '</div>'; reset(); return; }
+
+  let auth;
+  if (check.exists) {
+    auth = await api('login', { classe: etat.classe, pseudo: etat.pseudo, mdp: mdp });
+  } else {
+    auth = await api('create_account', { classe: etat.classe, pseudo: etat.pseudo, nom_initiale: etat.nom_initiale, mdp: mdp });
+    if (auth.ok) {
+      auth = await api('login', { classe: etat.classe, pseudo: etat.pseudo, mdp: mdp });
+    }
+  }
+
+  if (!auth.ok) { msg.innerHTML = '<div class="message erreur">' + (auth.error || 'Échec connexion') + '</div>'; reset(); return; }
+
+  etat.token = auth.token || ('local-' + Date.now());
+  etat.code_aes = auth.code_aes || passphrase;
+
+  // 2. Charger + déchiffrer banque
+  msg.innerHTML = '<div class="message info">⏳ Chargement de l\'épreuve...</div>';
+  try {
+    const r = await fetch(ENC_FICHIER);
+    if (!r.ok) throw new Error('Banque introuvable');
+    const blobBase64 = (await r.text()).trim();
+    etat.banque = await dechiffrerBanque(blobBase64, passphrase);
+  } catch (e) {
+    msg.innerHTML = '<div class="message erreur">Mot de passe d\'épreuve incorrect ou banque corrompue</div>';
+    reset(); return;
+  }
+
+  etat.svg_index = indexerSvgs(etat.banque);
+  etat.questions_session = tirerSession(etat.banque);
+
+  // Persister token (pour reconnect)
+  try { localStorage.setItem('bilan_tne_token', etat.token); } catch(e) {}
+  try { localStorage.setItem('bilan_tne_pseudo', etat.pseudo); } catch(e) {}
+  try { localStorage.setItem('bilan_tne_classe', etat.classe); } catch(e) {}
+
+  show('ecran-jeu');
+  demarrerJeu();
+
+  function reset() { $('btn-demarrer').disabled = false; $('btn-demarrer').textContent = '🚀 Démarrer l\'épreuve'; }
+});
+
+// ============================================================
+// JEU
+// ============================================================
+function demarrerJeu() {
+  etat.t_debut = Date.now();
+  $('cockpit-titre-pseudo').textContent = etat.blason + ' Pilote ' + etat.pseudo;
+  installerAntiTriche();
+  installerHeartbeat();
+  installerChrono();
+  afficherQuestion();
+}
+
+function afficherQuestion() {
+  if (etat.q_index >= etat.questions_session.length) { terminerJeu(); return; }
+
+  const q = etat.questions_session[etat.q_index];
+  const theme = etat.banque.themes.find(t => t.id === q.theme);
+
+  $('theme-tag').textContent = theme ? theme.label : q.theme;
+  $('enonce-q').textContent = q.enonce;
+
+  // SVG si type svg-mystere
+  const zoneSvg = $('zone-svg');
+  if (q.type === 'svg-mystere' && q.svg_id && etat.svg_index[q.svg_id]) {
+    zoneSvg.innerHTML = sanitiseSvgRuntime(etat.svg_index[q.svg_id]);
+    zoneSvg.style.display = 'flex';
+  } else {
+    zoneSvg.innerHTML = '';
+    zoneSvg.style.display = 'none';
+  }
+
+  // Choix
+  const zoneChoix = $('zone-choix');
+  zoneChoix.innerHTML = '';
+  q.choix.forEach((c, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'choix';
+    btn.textContent = c;
+    btn.addEventListener('click', () => repondre(i, btn));
+    zoneChoix.appendChild(btn);
+  });
+
+  $('feedback').className = 'feedback';
+  $('feedback').innerHTML = '';
+  $('btn-suivant').className = 'btn btn-primaire bouton-suivant';
+
+  // Progression
+  const pct = Math.round((etat.q_index / etat.questions_session.length) * 100);
+  $('barre-remplie').style.width = pct + '%';
+  $('barre-texte').textContent = 'Question ' + (etat.q_index + 1) + ' / ' + etat.questions_session.length;
+}
+
+function repondre(index, boutonClique) {
+  const q = etat.questions_session[etat.q_index];
+  const ok = (index === q.reponse);
+
+  // Désactiver tous les choix
+  document.querySelectorAll('.choix').forEach((b, i) => {
+    b.classList.add('disabled');
+    if (i === q.reponse) b.classList.add('bonne');
+    if (i === index && !ok) b.classList.add('mauvaise');
+  });
+
+  // Score
+  if (ok) {
+    etat.score++;
+    etat.combo++;
+    etat.combo_max = Math.max(etat.combo_max, etat.combo);
+    if (etat.combo >= 3) flashCombo('×' + etat.combo + ' COMBO !');
+  } else {
+    if (etat.combo >= 3) flashCombo('💥 Combo perdu');
+    etat.combo = 0;
+  }
+  etat.q_repondues++;
+  etat.reponses.push({ id: q.id, theme: q.theme, ok: ok, choix_index: index });
+  $('stat-xp').textContent = etat.score * 10;
+  $('stat-combo').textContent = '×' + etat.combo;
+
+  // Feedback
+  const fb = $('feedback');
+  fb.className = 'feedback show ' + (ok ? 'bonne' : 'mauvaise');
+  fb.innerHTML = '<strong>' + (ok ? '✅ Bonne réponse !' : '❌ Mauvaise réponse') + '</strong><br>' +
+    (q.explication || '');
+
+  // Bouton suivant
+  $('btn-suivant').className = 'btn btn-primaire bouton-suivant show';
+  $('btn-suivant').focus();
+}
+
+$('btn-suivant').addEventListener('click', () => {
+  etat.q_index++;
+  afficherQuestion();
+});
+
+function flashCombo(texte) {
+  const f = $('combo-flash');
+  f.textContent = texte;
+  f.classList.remove('show');
+  void f.offsetWidth; // force reflow
+  f.classList.add('show');
+  setTimeout(() => f.classList.remove('show'), 600);
+}
+
+// ============================================================
+// CHRONO + HEARTBEAT
+// ============================================================
+function installerChrono() {
+  if (etat.time_timer) clearInterval(etat.time_timer);
+  etat.time_timer = setInterval(() => {
+    const sec = Math.floor((Date.now() - etat.t_debut) / 1000);
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    $('stat-temps').textContent = m + ':' + (s < 10 ? '0' : '') + s;
+  }, 1000);
+}
+
+function installerHeartbeat() {
+  envoyerHeartbeat();
+  if (etat.hb_timer) clearInterval(etat.hb_timer);
+  etat.hb_timer = setInterval(envoyerHeartbeat, HEARTBEAT_INTERVAL_MS);
+}
+
+async function envoyerHeartbeat() {
+  if (etat.fini || !etat.token) return;
+  await api('heartbeat', {
+    classe: etat.classe, pseudo: etat.pseudo, nom_initiale: etat.nom_initiale, token: etat.token,
+    q_courante: etat.q_index + 1, q_repondues: etat.q_repondues,
+    focus_perdu_count: etat.focus_perdu_count, devtools_count: etat.devtools_count,
+    fini: etat.fini
+  });
+  // Toggle LED
+  $('led-sys').classList.toggle('off');
+}
+
+// ============================================================
+// ANTI-TRICHE
+// ============================================================
+function installerAntiTriche() {
+  // Sortie d'onglet
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && !etat.fini) {
+      etat.focus_perdu_count++;
+      api('log_event', { type: 'FOCUS_PERDU', classe: etat.classe, pseudo: etat.pseudo, message: 'q' + (etat.q_index + 1), token: etat.token });
+      envoyerHeartbeat();
+    }
+  });
+
+  // Détection devtools (heuristique : différence taille window)
+  let devtoolsDetecte = false;
+  setInterval(() => {
+    const seuil = 160;
+    if (window.outerWidth - window.innerWidth > seuil || window.outerHeight - window.innerHeight > seuil) {
+      if (!devtoolsDetecte) {
+        devtoolsDetecte = true;
+        etat.devtools_count++;
+        api('log_event', { type: 'DEVTOOLS', classe: etat.classe, pseudo: etat.pseudo, message: 'q' + (etat.q_index + 1), token: etat.token });
+        envoyerHeartbeat();
+      }
+    } else { devtoolsDetecte = false; }
+  }, 2000);
+
+  // Bloquer copier-coller + clic droit
+  document.addEventListener('contextmenu', e => { if (!etat.fini) e.preventDefault(); });
+  document.addEventListener('copy', e => { if (!etat.fini) { e.preventDefault(); } });
+  document.addEventListener('cut', e => { if (!etat.fini) { e.preventDefault(); } });
+
+  // Console silencieuse
+  try { ['log','warn','info','debug'].forEach(m => { console[m] = function() {}; }); } catch(e) {}
+
+  // Avertissement avant fermeture
+  window.addEventListener('beforeunload', e => {
+    if (!etat.fini && etat.q_repondues > 0) {
+      e.preventDefault();
+      e.returnValue = 'Tu n\'as pas terminé l\'épreuve. Sûr de vouloir partir ?';
+      return e.returnValue;
+    }
+  });
+}
+
+// ============================================================
+// FIN DE JEU
+// ============================================================
+async function terminerJeu() {
+  etat.fini = true;
+  if (etat.hb_timer) clearInterval(etat.hb_timer);
+  if (etat.time_timer) clearInterval(etat.time_timer);
+
+  const total = etat.questions_session.length;
+  const correct = etat.score;
+  const note20 = Math.round(correct / total * 200) / 10; // /20 sur 1 décimale
+  const scorePct = Math.round(correct / total * 1000) / 10;
+  const dureeSec = Math.floor((Date.now() - etat.t_debut) / 1000);
+
+  // Sous-stats par thème
+  const sousNotes = {};
+  etat.banque.themes.forEach(t => sousNotes[t.id] = { label: t.label, total: 0, correct: 0, pct: 0 });
+  etat.reponses.forEach(r => {
+    if (sousNotes[r.theme]) {
+      sousNotes[r.theme].total++;
+      if (r.ok) sousNotes[r.theme].correct++;
+    }
+  });
+  Object.keys(sousNotes).forEach(k => {
+    const s = sousNotes[k];
+    s.pct = s.total > 0 ? Math.round(s.correct / s.total * 100) : 0;
+  });
+
+  // HMAC
+  const HMAC_SECRET = 'inerWeb-FH-2026-bilan-tne-secret-hmac-key';
+  const donnees = etat.classe + ':' + etat.pseudo + ':' + note20 + ':' + scorePct + ':' + total + ':' + correct + ':' + dureeSec;
+  const sig = await calculerHmac(donnees, HMAC_SECRET);
+
+  // Soumission
+  await api('submit_result', {
+    classe: etat.classe, pseudo: etat.pseudo, nom_initiale: etat.nom_initiale,
+    note_20: note20, score_pct: scorePct,
+    nb_questions: total, nb_correctes: correct, duree_sec: dureeSec,
+    sous_notes_themes: sousNotes,
+    detail_questions: etat.reponses,
+    focus_perdu_count: etat.focus_perdu_count,
+    reconnect_count: etat.reconnect_count,
+    token_changes: etat.token_changes,
+    devtools_ouvert: etat.devtools_count > 0,
+    hmac_signature: sig
+  });
+
+  afficherEcranFin(note20, sousNotes);
+}
+
+function afficherEcranFin(note20, sousNotes) {
+  // Médaille
+  let medaille = '🥉', titre = 'Médaille de bronze';
+  if (note20 >= 19) { medaille = '🏆'; titre = 'Frigoriste de l\'année'; }
+  else if (note20 >= 17) { medaille = '🥇'; titre = 'Médaille d\'or'; }
+  else if (note20 >= 14) { medaille = '🥈'; titre = 'Médaille d\'argent'; }
+  else if (note20 >= 10) { medaille = '🥉'; titre = 'Médaille de bronze'; }
+  else { medaille = '🎯'; titre = 'À retravailler — pas grave, on continue !'; }
+
+  $('fin-medaille').textContent = medaille;
+  $('fin-titre').textContent = titre;
+  $('fin-note').textContent = note20.toFixed(1).replace('.', ',');
+  $('fin-pseudo').textContent = etat.blason + ' ' + etat.pseudo + ' · ' + etat.classe;
+
+  // Tableau thèmes
+  const tbl = $('themes-table');
+  let html = '<thead><tr><th>Thème</th><th>Score</th><th>%</th></tr></thead><tbody>';
+  Object.values(sousNotes).forEach(s => {
+    const cls = s.pct >= 70 ? 'fort' : (s.pct >= 50 ? 'moyen' : 'faible');
+    html += '<tr><td>' + s.label + '</td><td>' + s.correct + ' / ' + s.total + '</td><td class="pct-cell ' + cls + '">' + s.pct + ' %</td></tr>';
+  });
+  html += '</tbody>';
+  tbl.innerHTML = html;
+
+  // Radar SVG
+  dessinerRadar(sousNotes);
+
+  show('ecran-fin');
+}
+
+function dessinerRadar(sousNotes) {
+  const canvas = $('radar');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const cx = W / 2, cy = H / 2;
+  const R = Math.min(W, H) / 2 - 50;
+  const themes = Object.values(sousNotes);
+  const N = themes.length;
+
+  ctx.clearRect(0, 0, W, H);
+
+  // Grille
+  ctx.strokeStyle = '#d1d5db'; ctx.lineWidth = 1;
+  for (let r = 1; r <= 5; r++) {
+    ctx.beginPath();
+    for (let i = 0; i <= N; i++) {
+      const a = (i / N) * Math.PI * 2 - Math.PI / 2;
+      const x = cx + Math.cos(a) * R * (r / 5);
+      const y = cy + Math.sin(a) * R * (r / 5);
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  }
+
+  // Axes
+  ctx.strokeStyle = '#9ca3af';
+  for (let i = 0; i < N; i++) {
+    const a = (i / N) * Math.PI * 2 - Math.PI / 2;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + Math.cos(a) * R, cy + Math.sin(a) * R);
+    ctx.stroke();
+  }
+
+  // Polygone score
+  ctx.fillStyle = 'rgba(255, 107, 53, 0.35)';
+  ctx.strokeStyle = '#ff6b35';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  themes.forEach((s, i) => {
+    const a = (i / N) * Math.PI * 2 - Math.PI / 2;
+    const r = R * (s.pct / 100);
+    const x = cx + Math.cos(a) * r;
+    const y = cy + Math.sin(a) * r;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  });
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  // Labels
+  ctx.fillStyle = '#1b3a63';
+  ctx.font = 'bold 11px Calibri, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  themes.forEach((s, i) => {
+    const a = (i / N) * Math.PI * 2 - Math.PI / 2;
+    const x = cx + Math.cos(a) * (R + 24);
+    const y = cy + Math.sin(a) * (R + 24);
+    const lbl = s.label.length > 15 ? s.label.slice(0, 14) + '…' : s.label;
+    ctx.fillText(lbl, x, y);
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Fiche 06 — Composants frigorifiques — 2nde TNE</title>
+<style>
+  *{box-sizing:border-box}
+  body{font-family:Calibri,"Segoe UI",Arial,sans-serif;font-size:14pt;line-height:1.5;color:#000;background:#fff;margin:0;padding:20px 30px;text-align:left}
+  h1,h2,h3{font-family:"Trebuchet MS",sans-serif;font-weight:bold;color:#1b3a63;text-align:left}
+  h1{font-size:22pt;margin:6px 0 4px 0}
+  h2{font-size:16pt;border-bottom:2px solid #1b3a63;padding-bottom:3px;margin-top:18px}
+  h3{font-size:14pt;color:#ff6b35;margin:12px 0 6px 0}
+  .entete{display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #1b3a63;padding-bottom:8px;margin-bottom:12px}
+  .logo{display:flex;align-items:center;gap:8px;font-family:"Trebuchet MS",sans-serif}
+  .flocon{color:#1b3a63;font-size:24pt}
+  .nom{color:#1b3a63;font-weight:bold;font-size:20pt}
+  .cartouche{background:#ff6b35;color:#fff;padding:2px 8px;border-radius:4px;font-weight:bold;font-size:14pt}
+  .signature{color:#666;font-size:11pt}
+  .btn-print{background:#1b3a63;color:#fff;border:none;padding:8px 14px;border-radius:6px;font-size:12pt;cursor:pointer;font-family:Calibri,sans-serif}
+  .btn-print:hover{background:#ff6b35}
+  .encadre-orange{background:#fff3e0;border-left:4px solid #ff6b35;padding:12px;margin:12px 0;border-radius:4px}
+  .encadre-rouge{background:#ffebee;border-left:4px solid #c62828;padding:12px;margin:12px 0;border-radius:4px}
+  .encadre-vert{background:#e8f5e9;border-left:4px solid #2e7d32;padding:12px;margin:12px 0;border-radius:4px}
+  .encadre-bleu{background:#e3f0fc;border-left:4px solid #1b3a63;padding:12px;margin:12px 0;border-radius:4px}
+  ul{margin:6px 0 6px 20px;padding:0}
+  li{margin:4px 0}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13pt}
+  th{background:#1b3a63;color:#fff;padding:6px;text-align:left;font-family:"Trebuchet MS",sans-serif}
+  td{border:1px solid #ccc;padding:6px;vertical-align:top}
+  tr:nth-child(even) td{background:#f7f9fc}
+  .danger{color:#c62828;font-weight:bold}
+  .ok{color:#2e7d32;font-weight:bold}
+  .meta{color:#666;font-size:11pt}
+  footer{margin-top:18px;border-top:1px solid #ccc;padding-top:8px;color:#666;font-size:11pt}
+  .bandeau-fiche{background:#1b3a63;color:#fff;padding:6px 12px;border-radius:4px;display:inline-block;font-family:"Trebuchet MS",sans-serif;font-weight:bold;margin-bottom:6px}
+  .header-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .grille-comp{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0}
+  .compo{border:1px solid #1b3a63;border-radius:6px;padding:10px;background:#f7f9fc}
+  .compo h3{margin-top:0;font-size:13pt}
+  .compo .svg-zone{height:80px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px dashed #ccc;border-radius:4px;margin-bottom:6px}
+  .compo .svg-zone img{max-height:75px;max-width:100%}
+  .compo .role{font-size:12pt;color:#000;margin-top:4px}
+  .compo .pression{font-size:11pt;color:#666;font-style:italic;margin-top:2px}
+  @media print{body{padding:10mm}.btn-print{display:none}h2{page-break-after:avoid}.compo{page-break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<header class="entete">
+  <div class="logo">
+    <span class="flocon">❄</span>
+    <span class="nom">inerWeb</span>
+    <span class="cartouche">Édu</span>
+  </div>
+  <div class="signature">par F. Henninot — LP Privé Jacques Raynaud · Campus ÉQUATIO Marseille</div>
+</header>
+
+<div class="header-row">
+  <div>
+    <div class="bandeau-fiche">FICHE 06 · 2nde TNE</div>
+    <h1>Composants frigorifiques</h1>
+    <div class="meta">Les 9 composants de base · Symboles normés · Cycle frigorifique</div>
+  </div>
+  <button class="btn-print" onclick="window.print()">📥 Imprimer</button>
+</div>
+
+<h2>1. Le cycle frigorifique en 4 phases</h2>
+<div class="encadre-bleu">
+<strong>Compression → Condensation → Détente → Évaporation</strong><br>
+Le compresseur aspire la vapeur BP, la refoule en HP. Le condenseur évacue la chaleur (HP). Le détendeur fait chuter la pression. L'évaporateur absorbe la chaleur (BP).
+</div>
+
+<h2>2. Les 9 composants de base</h2>
+
+<div class="grille-comp">
+
+  <div class="compo">
+    <h3>1. Compresseur</h3>
+    <div class="svg-zone"><img src="../assets/svg-frigo/sf_01.svg" alt="Symbole compresseur"></div>
+    <div class="role">Aspire la vapeur BP, la refoule en HP</div>
+    <div class="pression">BP → HP</div>
+  </div>
+
+  <div class="compo">
+    <h3>2. Condenseur</h3>
+    <div class="svg-zone"><img src="../assets/svg-frigo/sf_02.svg" alt="Symbole condenseur"></div>
+    <div class="role">Rejette la chaleur à l'extérieur</div>
+    <div class="pression">HP · vapeur → liquide</div>
+  </div>
+
+  <div class="compo">
+    <h3>3. Détendeur</h3>
+    <div class="svg-zone"><img src="../assets/svg-frigo/sf_03.svg" alt="Symbole détendeur"></div>
+    <div class="role">Fait chuter la pression du fluide</div>
+    <div class="pression">HP → BP</div>
+  </div>
+
+  <div class="compo">
+    <h3>4. Évaporateur</h3>
+    <div class="svg-zone"><img src="../assets/svg-frigo/sf_04.svg" alt="Symbole évaporateur"></div>
+    <div class="role">Absorbe la chaleur (produit le froid)</div>
+    <div class="pression">BP · liquide → vapeur</div>
+  </div>
+
+  <div class="compo">
+    <h3>5. Bouteille liquide</h3>
+    <div class="svg-zone"><img src="../assets/svg-frigo/sf_05.svg" alt="Symbole bouteille liquide"></div>
+    <div class="role">Réservoir tampon de fluide liquide</div>
+    <div class="pression">HP · sortie condenseur</div>
+  </div>
+
+  <div class="compo">
+    <h3>6. Électrovanne</h3>
+    <div class="svg-zone"><img src="../assets/svg-frigo/sf_06.svg" alt="Symbole électrovanne"></div>
+    <div class="role">Vanne à commande électrique (ouvre/ferme)</div>
+    <div class="pression">Régulation marche/arrêt</div>
+  </div>
+
+  <div class="compo">
+    <h3>7. Filtre déshydrateur</h3>
+    <div class="svg-zone"><img src="../assets/svg-frigo/sf_07.svg" alt="Symbole filtre déshydrateur"></div>
+    <div class="role">Capte humidité et particules</div>
+    <div class="pression">Avant le détendeur</div>
+  </div>
+
+  <div class="compo">
+    <h3>8. Voyant liquide</h3>
+    <div class="svg-zone"><img src="../assets/svg-frigo/sf_08.svg" alt="Symbole voyant liquide"></div>
+    <div class="role">Vérification visuelle du fluide</div>
+    <div class="pression">HP · ligne liquide</div>
+  </div>
+
+  <div class="compo">
+    <h3>9. Indicateur d'humidité</h3>
+    <div class="svg-zone"><img src="../assets/svg-frigo/sf_09.svg" alt="Symbole indicateur humidité"></div>
+    <div class="role">Pastille colorée : sec (vert) / humide (jaune)</div>
+    <div class="pression">Intégré au voyant</div>
+  </div>
+
+</div>
+
+<h2>3. Schéma simplifié du cycle</h2>
+<div class="encadre-orange">
+<pre style="font-family:'Trebuchet MS',monospace;font-size:13pt;line-height:1.4;margin:0;color:#1b3a63">
+              ┌──────────────┐
+   HP vapeur  │ CONDENSEUR   │  rejette la chaleur
+   ───────────│              │───────────►
+              └──────┬───────┘
+                     │ HP liquide
+              ┌──────▼───────┐
+              │ DÉTENDEUR    │
+              └──────┬───────┘
+                     │ BP liquide
+              ┌──────▼───────┐
+   absorbe   │ ÉVAPORATEUR  │  produit le froid
+   ◄──────────│              │
+              └──────┬───────┘
+                     │ BP vapeur
+              ┌──────▼───────┐
+              │ COMPRESSEUR  │
+              └──────────────┘
+</pre>
+</div>
+
+<div class="encadre-vert"><span class="ok">Astuce mémo —</span> "Co-Co-Dé-É" : <strong>Co</strong>mpression → <strong>Co</strong>ndensation → <strong>Dé</strong>tente → <strong>É</strong>vaporation.</div>
+
+<footer>
+  LP Privé Jacques Raynaud — Campus ÉQUATIO · F. Henninot · 2026<br>
+  <span class="meta">Données traitées par F. Henninot, enseignant LP Jacques Raynaud. Stockage local. Aucune donnée personnelle élève dans ces fiches.</span>
+</footer>
+
+</body>
+</html>
