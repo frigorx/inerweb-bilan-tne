@@ -135,11 +135,12 @@ tr.fini td { background: #eff6ff; }
           <th>Dernière action</th>
           <th>Focus perdu</th>
           <th>Reconnects</th>
+          <th>💡 Aide</th>
           <th>Alertes</th>
         </tr>
       </thead>
       <tbody id="tbody-live">
-        <tr><td colspan="9" style="text-align:center; padding:20px; color:var(--gris)">Chargement...</td></tr>
+        <tr><td colspan="10" style="text-align:center; padding:20px; color:var(--gris)">Chargement...</td></tr>
       </tbody>
     </table>
   </div>
@@ -209,7 +210,7 @@ function installerTimer() {
 async function rafraichir() {
   const classe = $('filtre-classe').value;
   const r = await api('live_status', { code: codeProf, classe: classe });
-  if (!r.ok) { $('tbody-live').innerHTML = '<tr><td colspan="9" style="text-align:center; color:var(--rouge);">Erreur : ' + (r.error || 'inconnu') + '</td></tr>'; return; }
+  if (!r.ok) { $('tbody-live').innerHTML = '<tr><td colspan="10" style="text-align:center; color:var(--rouge);">Erreur : ' + (r.error || 'inconnu') + '</td></tr>'; return; }
 
   // Filtre pseudo
   const filtrePseudo = ($('filtre-pseudo').value || '').toUpperCase();
@@ -231,7 +232,7 @@ async function rafraichir() {
 
   // Tableau
   if (sessions.length === 0) {
-    $('tbody-live').innerHTML = '<tr><td colspan="9" style="text-align:center; padding:20px; color:var(--gris)">Aucun élève connecté pour le moment</td></tr>';
+    $('tbody-live').innerHTML = '<tr><td colspan="10" style="text-align:center; padding:20px; color:var(--gris)">Aucun élève connecté pour le moment</td></tr>';
   } else {
     $('tbody-live').innerHTML = sessions.map(s => ligneSession(s)).join('');
   }
@@ -271,6 +272,7 @@ function ligneSession(s) {
     <td>${derAct}</td>
     <td>${s.focus_perdu_count}</td>
     <td>${s.reconnect_count}</td>
+    <td>${s.aide_count > 0 ? '<span class="alerte-tag warn-tag">×' + s.aide_count + '</span>' : '—'}</td>
     <td>${alertes}</td>
   </tr>`;
 }

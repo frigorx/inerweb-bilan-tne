@@ -120,10 +120,10 @@ function initSheet(sh, nom) {
       entetes = ['classe', 'pseudo', 'nom_initiale', 'hash_mdp', 'salt', 'date_creation', 'derniere_connexion', 'nb_connexions', 'reset_demande', 'verrouille_jusqu_a', 'nb_essais_rates', 'token_session'];
       break;
     case ONGLET_RESULTATS:
-      entetes = ['date', 'classe', 'pseudo', 'nom_initiale', 'note_20', 'score_pct', 'nb_questions', 'nb_correctes', 'duree_sec', 'sous_notes_themes', 'detail_questions', 'focus_perdu_count', 'reconnect_count', 'devtools_ouvert', 'token_changes', 'hmac_signature', 'invalidee'];
+      entetes = ['date', 'classe', 'pseudo', 'nom_initiale', 'note_20', 'score_pct', 'nb_questions', 'nb_correctes', 'duree_sec', 'sous_notes_themes', 'detail_questions', 'focus_perdu_count', 'reconnect_count', 'devtools_ouvert', 'token_changes', 'aide_count', 'hmac_signature', 'invalidee'];
       break;
     case ONGLET_LIVE:
-      entetes = ['classe', 'pseudo', 'nom_initiale', 'token', 'session_debut', 'dernier_heartbeat', 'derniere_action', 'q_courante', 'q_repondues', 'focus_perdu_count', 'reconnect_count', 'devtools_count', 'token_changes', 'fini', 'note_20'];
+      entetes = ['classe', 'pseudo', 'nom_initiale', 'token', 'session_debut', 'dernier_heartbeat', 'derniere_action', 'q_courante', 'q_repondues', 'focus_perdu_count', 'reconnect_count', 'devtools_count', 'token_changes', 'aide_count', 'fini', 'note_20'];
       break;
     case ONGLET_LOGS:
       entetes = ['date', 'type', 'classe', 'pseudo', 'message', 'token'];
@@ -166,7 +166,16 @@ function lireToutesLignes(sh) {
 
 function indexCol(sh, nom) {
   const entetes = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
-  return entetes.indexOf(nom) + 1; // 1-based
+  return entetes.indexOf(nom) + 1; // 1-based, 0 si absent
+}
+
+/** Garantit qu'une colonne existe ; sinon l'ajoute en bout. Renvoie l'index 1-based. */
+function garantirColonne(sh, nom) {
+  let idx = indexCol(sh, nom);
+  if (idx > 0) return idx;
+  const dernier = sh.getLastColumn();
+  sh.getRange(1, dernier + 1).setValue(nom);
+  return dernier + 1;
 }
 
 // ========================
@@ -371,18 +380,20 @@ function heartbeat(params) {
   const qRepondues = parseInt(params.q_repondues || 0);
   const focusPerdu = parseInt(params.focus_perdu_count || 0);
   const devtools = parseInt(params.devtools_count || 0);
+  const aideCount = parseInt(params.aide_count || 0);
   const fini = estVrai(params.fini);
 
   if (!classe || !pseudo) return { ok: false, error: 'classe + pseudo requis' };
 
   const sh = getSheet(ONGLET_LIVE);
+  garantirColonne(sh, 'aide_count'); // rétro-compatibilité Sheet existante
   const { lignes } = lireToutesLignes(sh);
   const ligne = lignes.find(l => l.classe === classe && (l.pseudo || '').toUpperCase() === pseudo);
   const now = new Date().toISOString();
   const nowMs = Date.now();
 
   if (!ligne) {
-    sh.appendRow([classe, pseudo, nomInitiale, token, now, now, now, qCourante, qRepondues, focusPerdu, 0, devtools, 0, fini ? 'true' : 'false', '']);
+    sh.appendRow([classe, pseudo, nomInitiale, token, now, now, now, qCourante, qRepondues, focusPerdu, 0, devtools, 0, aideCount, fini ? 'true' : 'false', '']);
     return { ok: true, created: true };
   }
 
@@ -415,10 +426,11 @@ function heartbeat(params) {
   sh.getRange(ligne._row, indexCol(sh, 'reconnect_count')).setValue(reconnectCount);
   sh.getRange(ligne._row, indexCol(sh, 'devtools_count')).setValue(devtools);
   sh.getRange(ligne._row, indexCol(sh, 'token_changes')).setValue(tokenChanges);
+  sh.getRange(ligne._row, indexCol(sh, 'aide_count')).setValue(aideCount);
   sh.getRange(ligne._row, indexCol(sh, 'fini')).setValue(fini ? 'true' : 'false');
   if (nomInitiale && !ligne.nom_initiale) sh.getRange(ligne._row, indexCol(sh, 'nom_initiale')).setValue(nomInitiale);
 
-  return { ok: true, reconnect_count: reconnectCount, token_changes: tokenChanges };
+  return { ok: true, reconnect_count: reconnectCount, token_changes: tokenChanges, aide_count: aideCount };
 }
 
 // ========================
@@ -439,6 +451,7 @@ function submitResult(params) {
   const focusPerdu = parseInt(params.focus_perdu_count || 0);
   const reconnectCount = parseInt(params.reconnect_count || 0);
   const tokenChanges = parseInt(params.token_changes || 0);
+  const aideCount = parseInt(params.aide_count || 0);
   const devtoolsOuvert = estVrai(params.devtools_ouvert) ? 'true' : 'false';
   const signatureClient = params.hmac_signature || '';
 
@@ -468,9 +481,10 @@ function submitResult(params) {
 
   // Insertion résultat
   const shR = getSheet(ONGLET_RESULTATS);
+  garantirColonne(shR, 'aide_count');
   shR.appendRow([
     new Date().toISOString(), classe, pseudo, nomInitiale, note20, scorePct, nbQuestions, nbCorrectes, dureeSec,
-    sousNotesThemes, detailQuestions, focusPerdu, reconnectCount, devtoolsOuvert, tokenChanges, signatureClient, 'false'
+    sousNotesThemes, detailQuestions, focusPerdu, reconnectCount, devtoolsOuvert, tokenChanges, aideCount, signatureClient, 'false'
   ]);
 
   // Marquer la session live comme finie
@@ -550,6 +564,7 @@ function liveStatus(params) {
       reconnect_count: parseInt(l.reconnect_count || 0),
       devtools_count: parseInt(l.devtools_count || 0),
       token_changes: parseInt(l.token_changes || 0),
+      aide_count: parseInt(l.aide_count || 0),
       fini: fini,
       note_20: l.note_20 || '',
       etat: etat
@@ -608,6 +623,7 @@ function listResults(params) {
     note_20: l.note_20, score_pct: l.score_pct, nb_questions: l.nb_questions, nb_correctes: l.nb_correctes,
     duree_sec: l.duree_sec, sous_notes_themes: l.sous_notes_themes, detail_questions: l.detail_questions,
     focus_perdu_count: l.focus_perdu_count, reconnect_count: l.reconnect_count, token_changes: l.token_changes,
+    aide_count: l.aide_count,
     devtools_ouvert: estVrai(l.devtools_ouvert), invalidee: estVrai(l.invalidee)
   })) };
 }

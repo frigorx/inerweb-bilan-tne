@@ -466,6 +466,7 @@ function afficherDetail(row) {
   html += '<ul><li>Focus perdu : ' + (r.focus_perdu_count || 0) + '</li>';
   html += '<li>Reconnexions : ' + (r.reconnect_count || 0) + '</li>';
   html += '<li>Token changes : ' + (r.token_changes || 0) + '</li>';
+  html += '<li>💡 Aide consultée : ' + (r.aide_count || 0) + ' fois</li>';
   html += '<li>DevTools détecté : ' + (r.devtools_ouvert ? 'OUI' : 'non') + '</li></ul>';
 
   $('modal-titre').textContent = '📋 Détail — ' + r.pseudo;

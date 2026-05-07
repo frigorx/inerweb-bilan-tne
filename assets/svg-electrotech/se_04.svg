@@ -1,9 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
-  <g stroke="#1f2937" stroke-width="2.5" fill="none">
-    <line x1="100" y1="20" x2="100" y2="70"/>
-    <rect x="70" y="70" width="60" height="60"/>
-    <line x1="100" y1="130" x2="100" y2="180"/>
-  </g>
-  <text x="135" y="80" font-family="Arial, sans-serif" font-size="14" fill="#1f2937">A1</text>
-  <text x="135" y="135" font-family="Arial, sans-serif" font-size="14" fill="#1f2937">A2</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20.0 -32.0 40 60" overflow="visible"><rect x="-14" y="-8" width="28" height="16" fill="none" stroke="#000" stroke-width="1"/>
+<line x1="0" y1="-20" x2="0" y2="-8" stroke="#000" stroke-width="1"/>
+<line x1="0" y1="8" x2="0" y2="20" stroke="#000" stroke-width="1"/>
+<circle cx="0" cy="-20" r="1.5" fill="#000"/>
+<circle cx="0" cy="20" r="1.5" fill="#000"/></svg>
