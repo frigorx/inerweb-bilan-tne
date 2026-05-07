@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bilan d'année 2nde TNE — inerWeb Édu</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+:root { --bleu: #1b3a63; --bleu-fonce: #142848; --orange: #ff6b35; --vert: #16a34a; --gris: #6b7280; --gris-clair: #f5f7fa; --bord: #e5e7eb; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; min-height: 100%; font-family: 'Calibri','Segoe UI',Arial,sans-serif; font-size: 16px; line-height: 1.5; background: var(--gris-clair); color: #1f2937; }
+h1, h2, h3 { font-family: 'Trebuchet MS', sans-serif; font-weight: bold; color: var(--bleu); margin: 0; }
+
+.entete-edu { background: var(--bleu); color: white; padding: 12px 20px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); position: relative; }
+.entete-edu::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--orange); }
+.flocon { font-size: 28px; }
+.nom-edu { font-family: 'Trebuchet MS', sans-serif; font-weight: bold; font-size: 24px; }
+.cartouche-edu { background: var(--orange); padding: 4px 12px; border-radius: 4px; font-size: 14px; font-weight: bold; }
+.signature-edu { margin-left: auto; color: rgba(255,255,255,0.8); font-size: 13px; font-style: italic; }
+
+.bandeau { background: linear-gradient(135deg, var(--bleu), var(--bleu-fonce)); color: white; padding: 36px 24px; text-align: center; }
+.bandeau h1 { color: white; font-size: 34px; }
+.bandeau .sous { color: var(--orange); font-size: 18px; font-style: italic; margin-top: 6px; }
+
+.conteneur { max-width: 1100px; margin: 28px auto; padding: 0 24px; }
+
+.section { background: white; border-radius: 14px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.section h2 { font-size: 20px; margin-bottom: 14px; }
+.section h2 .pastille { display: inline-block; background: var(--orange); color: white; padding: 2px 10px; border-radius: 4px; font-size: 13px; margin-right: 8px; vertical-align: middle; }
+.section.prof h2 .pastille { background: var(--bleu); }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 14px; }
+.card { display: block; background: var(--gris-clair); border: 2px solid var(--bord); border-radius: 12px; padding: 18px; text-decoration: none; color: inherit; transition: all 0.2s; }
+.card:hover { border-color: var(--orange); transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.08); }
+.card .ico { font-size: 36px; }
+.card .titre { font-family: 'Trebuchet MS', sans-serif; font-weight: bold; color: var(--bleu); font-size: 17px; margin: 8px 0 4px; }
+.card .desc { color: var(--gris); font-size: 14px; }
+
+.section.eleves .card { border-color: var(--orange); background: #fff8f3; }
+.section.eleves .card:hover { background: var(--orange); color: white; }
+.section.eleves .card:hover .titre, .section.eleves .card:hover .desc { color: white; }
+
+.pied { background: white; border-top: 1px solid var(--bord); padding: 20px 24px; text-align: center; color: var(--gris); font-size: 13px; line-height: 1.6; margin-top: 20px; }
+.pied .gros { color: var(--bleu); font-weight: bold; }
+</style>
+</head>
+<body>
+
+<header class="entete-edu">
+  <span class="flocon">❄</span>
+  <span class="nom-edu">inerWeb</span>
+  <span class="cartouche-edu">Édu</span>
+  <span class="signature-edu">par F. Henninot — LP Privé Jacques Raynaud</span>
+</header>
+
+<div class="bandeau">
+  <h1>Bilan d'année — 2<sup>nde</sup> TNE</h1>
+  <div class="sous">Cockpit Frigo · 50 questions · ~1 h · note /20 + radar</div>
+</div>
+
+<div class="conteneur">
+
+  <!-- Section ÉLÈVES -->
+  <div class="section eleves">
+    <h2><span class="pastille">ÉLÈVES</span> Pour passer le bilan</h2>
+    <div class="cards">
+      <a href="arcade.html" class="card">
+        <div class="ico">🎮</div>
+        <div class="titre">Démarrer le quiz</div>
+        <div class="desc">50 questions tirées au hasard, ~1 h, note /20 + médaille à la fin.</div>
+      </a>
+      <a href="ressources/index.html" class="card">
+        <div class="ico">📚</div>
+        <div class="titre">Fiches de révision</div>
+        <div class="desc">9 fiches : sécurité, F-GAZ, thermo, frigo, électrotech, orientation…</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Section PROF -->
+  <div class="section prof">
+    <h2><span class="pastille">PROF</span> Outils de pilotage</h2>
+    <div class="cards">
+      <a href="lancement.html" class="card">
+        <div class="ico">🚀</div>
+        <div class="titre">Page de lancement TP</div>
+        <div class="desc">À projeter en classe : QR code, mot de passe, instructions élèves.</div>
+      </a>
+      <a href="tableau-bord-live.html" class="card">
+        <div class="ico">🟢</div>
+        <div class="titre">Tableau de bord LIVE</div>
+        <div class="desc">Surveillance temps réel pendant l'épreuve : focus, reconnects, devtools.</div>
+      </a>
+      <a href="tableau-bord.html" class="card">
+        <div class="ico">📊</div>
+        <div class="titre">Bilan post-épreuve</div>
+        <div class="desc">Notes /20, radar 9 axes, heatmap classe × thème, export CSV.</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Section infos -->
+  <div class="section">
+    <h2>ℹ Comment ça marche</h2>
+    <p style="margin-bottom:8px"><strong>Pour toi (prof) le jour J :</strong></p>
+    <ol style="margin: 0 0 14px 20px;">
+      <li>Tu ouvres <a href="lancement.html">la page de lancement</a> et tu projettes</li>
+      <li>Tu cliques « 📺 Mode présentation » pour le plein écran</li>
+      <li>Les élèves flashent le QR code ou tapent l'URL</li>
+      <li>Tu ouvres <a href="tableau-bord-live.html">le LIVE</a> dans un autre onglet pour surveiller</li>
+      <li>À la fin tu ouvres <a href="tableau-bord.html">le bilan</a> et tu exportes le CSV</li>
+    </ol>
+    <p><strong>Mot de passe d'épreuve à donner aux élèves :</strong> <code style="background:var(--gris-clair); padding:2px 8px; border-radius:4px; font-size:15px;">BILAN-TNE-2026</code></p>
+    <p><strong>Code prof (LIVE + bilan) :</strong> <code style="background:var(--gris-clair); padding:2px 8px; border-radius:4px; font-size:15px;">LPPJR2026</code></p>
+  </div>
+
+</div>
+
+<div class="pied">
+  <div class="gros">LP Privé Jacques Raynaud — Campus ÉQUATIO Marseille · F. Henninot · 2026</div>
+  Données traitées localement, chiffrées AES-256, suppression au 31/08. Pseudo + initiale uniquement côté serveur.
+</div>
+
+</body>
+</html>
