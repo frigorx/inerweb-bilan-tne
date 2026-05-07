@@ -221,13 +221,17 @@ document.getElementById('btn-projo').addEventListener('click', () => {
   }
 });
 
-// QR code — auto-détecte l'URL courante (locale ou github pages)
+// QR code — auto-détecte l'URL courante (locale ou github pages) + intègre classe + passphrase
 (function genererQR() {
-  const urlArcade = (location.origin && location.origin !== 'null' && !location.origin.startsWith('file:'))
+  const PASSPHRASE = '2tne2526';
+  const CLASSE = '2TNE';
+  const urlBase = (location.origin && location.origin !== 'null' && !location.origin.startsWith('file:'))
     ? location.origin + location.pathname.replace(/lancement\.html$/, '') + 'arcade.html'
     : 'https://frigorx.github.io/inerweb-bilan-tne/arcade.html';
+  const urlArcade = urlBase + '#classe=' + encodeURIComponent(CLASSE) + '&p=' + encodeURIComponent(PASSPHRASE);
 
-  document.getElementById('url-arcade').textContent = urlArcade;
+  // Affiche l'URL "humaine" (sans le # technique) pour ceux qui tapent à la main
+  document.getElementById('url-arcade').textContent = urlBase;
 
   const zone = document.getElementById('qr-zone');
   const fallback = document.getElementById('qr-fallback');

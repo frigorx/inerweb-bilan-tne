@@ -172,67 +172,40 @@ label.lab { display: block; font-weight: bold; color: var(--bleu); margin: 12px 
 
   <div class="conteneur">
 
-    <!-- Étape 1 : choix classe -->
-    <div class="bloc" id="bloc-classe">
-      <h2>1 · Sélectionne ta classe</h2>
-      <button class="btn-classe" data-classe="2TNE">2nde TNE</button>
-      <button class="btn-classe" data-classe="TEST">TEST (essai)</button>
-    </div>
+    <!-- ÉCRAN UNIQUE : 1 champ + 1 bouton -->
+    <div class="bloc" id="bloc-connexion">
+      <h2 id="titre-connexion">👋 Bienvenue !</h2>
+      <p id="aide-connexion" style="margin-bottom:14px; color:var(--gris);">Tape juste ton <strong>prénom et la 1<sup>re</sup> lettre de ton nom</strong>, puis clique sur le bouton.</p>
 
-    <!-- Étape 2 : pseudo + nom -->
-    <div class="bloc" id="bloc-identite" style="display:none">
-      <h2>2 · Ton identité</h2>
-      <label class="lab">Pseudo (4 caractères min, lettres/chiffres/_-)</label>
-      <input type="text" class="input" id="inp-pseudo" placeholder="Ex : ICEBLUE42" maxlength="20">
-      <div class="aide">Choisi par toi. C'est ce que tes camarades verront.</div>
+      <label class="lab" for="inp-nom">Prénom + initiale du nom</label>
+      <input type="text" class="input" id="inp-nom" placeholder="Marie D."
+             autocapitalize="words" autocorrect="off" autocomplete="off" spellcheck="false"
+             enterkeyhint="go" maxlength="30">
+      <div class="aide">Exemple : <em>Marie D.</em> &nbsp;ou&nbsp; <em>Lucas B.</em></div>
 
-      <label class="lab">Prénom + initiale du nom</label>
-      <input type="text" class="input" id="inp-nom" placeholder="Ex : Marie D." maxlength="30">
-      <div class="aide">Pour que ton prof sache qui tu es. Visible uniquement par lui.</div>
-
-      <button class="btn btn-primaire" id="btn-suivant-identite" style="margin-top:14px">Continuer →</button>
-    </div>
-
-    <!-- Étape 3 : choix blason -->
-    <div class="bloc" id="bloc-blason" style="display:none">
-      <h2>3 · Choisis ton blason de frigoriste</h2>
-      <div class="grille-blasons" id="grille-blasons">
-        <div class="blason" data-blason="❄">❄</div>
-        <div class="blason" data-blason="🔧">🔧</div>
-        <div class="blason" data-blason="⚙️">⚙️</div>
-        <div class="blason" data-blason="🛠️">🛠️</div>
-        <div class="blason" data-blason="🔥">🔥</div>
-        <div class="blason" data-blason="⚡">⚡</div>
-        <div class="blason" data-blason="🌡️">🌡️</div>
-        <div class="blason" data-blason="🧊">🧊</div>
+      <!-- Sélecteur classe — masqué par défaut, visible si pas pré-sélectionnée -->
+      <div id="zone-classe" style="margin-top:14px; display:none">
+        <label class="lab">Ta classe</label>
+        <button class="btn-classe" data-classe="2TNE">2<sup>nde</sup> TNE</button>
+        <button class="btn-classe" data-classe="TEST">TEST (essai)</button>
       </div>
-      <button class="btn btn-primaire" id="btn-suivant-blason" style="margin-top:14px" disabled>Continuer →</button>
+
+      <!-- Mot de passe d'épreuve — masqué si déjà passé via URL -->
+      <div id="zone-passphrase" style="margin-top:14px; display:none">
+        <label class="lab" for="inp-passphrase">Mot de passe d'épreuve (au tableau)</label>
+        <input type="text" class="input" id="inp-passphrase" placeholder="2tne2526"
+               autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false"
+               enterkeyhint="go" maxlength="40">
+      </div>
+
+      <button class="btn btn-primaire" id="btn-demarrer" style="margin-top:18px; font-size:18px; padding:16px;">🚀 Démarrer l'épreuve</button>
+      <div id="msg-auth" style="margin-top:10px"></div>
     </div>
 
-    <!-- Étape 4 : mot de passe + démarrage -->
-    <div class="bloc" id="bloc-auth" style="display:none">
-      <h2>4 · Mot de passe</h2>
-      <p class="aide" id="aide-auth">Première fois ? Crée un mot de passe (4+ caractères). Il te servira à reconnecter si tu perds ta connexion.</p>
-
-      <label class="lab">Mot de passe</label>
-      <input type="password" class="input" id="inp-mdp" placeholder="••••" maxlength="30">
-
-      <label class="lab">Mot de passe d'épreuve (donné par ton prof)</label>
-      <input type="text" class="input" id="inp-passphrase" placeholder="Ex : 2tne2526" maxlength="60">
-      <div class="aide">Le prof l'écrit au tableau au début de l'épreuve.</div>
-
-      <button class="btn btn-primaire" id="btn-demarrer" style="margin-top:14px">🚀 Démarrer l'épreuve</button>
-      <div id="msg-auth"></div>
-    </div>
-
-    <div class="message info" style="margin: 0 20px 20px">
-      <strong>📋 Comment ça se passe ?</strong>
-      <ul style="margin: 8px 0 0; padding-left: 20px;">
-        <li>50 questions tirées au hasard, durée libre prévue ≈ 1 h</li>
-        <li>9 thèmes : sécurité, hauteur, F-GAZ, thermo, frigo, électrotech, etc.</li>
-        <li>Note finale /20 + médaille en fin d'épreuve</li>
-        <li>Ne change pas d'onglet, ça compte pour ton prof !</li>
-      </ul>
+    <!-- Récap simple -->
+    <div class="message info" style="margin: 0 0 20px">
+      <strong>📋 Ton bilan d'année</strong> · 50 questions · ~1 h · note /20 + médaille à la fin.<br>
+      Pas de chrono, prends ton temps. <strong>Ne change pas d'onglet !</strong>
     </div>
   </div>
 
@@ -456,92 +429,208 @@ function sanitiseSvgRuntime(svgText) {
 }
 
 // ============================================================
-// ÉCRAN GARDE — flux 4 étapes
+// ÉCRAN UNIQUE — connexion 1-clic, iPhone friendly
 // ============================================================
-document.querySelectorAll('.btn-classe').forEach(b => {
-  b.addEventListener('click', () => {
-    document.querySelectorAll('.btn-classe').forEach(x => x.classList.remove('actif'));
-    b.classList.add('actif');
-    etat.classe = b.dataset.classe;
-    showBlock('bloc-identite');
-    setTimeout(() => $('inp-pseudo').focus(), 100);
+
+// Stockage local résilient (Safari privé bloque localStorage → fallback objet en mémoire)
+const LS = {
+  _mem: {},
+  get: function(k) { try { const v = localStorage.getItem(k); if (v !== null) return v; } catch(e) {} return this._mem[k] || null; },
+  set: function(k, v) { try { localStorage.setItem(k, v); } catch(e) {} this._mem[k] = v; }
+};
+
+// Lecture URL hash : #classe=2TNE&p=2tne2526
+function lireParamsHash() {
+  const h = (location.hash || '').replace(/^#/, '');
+  const out = {};
+  h.split('&').forEach(pair => {
+    if (!pair) return;
+    const [k, v] = pair.split('=');
+    if (k) out[decodeURIComponent(k)] = v ? decodeURIComponent(v) : '';
   });
-});
+  return out;
+}
 
-$('btn-suivant-identite').addEventListener('click', () => {
-  const pseudo = $('inp-pseudo').value.toUpperCase().trim();
-  const nom = $('inp-nom').value.trim();
-  if (!/^[A-Z0-9_-]{4,20}$/.test(pseudo)) { alert('Pseudo invalide (4-20 caractères, lettres/chiffres/_-)'); return; }
-  if (nom.length < 3) { alert('Saisis ton prénom + initiale (ex : Marie D.)'); return; }
-  etat.pseudo = pseudo;
-  etat.nom_initiale = nom;
-  showBlock('bloc-blason');
-});
+// Génère un pseudo neutre depuis "Marie D." → "MARIE-D"
+function genererPseudo(nomComplet) {
+  const norm = nomComplet
+    .normalize('NFD').replace(/[̀-ͯ]/g, '') // retire accents
+    .toUpperCase()
+    .replace(/[^A-Z0-9 .-]/g, '')
+    .trim();
+  // "MARIE D." → "MARIE-D"
+  let parts = norm.split(/[\s.]+/).filter(Boolean);
+  if (parts.length === 0) return '';
+  let pseudo;
+  if (parts.length === 1) pseudo = parts[0];
+  else pseudo = parts[0] + '-' + parts[1].slice(0, 1);
+  // garantir 4 caractères mini
+  if (pseudo.length < 4) pseudo = pseudo + '01';
+  return pseudo.slice(0, 20);
+}
 
-document.querySelectorAll('.blason').forEach(b => {
-  b.addEventListener('click', () => {
-    document.querySelectorAll('.blason').forEach(x => x.classList.remove('actif'));
-    b.classList.add('actif');
-    etat.blason = b.dataset.blason;
-    $('btn-suivant-blason').disabled = false;
+// Génère un mdp aléatoire stable (sauvegardé localStorage)
+function obtenirMdpPerso() {
+  let m = LS.get('bilan_tne_mdp_local');
+  if (!m) {
+    m = 'auto-' + Math.random().toString(36).slice(2, 10) + '-' + Date.now().toString(36);
+    LS.set('bilan_tne_mdp_local', m);
+  }
+  return m;
+}
+
+// Initialisation au chargement
+(function initEcranConnexion() {
+  const params = lireParamsHash();
+
+  // Classe pré-sélectionnée par URL ?
+  if (params.classe) {
+    etat.classe = params.classe;
+  } else {
+    // Pas de classe en URL → afficher les boutons de classe
+    $('zone-classe').style.display = 'block';
+    document.querySelectorAll('.btn-classe').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('.btn-classe').forEach(x => x.classList.remove('actif'));
+        b.classList.add('actif');
+        etat.classe = b.dataset.classe;
+      });
+    });
+    // Sélectionner 2TNE par défaut
+    const defaut = document.querySelector('.btn-classe[data-classe="2TNE"]');
+    if (defaut) { defaut.classList.add('actif'); etat.classe = '2TNE'; }
+  }
+
+  // Passphrase pré-saisie par URL ?
+  if (params.p) {
+    etat.passphrase = params.p;
+  } else {
+    $('zone-passphrase').style.display = 'block';
+  }
+
+  // Reconnexion silencieuse : si on a déjà un nom enregistré, le préremplir
+  const nomMem = LS.get('bilan_tne_nom');
+  if (nomMem) {
+    $('inp-nom').value = nomMem;
+    $('titre-connexion').textContent = '👋 Bon retour ' + nomMem.split(' ')[0] + ' !';
+    $('aide-connexion').innerHTML = 'Vérifie ton prénom puis clique sur <strong>Démarrer</strong>.';
+  }
+
+  // Blason auto (au lieu de demander)
+  const blasons = ['❄','🔧','⚙️','🛠️','🔥','⚡','🌡️','🧊'];
+  etat.blason = LS.get('bilan_tne_blason') || blasons[Math.floor(Math.random() * blasons.length)];
+  LS.set('bilan_tne_blason', etat.blason);
+
+  // Focus auto sur le champ nom (iOS-friendly : pas de focus auto au load, attendre interaction)
+  setTimeout(() => { try { $('inp-nom').focus(); } catch(e) {} }, 300);
+
+  // Entrée clavier sur le champ nom → déclencher démarrage
+  $('inp-nom').addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); $('btn-demarrer').click(); }
   });
-});
+  const passInp = $('inp-passphrase');
+  if (passInp) passInp.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); $('btn-demarrer').click(); }
+  });
+})();
 
-$('btn-suivant-blason').addEventListener('click', () => {
-  showBlock('bloc-auth');
-  setTimeout(() => $('inp-mdp').focus(), 100);
-});
-
+// Bouton Démarrer
 $('btn-demarrer').addEventListener('click', async () => {
-  const mdp = $('inp-mdp').value;
-  const passphrase = $('inp-passphrase').value.trim();
   const msg = $('msg-auth');
   msg.innerHTML = '';
 
-  if (mdp.length < 4) { msg.innerHTML = '<div class="message erreur">Mot de passe trop court (4 caractères min)</div>'; return; }
-  if (!passphrase) { msg.innerHTML = '<div class="message erreur">Mot de passe d\'épreuve requis</div>'; return; }
+  // 1. Validation nom
+  const nom = $('inp-nom').value.trim();
+  if (nom.length < 3) {
+    msg.innerHTML = '<div class="message erreur">Tape ton prénom + l\'initiale de ton nom (ex : Marie D.)</div>';
+    try { $('inp-nom').focus(); } catch(e) {}
+    return;
+  }
+  // Format simple : prénom + lettre du nom
+  if (!/[a-zA-ZÀ-ÿ]{2,}\s+[a-zA-ZÀ-ÿ]/.test(nom)) {
+    msg.innerHTML = '<div class="message erreur">Format attendu : prénom + 1<sup>re</sup> lettre du nom (ex : <strong>Marie D.</strong>)</div>';
+    return;
+  }
+  etat.nom_initiale = nom;
+  etat.pseudo = genererPseudo(nom);
 
-  $('btn-demarrer').disabled = true;
-  $('btn-demarrer').textContent = '⏳ Connexion...';
-
-  // 1. check_pseudo → existe ou non
-  const check = await api('check_pseudo', { classe: etat.classe, pseudo: etat.pseudo });
-  if (!check.ok) { msg.innerHTML = '<div class="message erreur">' + (check.error || 'Erreur') + '</div>'; reset(); return; }
-
-  let auth;
-  if (check.exists) {
-    auth = await api('login', { classe: etat.classe, pseudo: etat.pseudo, mdp: mdp });
-  } else {
-    auth = await api('create_account', { classe: etat.classe, pseudo: etat.pseudo, nom_initiale: etat.nom_initiale, mdp: mdp });
-    if (auth.ok) {
-      auth = await api('login', { classe: etat.classe, pseudo: etat.pseudo, mdp: mdp });
-    }
+  // 2. Classe
+  if (!etat.classe) {
+    msg.innerHTML = '<div class="message erreur">Choisis ta classe</div>';
+    return;
   }
 
-  if (!auth.ok) { msg.innerHTML = '<div class="message erreur">' + (auth.error || 'Échec connexion') + '</div>'; reset(); return; }
+  // 3. Passphrase
+  let passphrase = etat.passphrase;
+  if (!passphrase) {
+    passphrase = $('inp-passphrase').value.trim();
+    if (!passphrase) {
+      msg.innerHTML = '<div class="message erreur">Tape le mot de passe d\'épreuve (au tableau)</div>';
+      return;
+    }
+    etat.passphrase = passphrase;
+  }
+
+  // 4. Mdp perso auto
+  const mdpPerso = obtenirMdpPerso();
+
+  // Verrouillage UI
+  $('btn-demarrer').disabled = true;
+  $('btn-demarrer').textContent = '⏳ Connexion...';
+  msg.innerHTML = '<div class="message info">⏳ Connexion en cours…</div>';
+
+  // 5. Compte : check + (login OU create+login)
+  let auth;
+  try {
+    const check = await api('check_pseudo', { classe: etat.classe, pseudo: etat.pseudo });
+    if (!check.ok) throw new Error(check.error || 'Erreur réseau');
+
+    if (check.exists) {
+      // Tentative login avec mdp perso connu (si on l'a en local)
+      auth = await api('login', { classe: etat.classe, pseudo: etat.pseudo, mdp: mdpPerso });
+      if (!auth.ok) {
+        // Pseudo pris par un autre élève (pas notre token) → on rajoute un suffixe
+        const suffix = Math.floor(Math.random() * 90 + 10);
+        etat.pseudo = (etat.pseudo + suffix).slice(0, 20);
+        // 2e tentative : créer le nouveau pseudo
+        const cr = await api('create_account', { classe: etat.classe, pseudo: etat.pseudo, nom_initiale: nom, mdp: mdpPerso });
+        if (!cr.ok) throw new Error(cr.error || 'Création impossible');
+        auth = await api('login', { classe: etat.classe, pseudo: etat.pseudo, mdp: mdpPerso });
+      }
+    } else {
+      const cr = await api('create_account', { classe: etat.classe, pseudo: etat.pseudo, nom_initiale: nom, mdp: mdpPerso });
+      if (!cr.ok) throw new Error(cr.error || 'Création impossible');
+      auth = await api('login', { classe: etat.classe, pseudo: etat.pseudo, mdp: mdpPerso });
+    }
+    if (!auth.ok) throw new Error(auth.error || 'Échec connexion');
+  } catch (e) {
+    msg.innerHTML = '<div class="message erreur">Souci de connexion : ' + (e.message || e) + '<br><small>Vérifie ta connexion internet et réessaie.</small></div>';
+    reset(); return;
+  }
 
   etat.token = auth.token || ('local-' + Date.now());
   etat.code_aes = auth.code_aes || passphrase;
 
-  // 2. Charger + déchiffrer banque
-  msg.innerHTML = '<div class="message info">⏳ Chargement de l\'épreuve...</div>';
+  // 6. Charger + déchiffrer banque
+  msg.innerHTML = '<div class="message info">⏳ Chargement de l\'épreuve…</div>';
   try {
     const r = await fetch(ENC_FICHIER);
-    if (!r.ok) throw new Error('Banque introuvable');
+    if (!r.ok) throw new Error('Banque introuvable (HTTP ' + r.status + ')');
     const blobBase64 = (await r.text()).trim();
     etat.banque = await dechiffrerBanque(blobBase64, passphrase);
   } catch (e) {
-    msg.innerHTML = '<div class="message erreur">Mot de passe d\'épreuve incorrect ou banque corrompue</div>';
+    msg.innerHTML = '<div class="message erreur">Mot de passe d\'épreuve incorrect ou banque corrompue.<br><small>' + (e.message || e) + '</small></div>';
     reset(); return;
   }
 
   etat.svg_index = indexerSvgs(etat.banque);
   etat.questions_session = tirerSession(etat.banque);
 
-  // Persister token (pour reconnect)
-  try { localStorage.setItem('bilan_tne_token', etat.token); } catch(e) {}
-  try { localStorage.setItem('bilan_tne_pseudo', etat.pseudo); } catch(e) {}
-  try { localStorage.setItem('bilan_tne_classe', etat.classe); } catch(e) {}
+  // Persister
+  LS.set('bilan_tne_token', etat.token);
+  LS.set('bilan_tne_pseudo', etat.pseudo);
+  LS.set('bilan_tne_classe', etat.classe);
+  LS.set('bilan_tne_nom', nom);
 
   show('ecran-jeu');
   demarrerJeu();
